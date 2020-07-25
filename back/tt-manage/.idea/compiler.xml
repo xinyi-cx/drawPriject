@@ -20,8 +20,8 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="tt-activity" options="-parameters -extdirs D:\work\tt-activity/src/main/resources/lib" />
       <module name="tt-base" options="-parameters" />
-      <module name="tt-manage" options="-parameters -extdirs D:\Workspaces\tt-manage/src/main/resources/lib" />
-      <module name="tt-prize" options="-parameters -extdirs D:\Workspaces\tt-prize\tt-prize/src/main/resources/lib" />
+      <module name="tt-manage" options="-parameters -extdirs D:\Workspaces\workspaceForGIt\drawPriject\back\tt-manage/src/main/resources/lib" />
+      <module name="tt-prize" options="-parameters -extdirs D:\Workspaces\workspaceForGIt\drawPriject\back\tt-prize\tt-prize/src/main/resources/lib" />
     </option>
   </component>
 </project>

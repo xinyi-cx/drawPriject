@@ -6,8 +6,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="tt-manage" />
         <module name="tt-prize" />
+        <module name="tt-base" />
+        <module name="tt-manage" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -18,8 +19,9 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="tt-manage" options="-parameters -extdirs D:\work\tt-manage/src/main/resources/lib" />
-      <module name="tt-prize" options="-parameters -extdirs D:\work\tt-prize/src/main/resources/lib" />
+      <module name="tt-base" options="-parameters" />
+      <module name="tt-manage" options="-parameters -extdirs D:\Workspaces\workspaceForGIt\drawPriject\back\tt-manage/src/main/resources/lib" />
+      <module name="tt-prize" options="-parameters -extdirs D:\Workspaces\workspaceForGIt\drawPriject\back\tt-prize\tt-prize/src/main/resources/lib" />
     </option>
   </component>
 </project>

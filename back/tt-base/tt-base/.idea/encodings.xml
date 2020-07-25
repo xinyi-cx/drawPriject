@@ -3,7 +3,9 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../tt-manage/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/../tt-prize/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../../tt-manage/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../../tt-manage/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../../tt-prize/tt-prize/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../../tt-prize/tt-prize/src/main/resources" charset="UTF-8" />
   </component>
 </project>

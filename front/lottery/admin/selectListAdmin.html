@@ -86,7 +86,7 @@
         <div class="title">红包查询</div>
         <div class="query-area">
             <label class="label" for="">用户id:</label>
-            <input class="user-id" v-model="userid" type="text" placeholder="请输入用户id">
+            <input class="user-id" v-model="userId" type="text" placeholder="请输入用户id">
             <button class="btn btn-query" @click="getQueryList">查询</button>
             <button class="btn" @click="derive">导出</button>
         </div>
@@ -105,22 +105,36 @@
         var vm = new Vue({
             el: '#app',
             data: {
-                userid: '',
+                userId: '',
                 queryList: []
             },
             methods: {
                 // 查询功能
                 getQueryList: function() {
-                    var id = this.userid;
-                    console.log(id);
-                    if(id !== '') {
-                        // to-do
-                        axios.get('',{}).then(res => {
-                            console.log(res);
-                        }).catch(err => {
-                            console.log(err);
-                        });
+                    debugger;
+                    var id = this.userId;
+                    var param= {
+                        userId: id
                     }
+                    console.log(id);
+                    // if(id !== '') {
+                        // to-do
+                    axios({
+                        url: 'http://localhost:8011/tt-manage/userReward/list',
+                        method: 'post',
+                        data: this.formData
+                    }).then(function (res) {
+                        console.log(res);
+                        console.log('数据提交成功');
+                        console.log(res.data);
+                    });
+//                         axios.get('http://localhost:8011/tt-manage/userReward/list',{param}).then(res => {
+// debugger;
+//                             console.log(res);
+//                         }).catch(err => {
+//                             console.log(err);
+//                         });
+                    // }
                 },
                 // 导出功能
                 derive: function() {
