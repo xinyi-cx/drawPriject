@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tt.manage.mapper.UserRewardMapper">
+    <resultMap id="BaseResultMap" type="com.tt.manage.entity.UserReward">
+        <id column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="reward" property="reward" jdbcType="BIGINT"/>
+        <result column="creat_time" property="creatTime" jdbcType="TIMESTAMP"/>
+        <result column="reward_status" property="rewardStatus" jdbcType="VARCHAR"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    user_id, reward, creat_time, reward_status
+  </sql>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from user_reward
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tt.manage.entity.UserReward">
+    insert into user_reward (user_id, reward, creat_time, reward_status
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{reward,jdbcType=BIGINT}, #{creatTime,jdbcType=TIMESTAMP}, #{rewardStatus,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.tt.manage.entity.UserReward">
+        insert into user_reward
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="reward != null">
+                reward,
+            </if>
+            <if test="creatTime != null">
+                creat_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="reward != null">
+                #{reward,jdbcType=BIGINT},
+            </if>
+            <if test="creatTime != null">
+                #{creatTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tt.manage.entity.UserReward">
+        update user_reward
+        <set>
+            <if test="reward != null">
+                reward = #{reward,jdbcType=BIGINT},
+            </if>
+            <if test="creatTime != null">
+                creat_time = #{creatTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="rewardStatus != null and rewardStatus != '' ">
+                reward_status = #{rewardStatus,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tt.manage.entity.UserReward">
+    update user_reward
+    set reward = #{reward,jdbcType=BIGINT},
+      creat_time = #{creatTime,jdbcType=TIMESTAMP},
+        reward_status = #{rewardStatus,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+
+    <select id="selectUserRewardList" parameterType="com.tt.manage.entity.UserReward" resultMap="BaseResultMap">
+        select
+        reward.user_id, reward, creat_time, reward_status,user_name
+        from user_reward reward left join user_info info
+        on reward.user_id = info.user_id
+        <where>
+            <if test="userId != null and userId != '' ">and reward.user_id = #{userId,jdbcType=VARCHAR}</if>
+            <if test="reward != null ">and reward = #{reward,jdbcType=BIGINT}</if>
+            <if test="creatTime != null ">and creat_time = #{creatTime,jdbcType=TIMESTAMP}</if>
+            <if test="rewardStatus != null  and rewardStatus != '' ">and reward_status =
+                #{rewardStatus,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+</mapper>

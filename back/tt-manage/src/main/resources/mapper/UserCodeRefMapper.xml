@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tt.manage.mapper.UserCodeRefMapper">
+    <resultMap id="BaseResultMap" type="com.tt.manage.entity.UserCodeRef">
+        <id column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="draw_num" property="drawNum" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    user_id, code, create_time, update_time, draw_num
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from user_code_ref
+        where user_id = #{userId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from user_code_ref
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tt.manage.entity.UserCodeRef">
+    insert into user_code_ref (user_id, code, create_time, 
+      update_time, draw_num)
+    values (#{userId,jdbcType=VARCHAR}, #{code,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP}, #{drawNum,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tt.manage.entity.UserCodeRef">
+        insert into user_code_ref
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="drawNum != null">
+                draw_num,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="drawNum != null">
+                #{drawNum,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tt.manage.entity.UserCodeRef">
+        update user_code_ref
+        <set>
+            <if test="code != null">
+                code = #{code,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="drawNum != null">
+                draw_num = #{drawNum,jdbcType=INTEGER},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tt.manage.entity.UserCodeRef">
+    update user_code_ref
+    set code = #{code,jdbcType=BIGINT},
+      update_time = now(),
+      draw_num = #{drawNum,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+
+    <insert id="addUserCodeRefs" parameterType="java.util.ArrayList">
+
+        insert into user_code_ref (user_id, code, create_time,
+        update_time, draw_num)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+
+            (#{item.userId,jdbcType=VARCHAR}, #{item.code,jdbcType=BIGINT}, now(),
+            now(), #{item.drawNum,jdbcType=INTEGER})
+
+        </foreach>
+
+
+    </insert>
+
+</mapper>

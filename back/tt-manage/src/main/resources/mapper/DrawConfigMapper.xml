@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tt.manage.mapper.DrawConfigMapper">
+    <resultMap id="BaseResultMap" type="com.tt.manage.entity.DrawConfig">
+        <id column="draw_id" property="drawId" jdbcType="CHAR"/>
+        <result column="digit" property="digit" jdbcType="VARCHAR"/>
+        <result column="digit_start" property="digitStart" jdbcType="INTEGER"/>
+        <result column="digit_end" property="digitEnd" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    draw_id, digit, digit_start, digit_end
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from draw_config
+        where draw_id = #{drawId,jdbcType=CHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from draw_config
+    where draw_id = #{drawId,jdbcType=CHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tt.manage.entity.DrawConfig">
+    insert into draw_config (draw_id, digit, digit_start, 
+      digit_end)
+    values (#{drawId,jdbcType=CHAR}, #{digit,jdbcType=VARCHAR}, #{digitStart,jdbcType=INTEGER}, 
+      #{digitEnd,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tt.manage.entity.DrawConfig">
+        insert into draw_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="drawId != null">
+                draw_id,
+            </if>
+            <if test="digit != null">
+                digit,
+            </if>
+            <if test="digitStart != null">
+                digit_start,
+            </if>
+            <if test="digitEnd != null">
+                digit_end,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="drawId != null">
+                #{drawId,jdbcType=CHAR},
+            </if>
+            <if test="digit != null">
+                #{digit,jdbcType=VARCHAR},
+            </if>
+            <if test="digitStart != null">
+                #{digitStart,jdbcType=INTEGER},
+            </if>
+            <if test="digitEnd != null">
+                #{digitEnd,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tt.manage.entity.DrawConfig">
+        update draw_config
+        <set>
+            <if test="digit != null">
+                digit = #{digit,jdbcType=VARCHAR},
+            </if>
+            <if test="digitStart != null">
+                digit_start = #{digitStart,jdbcType=INTEGER},
+            </if>
+            <if test="digitEnd != null">
+                digit_end = #{digitEnd,jdbcType=INTEGER},
+            </if>
+        </set>
+        where draw_id = #{drawId,jdbcType=CHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tt.manage.entity.DrawConfig">
+    update draw_config
+    set digit = #{digit,jdbcType=VARCHAR},
+      digit_start = #{digitStart,jdbcType=INTEGER},
+      digit_end = #{digitEnd,jdbcType=INTEGER}
+    where draw_id = #{drawId,jdbcType=CHAR}
+  </update>
+
+    <update id="updateByDigit" parameterType="com.tt.manage.entity.DrawConfig">
+    update draw_config
+    set
+      digit_start = #{digitStart,jdbcType=INTEGER},
+      digit_end = #{digitEnd,jdbcType=INTEGER}
+    where digit = #{digit,jdbcType=VARCHAR}
+  </update>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+
+        select
+        <include refid="Base_Column_List"/>
+        from draw_config
+
+    </select>
+
+</mapper>

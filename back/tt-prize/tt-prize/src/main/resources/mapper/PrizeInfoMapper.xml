@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tt.prize.mapper.PrizeInfoMapper">
+    
+    <resultMap type="com.tt.base.entity.PrizeInfo" id="PrizeInfoResult">
+        <result property="prizeRecId"    column="prize_rec_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="prizeInfo"    column="prize_info"    />
+        <result property="getPrizeTime"    column="get_prize_time"    />
+    </resultMap>
+	
+	<sql id="selectPrizeInfoVo">
+        select  prize_rec_id, user_name, prize_info, get_prize_time from prize_info
+    </sql>
+	
+    <select id="selectPrizeInfoList" parameterType="com.tt.base.entity.PrizeInfo" resultMap="PrizeInfoResult">
+        <include refid="selectPrizeInfoVo"/>
+        <where>  
+            <if test="prizeRecId != null "> and prize_rec_id = #{prizeRecId}</if>
+             <if test="userName != null  and userName != '' "> and user_name = #{userName}</if>
+             <if test="prizeInfo != null  and prizeInfo != '' "> and prize_info = #{prizeInfo}</if>
+             <if test="getPrizeTime != null "> and get_prize_time = #{getPrizeTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectPrizeInfoById" parameterType="com.tt.base.entity.PrizeInfo" resultMap="PrizeInfoResult">
+        <include refid="selectPrizeInfoVo"/>
+               <where>  
+ 			prize_rec_id = #{prizeRecId}
+        </where>
+    </select>
+    <select id="selectPrizeInfoByDate" resultType="com.tt.base.entity.PrizeInfo" resultMap="PrizeInfoResult">
+        select  prize_rec_id, user_name, prize_info, get_prize_time from prize_info where get_prize_time between #{startTime}
+        and #{endTime}
+    </select>
+
+    <insert id="insertPrizeInfo" parameterType="com.tt.base.entity.PrizeInfo">
+        insert into prize_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="prizeRecId != null  ">prize_rec_id,</if>
+			<if test="userName != null  and userName != ''  ">user_name,</if>
+			<if test="prizeInfo != null  and prizeInfo != ''  ">prize_info,</if>
+			<if test="getPrizeTime != null  ">get_prize_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="prizeRecId != null  ">#{prizeRecId},</if>			
+			<if test="userName != null  and userName != ''  ">#{userName},</if>			
+			<if test="prizeInfo != null  and prizeInfo != ''  ">#{prizeInfo},</if>			
+			<if test="getPrizeTime != null  ">#{getPrizeTime},</if>			
+         </trim>
+    </insert>
+	 
+    <update id="updatePrizeInfo" parameterType="com.tt.base.entity.PrizeInfo">
+        update prize_info
+        <trim prefix="SET" suffixOverrides=",">
+        
+				            <if test="userName != null  and userName != ''  ">user_name = #{userName},</if>
+				            <if test="prizeInfo != null  and prizeInfo != ''  ">prize_info = #{prizeInfo},</if>
+				            <if test="getPrizeTime != null  ">get_prize_time = #{getPrizeTime},</if>
+		        </trim>
+        where prize_rec_id = #{prizeRecId}
+    </update>
+
+	<delete id="deletePrizeInfoById" parameterType="Integer">
+        delete from prize_info where prize_rec_id = #{prizeRecId}
+    </delete>
+	
+    <delete id="deletePrizeInfoByIds" parameterType="String">
+        delete from prize_info where prize_rec_id in 
+        <foreach item="prizeRecId" collection="array" open="(" separator="," close=")">
+            #{prizeRecId}
+        </foreach>
+    </delete>
+    
+</mapper>

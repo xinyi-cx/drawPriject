@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tt.manage.mapper.CodeDrawRefMapper">
+    <resultMap id="BaseResultMap" type="com.tt.manage.entity.CodeDrawRef">
+        <id column="ref_id" property="refId" jdbcType="CHAR"/>
+        <result column="code" property="code" jdbcType="BIGINT"/>
+        <result column="draw_digit" property="drawDigit" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ref_id, code, draw_digit
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from code_draw_ref
+        where ref_id = #{refId,jdbcType=CHAR}
+    </select>
+
+    <select id="selectByParam" resultMap="BaseResultMap" parameterType="com.tt.manage.entity.CodeDrawRef">
+        select
+        <include refid="Base_Column_List"/>
+        from code_draw_ref
+        <where>
+            <if test="refId != null">
+                ref_id = #{refId,jdbcType=CHAR}
+            </if>
+            <if test="code != null">
+                and code = #{code,jdbcType=BIGINT}
+            </if>
+            <if test="drawDigit != null and drawDigit!='' ">
+                and draw_digit = #{drawDigit,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from code_draw_ref
+    where ref_id = #{refId,jdbcType=CHAR}
+  </delete>
+    <insert id="insert" parameterType="com.tt.manage.entity.CodeDrawRef">
+    insert into code_draw_ref (ref_id, code, draw_digit
+      )
+    values (#{refId,jdbcType=CHAR}, #{code,jdbcType=BIGINT}, #{drawDigit,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.tt.manage.entity.CodeDrawRef">
+        insert into code_draw_ref
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="refId != null">
+                ref_id,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="drawDigit != null">
+                draw_digit,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="refId != null">
+                #{refId,jdbcType=CHAR},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=BIGINT},
+            </if>
+            <if test="drawDigit != null">
+                #{drawDigit,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tt.manage.entity.CodeDrawRef">
+        update code_draw_ref
+        <set>
+            <if test="code != null">
+                code = #{code,jdbcType=BIGINT},
+            </if>
+            <if test="drawDigit != null">
+                draw_digit = #{drawDigit,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ref_id = #{refId,jdbcType=CHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tt.manage.entity.CodeDrawRef">
+    update code_draw_ref
+    set code = #{code,jdbcType=BIGINT},
+      draw_digit = #{drawDigit,jdbcType=VARCHAR}
+    where ref_id = #{refId,jdbcType=CHAR}
+    </update>
+
+    <update id="updateByDrawDigit" parameterType="com.tt.manage.entity.CodeDrawRef">
+    update code_draw_ref
+    set code = #{code,jdbcType=BIGINT}
+    where draw_digit = #{drawDigit,jdbcType=VARCHAR}
+  </update>
+
+    <select id="getDrawDigitByCode" resultType="string" parameterType="long">
+    SELECT draw_digit
+    FROM code_draw_ref
+    where code >= #{code,jdbcType=BIGINT}
+    ORDER BY  code
+    limit 1
+  </select>
+
+    <select id="selectCodeDrawRefList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_reward
+    </select>
+
+</mapper>
