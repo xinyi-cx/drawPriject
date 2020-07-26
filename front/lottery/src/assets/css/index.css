@@ -347,3 +347,7 @@ li a.is-active {
       transform: rotate(2deg);
   }
 }
+
+.notAllowed {
+  cursor: not-allowed !important;
+}

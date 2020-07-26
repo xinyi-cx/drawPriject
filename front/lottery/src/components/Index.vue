@@ -69,7 +69,7 @@
         </div>
         <div class="btn-wrap">
           <button class="btn">立即邀请好友</button>
-          <button class="btn btn-share" @click="createReward">立即抽奖</button>
+          <button class="btn btn-share" :class="[isDraw ? 'notAllowed' : '']" @click="createReward" :disabled="isDraw">立即抽奖</button>
         </div>
       </div>
       <div class="query-area content">
@@ -131,7 +131,7 @@ export default {
       },
       listData:[],
       //进入页面后会有一个用户的数据，根据用户数据判断是否可以抽奖
-      msg: "欢迎来到抽奖管理设置后台",
+      isDraw: true
     };
   },
   created() {
