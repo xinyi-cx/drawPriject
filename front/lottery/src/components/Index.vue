@@ -83,7 +83,7 @@
           </div>
         </div>
         <div class="res-list" >
-          <div class="item" v-for="item in listData">
+          <div class="item" v-for="item in listData" v-bind:key="item.id">
             <span class="point"></span>
             <span class="nickname">{{item.userName}}</span>
             <span class="phone">{{item.reward}}</span>

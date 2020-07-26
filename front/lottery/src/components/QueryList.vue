@@ -9,7 +9,7 @@
         </div>
         <table class="query-list" v-if="queryList.length > 0" >
             <tr ><th>用户ID</th><th>用户姓名</th><th>中间金额</th><th>中奖时间</th></tr>
-            <tr v-for="item in queryList"><td>{{item.userId}}</td>
+            <tr v-for="item in queryList" v-bind:key="item.id"><td>{{item.userId}}</td>
               <td>{{item.userName}}</td>
               <td>{{item.reward}}</td>
               <td>{{item.creatTimeStr}}</td>
