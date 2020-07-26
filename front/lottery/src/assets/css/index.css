@@ -290,6 +290,8 @@ li a.is-active {
   background: url(../imgs/latern.png) center no-repeat !important;
   background-size: contain;
   position: absolute;
+  transform-origin: right top;
+  animation: laternFlow 5s infinite;
 }
 .latern-l {
   top: 90px;
@@ -327,4 +329,21 @@ li a.is-active {
         width: 600px;
         margin: 0 auto;
     }
+}
+@keyframes laternFlow {
+  0% {
+    -webkit-transform: rotate(2deg);
+    -ms-transform: rotate(2deg);
+    transform: rotate(2deg);
+  }
+  40% {
+      -webkit-transform: rotate(-4deg);
+      -ms-transform: rotate(-4deg);
+      transform: rotate(-4deg);
+  }
+  100% {
+      -webkit-transform: rotate(2deg);
+      -ms-transform: rotate(2deg);
+      transform: rotate(2deg);
+  }
 }

@@ -3,25 +3,24 @@
     <div class="bg"></div>
     <header class="content">
       <a href="###" class="logo"></a>
-      <a href="###" class="navBar">网站首页
-        <ul>
-          <li>
-            <a href="#">网站首页</a>
-          </li>
-          <li>
-            <a href="#">客服</a>
-          </li>
-          <li>
-            <a href="#">中奖查询</a>
-          </li>
-          <li>
-            <a href="#">活动规则</a>
-          </li>
-          <li>
-            <a href="#">关于我们</a>
-          </li>
-        </ul>
-      </a>
+      <a href="###" class="navBar" @click="showNavbar">{{currentNav}}</a>
+      <ul v-show="isShow">
+        <li>
+          <a href="#" @click.stop="switchNavbar($event)">网站首页</a>
+        </li>
+        <li>
+          <a href="#" @click.stop="switchNavbar($event)">客服</a>
+        </li>
+        <li>
+          <a href="#"  @click.stop="switchNavbar($event)">中奖查询</a>
+        </li>
+        <li>
+          <a href="#"  @click.stop="switchNavbar($event)">活动规则</a>
+        </li>
+        <li>
+          <a href="#"  @click.stop="switchNavbar($event)">关于我们</a>
+        </li>
+      </ul>
     </header>
     <div class="banner"></div>
     <div class="bd-content">
@@ -38,7 +37,7 @@
           <div class="border border-br"></div>
           <div class="digit-list clearfix">
             <div class="lf"></div>
-            <div class="digit-item">
+            <div class="digit-item million">
               <p class="digits">1</p>
               <p class="units">百万</p>
             </div>
@@ -112,10 +111,10 @@
           </div>
         </div>
         <div class="res-list">
-          <p>1.活动时间：2020年7月1日 —— 2020年7月2日；</p>
+          <p>1.活动时间：2020年7月1日 — 2020年7月2日；</p>
           <p>2.活动期间，每位注册用户每天有3次抽奖机会；</p>
           <p>3.奖品使用规则在抽奖记录中查看；</p>
-          <p>4.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXX</p>
+          <p>4.XXXXXXXX XXXX</p>
           <p>5.活动期间如遇问题，可拨打客服电话：123456789；</p>
           <p>6.在法律允许范围内，本活动最终解释为XXXX所有；</p>
         </div>
@@ -129,8 +128,19 @@ export default {
   name: "Index",
   data() {
     return {
-      msg: "欢迎来到抽奖管理设置后台",
+      currentNav: "客服",
+      isShow: false,
     };
+  },
+  methods: {
+    showNavbar: function () {
+      this.isShow = true;
+    },
+    switchNavbar: function (e) {
+      this.currentNav = e.target.text;
+      console.log(this.currentNav);
+      this.isShow = false;
+    },
   },
 };
 </script>

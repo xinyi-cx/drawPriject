@@ -13,7 +13,7 @@ export default {
       this.$router.replace('/mobile');
     } else {
       //PC端入口文件
-      this.$router.direct('/');
+      this.$router.replace('/');
     }
   },
   methods: {
