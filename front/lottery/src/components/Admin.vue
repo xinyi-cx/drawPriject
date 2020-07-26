@@ -2,7 +2,7 @@
   <div class="list-area">
             <div class="title">抽奖设置管理端</div>
             <div class="list">
-                <div class="list-item" v-for="item in formData">
+                <div class="list-item" v-for="item in formData" v-bind:key="item.id">
                     <label class="label">{{item.digit}}:</label>
                     <input type="text" v-model="item['digitStart']" placeholder="点击设定最小值">
                     <input type="text" v-model="item['digitEnd']" placeholder="点击设定最大值">
@@ -58,8 +58,7 @@ export default {
   data () {
     return {
       formData: [],
-      ruleData: [
-      ],
+      ruleData: [],
       upload: {
         // 是否显示弹出层（用户导入）
         open: false,
@@ -77,7 +76,7 @@ export default {
   created() {
       this.getDate();
       this.getRuleData();
-      },
+  },
   methods: {
     getDate: function() {
       const that = this;
@@ -171,7 +170,7 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- style -->
 <style scoped>
 .list-area {
     width: 100%;
