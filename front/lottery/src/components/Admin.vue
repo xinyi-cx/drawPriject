@@ -111,10 +111,10 @@ export default {
               this.$axios({
                   url: 'http://localhost:8011/tt-manage/codeDrawRef/updateByList',
                   method: 'post',
-                  params: rule
+                data: rule
               }).then(function (res) {
                 const resultDate = res.data;
-                that.ruleData = resultDate.data;
+                that.ruleData = rule;
                   console.log('数据提交成功');
                   console.log(res.data);
               }).catch(function (err) {
@@ -126,29 +126,20 @@ export default {
       const form = this.formData;
       const that = this;
       debugger;
-      var photoStr = JSON.stringify(form);
-      const data = {
-        pp: form
-      }
       // 保存设置数据
       // 这里需要两个保存按钮还是需要一个就可以？
-      return request({
+      this.$axios({
         url: 'http://localhost:8011/tt-manage/drawConfig/update',
         method: 'post',
-        params: form
+        data: form
+      }).then(function (res) {
+        const resultDate = res.data;
+        that.formData = form;
+        console.log('数据提交成功');
+        console.log(res.data);
+      }).catch(function (err) {
+        console.log(err);
       })
-      // this.$axios({
-      //   url: 'http://localhost:8011/tt-manage/drawConfig/update',
-      //   method: 'post',
-      //   params: data
-      // }).then(function (res) {
-      //   const resultDate = res.data;
-      //   that.formData = resultDate.data;
-      //   console.log('数据提交成功');
-      //   console.log(res.data);
-      // }).catch(function (err) {
-      //   console.log(err);
-      // })
     },
     // 文件上传中处理
     handleFileUploadProgress(event, file, fileList) {
