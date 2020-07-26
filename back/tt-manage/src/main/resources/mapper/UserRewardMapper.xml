@@ -85,6 +85,8 @@
                 #{rewardStatus,jdbcType=VARCHAR}
             </if>
         </where>
+        order by creat_time desc
+
     </select>
 
 </mapper>
