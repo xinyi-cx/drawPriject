@@ -7,6 +7,7 @@
         <result column="creat_time" property="creatTime" jdbcType="TIMESTAMP"/>
         <result column="reward_status" property="rewardStatus" jdbcType="VARCHAR"/>
         <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="creat_time_str" property="creatTimeStr" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
     user_id, reward, creat_time, reward_status
@@ -70,8 +71,10 @@
   </update>
 
     <select id="selectUserRewardList" parameterType="com.tt.manage.entity.UserReward" resultMap="BaseResultMap">
+
         select
-        reward.user_id, reward, creat_time, reward_status,user_name
+        reward.user_id, reward, creat_time, reward_status,user_name,
+        DATE_FORMAT(creat_time,'%Y-%m-%d %H:%i:%s') as creat_time_str
         from user_reward reward left join user_info info
         on reward.user_id = info.user_id
         <where>

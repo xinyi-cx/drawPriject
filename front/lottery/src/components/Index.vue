@@ -37,31 +37,31 @@
           <div class="digit-list clearfix">
             <div class="lf"></div>
             <div class="digit-item">
-              <p class="digits">1</p>
+              <p class="digits">{{reward.bw}}</p>
               <p class="units">百万</p>
             </div>
             <div class="digit-item">
-              <p class="digits">?</p>
+              <p class="digits">{{reward.sw}}</p>
               <p class="units">十万</p>
             </div>
             <div class="digit-item">
-              <p class="digits">?</p>
+              <p class="digits">{{reward.w}}</p>
               <p class="units">万</p>
             </div>
             <div class="digit-item">
-              <p class="digits">?</p>
+              <p class="digits">{{reward.q}}</p>
               <p class="units">千</p>
             </div>
             <div class="digit-item">
-              <p class="digits">?</p>
+              <p class="digits">{{reward.b}}</p>
               <p class="units">百</p>
             </div>
             <div class="digit-item">
-              <p class="digits">?</p>
+              <p class="digits">{{reward.s}}</p>
               <p class="units">十</p>
             </div>
             <div class="digit-item mr-0">
-              <p class="digits">?</p>
+              <p class="digits">{{reward.g}}</p>
               <p class="units">个</p>
             </div>
             <div class="rg"></div>
@@ -69,7 +69,7 @@
         </div>
         <div class="btn-wrap">
           <button class="btn">立即邀请好友</button>
-          <button class="btn btn-share">连续分享</button>
+          <button class="btn btn-share" @click="createReward">立即抽奖</button>
         </div>
       </div>
       <div class="query-area content">
@@ -82,20 +82,13 @@
             <div class="latern-r"></div>
           </div>
         </div>
-        <div class="res-list">
-          <div class="item">
+        <div class="res-list" >
+          <div class="item" v-for="item in listData">
             <span class="point"></span>
-            <span class="nickname">梦想的声音</span>
-            <span class="phone">130****7397</span>
-            <span class="result">抽中100元红包</span>
-            <span class="date">2020/07/15</span>
-          </div>
-          <div class="item">
-            <span class="point"></span>
-            <span class="nickname">梦想的声音</span>
-            <span class="phone">130****7397</span>
-            <span class="result">抽中100元红包</span>
-            <span class="date">2020/07/15</span>
+            <span class="nickname">{{item.userName}}</span>
+            <span class="phone">{{item.reward}}</span>
+            <span class="result">抽中{{item.reward}}元红包</span>
+            <span class="date">{{item.creatTimeStr}}</span>
           </div>
         </div>
       </div>
@@ -127,9 +120,69 @@ export default {
   name: "Index",
   data() {
     return {
+      reward:{
+        bw:'?',
+        sw:'?',
+        w:'?',
+        q:'?',
+        b:'?',
+        s:'?',
+        g:'?'
+      },
+      listData:[],
+      //进入页面后会有一个用户的数据，根据用户数据判断是否可以抽奖
       msg: "欢迎来到抽奖管理设置后台",
     };
   },
+  created() {
+    this.getDate();
+  },
+  methods: {
+    getDate: function() {
+      const that = this;
+      this.$axios({
+        url: 'http://localhost:8011/tt-manage/userReward/listForDraw',
+        method: 'post',
+        data: {}
+      }).then(function (res) {
+        const resultDate = res.data;
+        that.listData = resultDate.data;
+        console.log('数据提交成功');
+        console.log(res.data);
+      })
+    },
+    createReward: function() {
+      const userId = '10';
+      const that = this;
+      // private String userId;
+      //
+      // private String userName;
+      //
+      // private Long reward;
+      //
+      // private Date creatTime;
+      //
+      // private String rewardStatus;
+      // 这个是返回值数据的类型，测试可以直接返回这个 立即抽奖应该不可点击
+      this.$axios({
+        url: 'http://localhost:8011/tt-manage/userReward/createReward/'+userId,
+        method: 'post'
+      }).then(function (res) {
+        const resultDate = res.data;
+        let rdata = resultDate.data;
+        // rdata.reward = 234567;
+        that.reward.bw = Math.floor(rdata.reward/1000000);
+        that.reward.sw = Math.floor((rdata.reward-Math.floor(rdata.reward/1000000)*1000000)/100000);
+        that.reward.w = Math.floor((rdata.reward-Math.floor(rdata.reward/100000)*100000)/10000);
+        that.reward.q = Math.floor((rdata.reward-Math.floor(rdata.reward/10000)*10000)/1000);
+        that.reward.b = Math.floor((rdata.reward-Math.floor(rdata.reward/1000)*1000)/100);
+        that.reward.s = Math.floor((rdata.reward-Math.floor(rdata.reward/100)*100)/10);
+        that.reward.g = Math.floor((rdata.reward-Math.floor(rdata.reward/10)*10)/1);
+        console.log('数据提交成功');
+        console.log(res.data);
+      })
+    },
+  }
 };
 </script>
 

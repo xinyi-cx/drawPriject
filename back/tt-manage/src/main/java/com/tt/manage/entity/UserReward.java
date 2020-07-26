@@ -13,6 +13,16 @@ public class UserReward {
 
     private String rewardStatus;
 
+    private String creatTimeStr;
+
+    public String getCreatTimeStr() {
+        return creatTimeStr;
+    }
+
+    public void setCreatTimeStr(String creatTimeStr) {
+        this.creatTimeStr = creatTimeStr;
+    }
+
     public int getDrawNum() {
         return drawNum;
     }

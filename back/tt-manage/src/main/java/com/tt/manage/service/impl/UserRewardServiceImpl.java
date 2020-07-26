@@ -68,7 +68,7 @@ public class UserRewardServiceImpl implements UserRewardService {
     @Override
     public UserReward createRewardByUserId(String userId) {
         UserCodeRef userCodeRef = userCodeRefMapper.selectByPrimaryKey(userId);
-        Long code = userCodeRef.getCode();
+        Long code = userCodeRef == null ? 0L : userCodeRef.getCode();
         String drawDigit = codeDrawRefMapper.getDrawDigitByCode(code);
         List<DrawConfig> drawConfigs = drawConfigMapper.selectAll();
         int reward = 0;
@@ -120,9 +120,11 @@ public class UserRewardServiceImpl implements UserRewardService {
         userReward.setRewardStatus(CommonConstance.REWARD_STATUS_YCJ);
         userRewardMapper.insert(userReward);
         //打码清零
-        userCodeRef.setCode(0L);
-        userCodeRef.setDrawNum(0);
-        userCodeRefMapper.updateByPrimaryKey(userCodeRef);
+        if (userCodeRef != null) {
+            userCodeRef.setCode(0L);
+            userCodeRef.setDrawNum(0);
+            userCodeRefMapper.updateByPrimaryKey(userCodeRef);
+        }
         return userReward;
     }
 

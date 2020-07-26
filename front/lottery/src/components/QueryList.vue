@@ -12,7 +12,7 @@
             <tr v-for="item in queryList"><td>{{item.userId}}</td>
               <td>{{item.userName}}</td>
               <td>{{item.reward}}</td>
-              <td>{{item.creatTime}}</td>
+              <td>{{item.creatTimeStr}}</td>
             </tr>
 
         </table>
