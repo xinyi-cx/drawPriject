@@ -97,8 +97,8 @@ public class UserRewardController {
      */
     @ApiOperation(value = "导出", httpMethod = "POST")
     @RequestMapping(value = "/excelOut")
-    public void excelStandardTemplateOut(@RequestBody JSONObject jsonObject, HttpServletRequest request,
-                                         HttpServletResponse response) throws IOException {
+    public ResponseBean excelStandardTemplateOut(@RequestBody JSONObject jsonObject, HttpServletRequest request,
+                                                 HttpServletResponse response) throws IOException {
 
         /// TODO: 2020/7/19 导出后状态变成已派发。逻辑还未确认
 
@@ -119,7 +119,7 @@ public class UserRewardController {
         map.put("rewardStatus", "抽奖状态");
 
         if (userRewards.size() == 0) {
-            return;
+            new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, "");
         }
         try {
             ExcelUtils.write(str, map, userRewards);
@@ -148,6 +148,7 @@ public class UserRewardController {
             while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) {
                 bos.write(buff, 0, bytesRead);
             }
+            return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, fileName);
         } catch (final IOException e) {
             throw e;
         } finally {

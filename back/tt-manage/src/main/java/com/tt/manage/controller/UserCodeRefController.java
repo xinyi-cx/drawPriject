@@ -34,6 +34,11 @@ public class UserCodeRefController {
         return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, "");
     }
 
+//    public ResponseBean createReward(MultipartFile file, boolean updateSupport) {
+//        userCodeRefService.addUserCodeRefsByPath(path);
+//        return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, "");
+//    }
+
 //    /**
 //     * 查询-列表
 //     */

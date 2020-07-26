@@ -31,6 +31,8 @@ public class DrawConfigController {
     @ResponseBody
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResponseBean update(@RequestBody List<DrawConfig> drawConfigs) {
+        String photoStr = "";
+//        List<DrawConfig> drawConfigs = JSON.parseArray(photoStr, DrawConfig.class);
         drawConfigService.updateDrawConfig(drawConfigs);
         return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, drawConfigs);
     }

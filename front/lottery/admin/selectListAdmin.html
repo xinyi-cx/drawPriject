@@ -11,7 +11,7 @@
             background: #9d0013;
         }
         .title {
-            
+
             background: #a40014;
             text-align: center;
             height: 50px;
@@ -122,7 +122,7 @@
                     axios({
                         url: 'http://localhost:8011/tt-manage/userReward/list',
                         method: 'post',
-                        data: this.formData
+                        data: param
                     }).then(function (res) {
                         console.log(res);
                         console.log('数据提交成功');

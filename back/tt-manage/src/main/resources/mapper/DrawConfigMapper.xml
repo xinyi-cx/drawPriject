@@ -93,6 +93,15 @@
         select
         <include refid="Base_Column_List"/>
         from draw_config
+        ORDER BY CASE
+        WHEN digit = '个位' THEN '1'
+        WHEN digit = '十位' THEN '2'
+        WHEN digit = '百位' THEN '3'
+        WHEN digit = '千位' THEN '4'
+        WHEN digit = '万位' THEN '5'
+        WHEN digit = '十万位' THEN '6'
+        WHEN digit = '百万位' THEN '7'
+        ELSE digit END ASC
 
     </select>
 
