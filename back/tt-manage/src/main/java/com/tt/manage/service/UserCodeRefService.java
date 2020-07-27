@@ -1,6 +1,8 @@
 package com.tt.manage.service;
 
 
+import java.io.InputStream;
+
 /**
  * - 服务层
  *
@@ -9,5 +11,5 @@ package com.tt.manage.service;
  */
 public interface UserCodeRefService {
 
-    void addUserCodeRefsByPath(String path);
+    void addUserCodeRefsByPath(InputStream is);
 }

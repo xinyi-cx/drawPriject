@@ -7,6 +7,7 @@ import com.tt.manage.service.UserCodeRefService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +25,8 @@ public class UserCodeRefServiceImpl implements UserCodeRefService {
     private UserCodeRefMapper userCodeRefMapper;
 
     @Override
-    public void addUserCodeRefsByPath(String path) {
-        List<UserCodeRef> userCodeRefs = ExcelUtils.parseFromExcel(path, 1,
+    public void addUserCodeRefsByPath(InputStream is) {
+        List<UserCodeRef> userCodeRefs = ExcelUtils.parseFromExcel(is, 1,
                 UserCodeRef.class);
         List<UserCodeRef> userCodeRefInsert = new ArrayList<>();
         for (UserCodeRef userCodeRef : userCodeRefs) {

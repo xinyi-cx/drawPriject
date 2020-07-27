@@ -170,6 +170,7 @@ export default {
 .list-area {
   width: 100%;
   margin: 0 auto;
+  background: #9d0013;
 }
 .title {
   font-size: 24px;

@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.tt.base.Util.ExcelUtils;
 import com.tt.base.cotent.RestApi;
 import com.tt.base.pojo.ResponseBean;
-import com.tt.manage.entity.UserCodeRef;
 import com.tt.manage.entity.UserReward;
 import com.tt.manage.service.UserRewardService;
 import io.swagger.annotations.ApiOperation;
@@ -161,12 +160,12 @@ public class UserRewardController {
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        List<UserCodeRef> userCodeRefs = ExcelUtils.parseFromExcel("D:\\test.xlsx", 1,
-                UserCodeRef.class);
-        for (int i = 0; i < userCodeRefs.size(); i++) {
-            System.err.println(userCodeRefs.get(i).toString());
-        }
-    }
+//    public static void main(String[] args) throws Exception {
+//        List<UserCodeRef> userCodeRefs = ExcelUtils.parseFromExcel("D:\\test.xlsx", 1,
+//                UserCodeRef.class);
+//        for (int i = 0; i < userCodeRefs.size(); i++) {
+//            System.err.println(userCodeRefs.get(i).toString());
+//        }
+//    }
 
 }

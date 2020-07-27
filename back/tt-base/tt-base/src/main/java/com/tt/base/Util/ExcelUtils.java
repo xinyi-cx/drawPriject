@@ -26,16 +26,16 @@ public class ExcelUtils {
     private final static DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0");
     private final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(Const.DEFAULT_DATA_FORMAT_PATTERN);
 
-    public static <T> List<T> parseFromExcel(String path, Class<T> aimClass) {
-        return parseFromExcel(path, 0, aimClass);
+    public static <T> List<T> parseFromExcel(InputStream is, Class<T> aimClass) {
+        return parseFromExcel(is, 0, aimClass);
     }
 
     @SuppressWarnings("deprecation")
-    public static <T> List<T> parseFromExcel(String path, int firstIndex, Class<T> aimClass) {
+    public static <T> List<T> parseFromExcel(InputStream is, int firstIndex, Class<T> aimClass) {
         List<T> result = new ArrayList<T>();
         try {
-            FileInputStream fis = new FileInputStream(path);
-            Workbook workbook = WorkbookFactory.create(fis);
+//            FileInputStream fis = new FileInputStream(path);
+            Workbook workbook = WorkbookFactory.create(is);
             //对excel文档的第一页,即sheet1进行操作
             Sheet sheet = workbook.getSheetAt(0);
             int lastRaw = sheet.getLastRowNum();
@@ -80,7 +80,7 @@ public class ExcelUtils {
                 }
                 result.add(parseObject);
             }
-            fis.close();
+//            fis.close();
             return result;
         } catch (Exception e) {
             e.printStackTrace();

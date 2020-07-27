@@ -7,9 +7,9 @@ import com.tt.manage.service.UserCodeRefService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author mohanwen
@@ -29,8 +29,9 @@ public class UserCodeRefController {
      */
     @ApiOperation(value = "导入", httpMethod = "POST")
     @PostMapping("/excelIn")
-    public ResponseBean createReward(@RequestBody String path) {
-        userCodeRefService.addUserCodeRefsByPath(path);
+    public ResponseBean createReward(MultipartFile file, boolean updateSupport) throws Exception {
+        String path = "";
+        userCodeRefService.addUserCodeRefsByPath(file.getInputStream());
         return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, "");
     }
 
