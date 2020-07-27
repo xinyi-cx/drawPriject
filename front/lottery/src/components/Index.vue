@@ -106,7 +106,7 @@
           <p>1.活动时间：2020年7月1日 —— 2020年7月2日；</p>
           <p>2.活动期间，每位注册用户每天有3次抽奖机会；</p>
           <p>3.奖品使用规则在抽奖记录中查看；</p>
-          <p>4.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXX</p>
+          <p>4.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX {{this.$route.params}} XXXX</p>
           <p>5.活动期间如遇问题，可拨打客服电话：123456789；</p>
           <p>6.在法律允许范围内，本活动最终解释为XXXX所有；</p>
         </div>
@@ -135,13 +135,15 @@ export default {
     };
   },
   created() {
+    this.allowDraw();
     this.getDate();
   },
   methods: {
     getDate: function() {
       const that = this;
       this.$axios({
-        url: 'http://localhost:8011/tt-manage/userReward/listForDraw',
+        // url: 'http://localhost:8011/tt-manage/userReward/listForDraw',
+        url: 'http://192.168.0.101:8011/tt-manage/userReward/listForDraw',
         method: 'post',
         data: {}
       }).then(function (res) {
@@ -182,6 +184,13 @@ export default {
         console.log(res.data);
       })
     },
+    allowDraw: function() {
+      const drawNum = this.$route.params.drawNum;
+      console.log(drawNum);
+      if(drawNum > 0) {
+        this.isDraw = false;
+      }
+    }
   }
 };
 </script>

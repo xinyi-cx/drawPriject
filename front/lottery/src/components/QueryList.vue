@@ -40,7 +40,8 @@ export default {
             //if(id !== '') {
                 // to-do
                 this.$axios({
-                    url: 'http://localhost:8011/tt-manage/userReward/list',
+                    // url: 'http://localhost:8011/tt-manage/userReward/list',
+                    url: 'http://192.168.0.101:8011/tt-manage/userReward/list',
                     method: 'post',
                     data: {
                             userId:id

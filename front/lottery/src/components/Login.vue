@@ -1,78 +1,126 @@
 <template>
-  <div>
-    <el-form ref="elForm" :model="formData" :rules="rules" size="medium" label-width="100px">
-      <el-form-item label="手机号" prop="mobile">
-        <el-input v-model="formData.mobile" placeholder="请输入手机号" :maxlength="11" show-word-limit clearable
-          prefix-icon='el-icon-mobile' :style="{width: '100%'}"></el-input>
-      </el-form-item>
-      <el-form-item label="上传" prop="field101" required>
-        <el-upload ref="field101" :file-list="field101fileList" :action="field101Action"
-          :before-upload="field101BeforeUpload">
-          <el-button size="small" type="primary" icon="el-icon-upload">点击上传</el-button>
-        </el-upload>
-      </el-form-item>
-      <el-form-item size="large">
-        <el-button type="primary" @click="submitForm">提交</el-button>
-        <el-button @click="resetForm">重置</el-button>
-      </el-form-item>
-    </el-form>
+  <div class="form-box">
+    <div class="login-container">
+      <el-form
+        :model="ruleForm2"
+        :rules="rules2"
+        status-icon
+        ref="ruleForm2"
+        label-position="left"
+        label-width="0px"
+        class="demo-ruleForm login-page"
+      >
+        <h3 class="title">系统登录</h3>
+        <el-form-item prop="userId">
+          <el-input type="text" v-model="ruleForm2.userId" auto-complete="off" placeholder="用户Id"></el-input>
+        </el-form-item>
+        <el-form-item prop="userName">
+          <el-input type="text" v-model="ruleForm2.userName" auto-complete="off" placeholder="用户名"></el-input>
+        </el-form-item>
+        <el-checkbox v-model="checked" class="rememberme">记住密码</el-checkbox>
+        <el-form-item style="width:100%;">
+          <el-button type="primary" style="width:100%;" @click="handleSubmit" :loading="logining">登录</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
+
 <script>
+import request from "@/request";
+
 export default {
-  components: {
-    
-  },
-  props: [],
   data() {
     return {
-      formData: {
-        mobile: '',
-        field101: null,
+      logining: false,
+      ruleForm2: {
+        userId: "",
+        userName: "",
       },
-      rules: {
-        mobile: [{
-          required: true,
-          message: '请输入手机号',
-          trigger: 'blur'
-        }, {
-          pattern: /^1(3|4|5|7|8|9)\d{9}$/,
-          message: '手机号格式错误',
-          trigger: 'blur'
-        }],
+      rules2: {
+        userId: [
+          {
+            required: true,
+            message: "please enter your userId",
+            trigger: "blur",
+          },
+        ],
+        userName: [
+          {
+            required: true,
+            message: "enter your userName",
+            trigger: "blur",
+          },
+        ],
       },
-      field101Action: 'https://jsonplaceholder.typicode.com/posts/',
-      field101fileList: [],
-    }
+      checked: false,
+    };
   },
-  computed: {},
-  watch: {},
-  created() {},
-  mounted() {},
   methods: {
-    submitForm() {
-      this.$refs['elForm'].validate(valid => {
-        if (!valid) return
-        // TODO 提交表单
-      })
-    },
-    resetForm() {
-      this.$refs['elForm'].resetFields()
-    },
-    field101BeforeUpload(file) {
-      let isRightSize = file.size / 1024 / 1024 < 2
-      if (!isRightSize) {
-        this.$message.error('文件大小超过 2MB')
-      }
-      return isRightSize
+    handleSubmit(event) {
+      this.$refs.ruleForm2.validate((valid) => {
+        if (valid) {
+          this.logining = true;
+          this.$axios({
+            // url: "http://localhost:8011/tt-manage/userInfo/login",
+            url: "http://192.168.0.101:8011/tt-manage/userInfo/login",
+            method: "post",
+            data: this.ruleForm2,
+          })
+            .then((res) => {
+              const resultData = res.data;
+              const params = resultData.data;
+              this.logining = false;
+              // sessionStorage.setItem("user", this.ruleForm2.username);
+              this.$router.push({ name: "Index", params: params });
+            })
+            .catch((err) => {
+              console.log(err);
+              this.logining = false;
+              this.$alert("userId or userName wrong!", "info", {
+                confirmButtonText: "ok",
+              });
+            });
+        } else {
+          console.log("error submit!");
+          return false;
+        }
+      });
     },
   }
-}
-
+};
 </script>
-<style>
-.el-upload__tip {
-  line-height: 1.2;
+
+<style scoped>
+.form-box {
+  width: 100%;
+  padding-top: 80px;
+}
+.form-box .title {
+  margin-bottom: 20px;
+}
+.login-container {
+  width: 100%;
+  height: 100%;
+}
+.login-page {
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  margin: 180px auto;
+  width: 350px;
+  padding: 35px 35px 15px;
+  background: #fff;
+  border: 1px solid #eaeaea;
+  box-shadow: 0 0 25px #cac6c6;
+}
+label.el-checkbox.rememberme {
+  margin: 0px 0px 15px;
+  text-align: left;
 }
 
+@media screen and (max-width: 750px) {
+  .login-page {
+    width: 100%;
+  }
+}
 </style>
