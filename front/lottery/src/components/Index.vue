@@ -11,7 +11,7 @@
           <a href="#">客服</a>
         </li>
         <li>
-          <a href="#" @click="queryMyDrawLog">中奖查询</a>
+          <router-link :to="{ name: 'QueryList', params: { userId: userId }}">中奖查询</router-link>
         </li>
         <li>
           <a href="#">活动规则</a>
@@ -37,39 +37,72 @@
           <div class="digit-list clearfix">
             <div class="lf"></div>
             <div class="digit-item">
-              <p class="digits">{{reward.bw}}</p>
+              <div class="digits">
+                <transition name="down-up-translate-fade">
+                  <p class="number" :key="reward.bw">{{reward.bw}}</p>
+                </transition>
+              </div>
               <p class="units">百万</p>
             </div>
             <div class="digit-item">
-              <p class="digits">{{reward.sw}}</p>
+              <div class="digits">
+                <transition name="down-up-translate-fade">
+                  <p class="number" :key="reward.sw">{{reward.sw}}</p>
+                </transition>
+              </div>
               <p class="units">十万</p>
             </div>
             <div class="digit-item">
-              <p class="digits">{{reward.w}}</p>
+              <div class="digits">
+                <transition name="down-up-translate-fade">
+                  <p class="number" :key="reward.w">{{reward.w}}</p>
+                </transition>
+              </div>
               <p class="units">万</p>
             </div>
             <div class="digit-item">
-              <p class="digits">{{reward.q}}</p>
+              <div class="digits">
+                <transition name="down-up-translate-fade">
+                  <p class="number" :key="reward.q">{{reward.q}}</p>
+                </transition>
+              </div>
               <p class="units">千</p>
             </div>
             <div class="digit-item">
-              <p class="digits">{{reward.b}}</p>
+              <div class="digits">
+                <transition name="down-up-translate-fade">
+                  <p class="number" :key="reward.b">{{reward.b}}</p>
+                </transition>
+              </div>
               <p class="units">百</p>
             </div>
             <div class="digit-item">
-              <p class="digits">{{reward.s}}</p>
+              <div class="digits">
+                <transition name="down-up-translate-fade">
+                  <p class="number" :key="reward.s">{{reward.s}}</p>
+                </transition>
+              </div>
               <p class="units">十</p>
             </div>
             <div class="digit-item mr-0">
-              <p class="digits">{{reward.g}}</p>
+              <div class="digits">
+                <transition name="down-up-translate-fade">
+                  <p class="number" :key="reward.g">{{reward.g}}</p>
+                </transition>
+              </div>
               <p class="units">个</p>
             </div>
             <div class="rg"></div>
           </div>
         </div>
         <div class="btn-wrap">
-          <button class="btn">立即邀请好友</button>
-          <button class="btn btn-share" :class="[isDraw ? 'notAllowed' : '']" @click="createReward" :disabled="isDraw">立即抽奖</button>
+          <button class="btn" @click="end">立即邀请好友</button>
+          <button
+            class="btn btn-share"
+            :class="[isDraw ? 'notAllowed' : '']"
+            @click="start"
+            :disabled="isDraw"
+          >立即抽奖</button>
         </div>
       </div>
       <div class="query-area content">
@@ -82,7 +115,7 @@
             <div class="latern-r"></div>
           </div>
         </div>
-        <div class="res-list" >
+        <div class="res-list">
           <div class="item" v-for="item in listData" v-bind:key="item.id">
             <span class="point"></span>
             <span class="nickname">{{item.userName}}</span>
@@ -118,23 +151,22 @@
 <script>
 export default {
   name: "Index",
-  directives: {
-
-  },
   data() {
     return {
-      reward:{
-        bw:'?',
-        sw:'?',
-        w:'?',
-        q:'?',
-        b:'?',
-        s:'?',
-        g:'?'
+      reward: {
+        bw: "?",
+        sw: "?",
+        w: "?",
+        q: "?",
+        b: "?",
+        s: "?",
+        g: "?",
       },
-      listData:[],
+      listData: [],
       //进入页面后会有一个用户的数据，根据用户数据判断是否可以抽奖
-      isDraw: true
+      isDraw: false,
+      userId: "",
+      interval: null,
     };
   },
   created() {
@@ -142,22 +174,43 @@ export default {
     this.getDate();
   },
   methods: {
-    getDate: function() {
+    start: function () {
+      const _this = this;
+      if (!this.interval) {
+        this.interval = setInterval(function () {
+          _this.reward.bw = Math.floor(Math.random() * 10);
+          _this.reward.sw = Math.floor(Math.random() * 10);
+          _this.reward.w = Math.floor(Math.random() * 10);
+          _this.reward.q = Math.floor(Math.random() * 10);
+          _this.reward.b = Math.floor(Math.random() * 10);
+          _this.reward.s = Math.floor(Math.random() * 10);
+          _this.reward.g = Math.floor(Math.random() * 10);
+        }, 10);
+
+        _this.createReward();
+
+      }
+    },
+    end: function () {
+      clearInterval(this.interval)
+      this.interval = null
+    },
+    getDate: function () {
       const that = this;
       this.$axios({
         // url: 'http://localhost:8011/tt-manage/userReward/listForDraw',
-        url: 'http://192.168.0.101:8011/tt-manage/userReward/listForDraw',
-        method: 'post',
-        data: {}
+        url: "http://192.168.0.101:8011/tt-manage/userReward/listForDraw",
+        method: "post",
+        data: {},
       }).then(function (res) {
         const resultDate = res.data;
         that.listData = resultDate.data;
-        console.log('数据提交成功');
+        console.log("数据提交成功");
         console.log(res.data);
-      })
+      });
     },
-    createReward: function() {
-      const userId = '10';
+    createReward: function () {
+      const userId = "10";
       const that = this;
       // private String userId;
       //
@@ -170,38 +223,51 @@ export default {
       // private String rewardStatus;
       // 这个是返回值数据的类型，测试可以直接返回这个 立即抽奖应该不可点击
       this.$axios({
-        url: 'http://localhost:8011/tt-manage/userReward/createReward/'+userId,
-        method: 'post'
+        url:
+          "http://localhost:8011/tt-manage/userReward/createReward/" + userId,
+        method: "post",
       }).then(function (res) {
         const resultDate = res.data;
         let rdata = resultDate.data;
         // rdata.reward = 234567;
-        that.reward.bw = Math.floor(rdata.reward/1000000);
-        that.reward.sw = Math.floor((rdata.reward-Math.floor(rdata.reward/1000000)*1000000)/100000);
-        that.reward.w = Math.floor((rdata.reward-Math.floor(rdata.reward/100000)*100000)/10000);
-        that.reward.q = Math.floor((rdata.reward-Math.floor(rdata.reward/10000)*10000)/1000);
-        that.reward.b = Math.floor((rdata.reward-Math.floor(rdata.reward/1000)*1000)/100);
-        that.reward.s = Math.floor((rdata.reward-Math.floor(rdata.reward/100)*100)/10);
-        that.reward.g = Math.floor((rdata.reward-Math.floor(rdata.reward/10)*10)/1);
-        console.log('数据提交成功');
+        that.reward.bw = Math.floor(rdata.reward / 1000000);
+        that.reward.sw = Math.floor(
+          (rdata.reward - Math.floor(rdata.reward / 1000000) * 1000000) / 100000
+        );
+        that.reward.w = Math.floor(
+          (rdata.reward - Math.floor(rdata.reward / 100000) * 100000) / 10000
+        );
+        that.reward.q = Math.floor(
+          (rdata.reward - Math.floor(rdata.reward / 10000) * 10000) / 1000
+        );
+        that.reward.b = Math.floor(
+          (rdata.reward - Math.floor(rdata.reward / 1000) * 1000) / 100
+        );
+        that.reward.s = Math.floor(
+          (rdata.reward - Math.floor(rdata.reward / 100) * 100) / 10
+        );
+        that.reward.g = Math.floor(
+          (rdata.reward - Math.floor(rdata.reward / 10) * 10) / 1
+        );
+        console.log("数据提交成功");
+        setTimeout(function(){
+          that.end();
+        }, 500)
         console.log(res.data);
-      })
+      });
     },
-    allowDraw: function() {
+    allowDraw: function () {
+      this.userId = this.$route.params.userId;
       const drawNum = this.$route.params.drawNum;
       console.log(drawNum);
-      if(drawNum > 0) {
+      if (drawNum > 0) {
         this.isDraw = false;
       }
     },
-    queryMyDrawLog: function() {
-      const userInfo = this.$route.params;
-      this.$router.push({name: 'QueryList', params: userInfo});
-    }
-  }
+  },
 };
 </script>
 
 <style scoped>
-  @import '../assets/css/index.css';
+@import "../assets/css/index.css";
 </style>

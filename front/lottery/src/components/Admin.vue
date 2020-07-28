@@ -4,8 +4,8 @@
     <div class="list">
       <div class="list-item" v-for="item in formData" v-bind:key="item.id">
         <label class="label">{{item.digit}}:</label>
-        <input type="text" v-model="item['digitStart']" placeholder="点击设定最小值" />
-        <input type="text" v-model="item['digitEnd']" placeholder="点击设定最大值" />
+        <input type="text" v-model="item['digitStart']" v-number-only placeholder="点击设定最小值" />
+        <input type="text" v-model="item['digitEnd']" v-number-only placeholder="点击设定最大值" />
       </div>
       <button class="btn-save" @click="saveDraw">保存</button>
     </div>
@@ -52,6 +52,19 @@ import request from "@/request";
 
 export default {
   name: "HelloWorld",
+  directives: {
+    numberOnly: {
+      bind(el) {
+        el.handler = function() {
+          el.value = el.value.replace(/\D+/, '');
+        };
+        el.addEventListener('input', el.handler);
+      },
+      unbind(el) {
+        el.removeEventListener('input', el.handler);
+      }
+    }
+  },
   data() {
     return {
       formData: [],
