@@ -128,7 +128,8 @@ export default {
       // 保存设置数据
       // 这里需要两个保存按钮还是需要一个就可以？
       this.$axios({
-        url: "http://localhost:8011/tt-manage/drawConfig/update",
+        // url: "http://localhost:8011/tt-manage/drawConfig/update",
+        url: "http://192.168.0.101:8011/tt-manage/drawConfig/update",
         method: "post",
         data: form,
       })

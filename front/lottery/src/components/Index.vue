@@ -11,7 +11,7 @@
           <a href="#">客服</a>
         </li>
         <li>
-          <a href="#">中奖查询</a>
+          <a href="#" @click="queryMyDrawLog">中奖查询</a>
         </li>
         <li>
           <a href="#">活动规则</a>
@@ -106,7 +106,7 @@
           <p>1.活动时间：2020年7月1日 —— 2020年7月2日；</p>
           <p>2.活动期间，每位注册用户每天有3次抽奖机会；</p>
           <p>3.奖品使用规则在抽奖记录中查看；</p>
-          <p>4.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX {{this.$route.params}} XXXX</p>
+          <p>4.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX XXXX</p>
           <p>5.活动期间如遇问题，可拨打客服电话：123456789；</p>
           <p>6.在法律允许范围内，本活动最终解释为XXXX所有；</p>
         </div>
@@ -118,6 +118,9 @@
 <script>
 export default {
   name: "Index",
+  directives: {
+
+  },
   data() {
     return {
       reward:{
@@ -190,6 +193,10 @@ export default {
       if(drawNum > 0) {
         this.isDraw = false;
       }
+    },
+    queryMyDrawLog: function() {
+      const userInfo = this.$route.params;
+      this.$router.push({name: 'QueryList', params: userInfo});
     }
   }
 };
