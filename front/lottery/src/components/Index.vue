@@ -204,23 +204,11 @@ export default {
       }).then(function (res) {
         const resultDate = res.data;
         that.listData = resultDate.data;
-        console.log("数据提交成功");
-        console.log(res.data);
       });
     },
     createReward: function () {
-      const userId = "10";
+      const userId = this.userId;
       const that = this;
-      // private String userId;
-      //
-      // private String userName;
-      //
-      // private Long reward;
-      //
-      // private Date creatTime;
-      //
-      // private String rewardStatus;
-      // 这个是返回值数据的类型，测试可以直接返回这个 立即抽奖应该不可点击
       this.$axios({
         url:"http://localhost:8011/tt-manage/userReward/createReward/" + userId,
         method: "post",
@@ -228,6 +216,7 @@ export default {
         const resultData = res.data;
         let rdata = resultData.data;
         that.isDraw = rdata.isDraw > 0 ? false : true;
+        console.log(that.isDraw);
         // rdata.reward = 234567;
         that.reward.bw = Math.floor(rdata.reward / 1000000);
         that.reward.sw = Math.floor(
@@ -248,10 +237,7 @@ export default {
         that.reward.g = Math.floor(
           (rdata.reward - Math.floor(rdata.reward / 10) * 10) / 1
         );
-        console.log("数据提交成功");
-        setTimeout(function(){
-          that.end();
-        }, 500)
+        that.end();
         console.log(res.data);
       }).catch(err => {
         
@@ -260,9 +246,10 @@ export default {
     allowDraw: function () {
       this.userId = this.$route.params.userId;
       const drawNum = this.$route.params.drawNum;
-      console.log(drawNum);
       if (drawNum > 0) {
         this.isDraw = false;
+      } else {
+        this.isDraw = true;
       }
     }
   }

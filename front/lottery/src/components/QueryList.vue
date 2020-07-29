@@ -42,7 +42,7 @@ export default {
     return {
       userid: "",
       queryList: [],
-      isExport: true,
+      isExport: false,
       columns: [{title: '用户ID', key: 'userId'}, {title: '用户姓名', key: 'userName'}, {title: '中奖金额', key: 'reward'}, {title: '中奖时间', key: 'creatTimeStr'}],
       tableData: []
     };
@@ -59,7 +59,7 @@ export default {
       //if(id !== '') {
       // to-do
       this.$axios({
-        url: 'http://localhost:8011/tt-manage/userReward/list',
+        url: 'http://192.168.0.101:8011/tt-manage/userReward/list',
         method: "post",
         data: {
           userId: id,
@@ -100,7 +100,7 @@ export default {
     },
     isPersonalQuery: function() {
         const userId = this.$route.params.userId;
-        if(this.userId) {
+        if(userId) {
             this.isExport = false;
             this.getQueryList(userId);
         } else {

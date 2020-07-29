@@ -68,10 +68,17 @@ export default {
           })
             .then((res) => {
               const resultData = res.data;
-              const params = resultData.data;
-              this.logining = false;
-              // sessionStorage.setItem("user", this.ruleForm2.username);
-              this.$router.push({ name: "Index", params: params });
+              if(resultData.code === 0) {
+                const params = resultData.data;
+                this.logining = false;
+                // sessionStorage.setItem("user", this.ruleForm2.username);
+                this.$router.push({ name: "Index", params: params });
+              } else {
+                this.logining = false;
+                  this.$alert("userId or userName wrong!", "info", {
+                      confirmButtonText: "ok",
+                  });
+              }
             })
             .catch((err) => {
               console.log(err);
