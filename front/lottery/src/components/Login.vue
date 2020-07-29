@@ -62,8 +62,7 @@ export default {
         if (valid) {
           this.logining = true;
           this.$axios({
-            // url: "http://localhost:8011/tt-manage/userInfo/login",
-            url: "http://192.168.0.101:8011/tt-manage/userInfo/login",
+            url: "http://localhost:8011/tt-manage/userInfo/login",
             method: "post",
             data: this.ruleForm2,
           })
@@ -121,6 +120,12 @@ label.el-checkbox.rememberme {
 @media screen and (max-width: 750px) {
   .login-page {
     width: 100%;
+    margin: 20px auto;
+    padding: 15px;
+    box-sizing: border-box;
+  }
+  .login-page >>> .el-input__inner {
+    width: 90% !important;
   }
 }
 </style>

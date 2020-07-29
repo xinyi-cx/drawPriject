@@ -1,6 +1,10 @@
 <template>
   <div class="list-area">
-    <div class="title">抽奖设置管理端</div>
+    <div class="title">
+      抽奖设置管理端
+      <router-link class="title router" :to="{name: 'QueryList'}">后台查询列表</router-link>
+    </div>
+    
     <div class="list">
       <div class="list-item" v-for="item in formData" v-bind:key="item.id">
         <label class="label">{{item.digit}}:</label>
@@ -15,7 +19,7 @@
         <span class="rule-label">奖金位数</span>
       </div>
       <div class="rule-item" v-for="item in ruleData" :key="item.id">
-        <input class="rule-input" type="text" v-model="item['code']" />
+        <input class="rule-input" v-number-only type="text" v-model="item['code']" />
         <span class="rule-input">{{item.drawDigit}}</span>
       </div>
     </div>
@@ -103,7 +107,7 @@ export default {
     getRuleData: function () {
       const that = this;
       this.$axios({
-        url: "http://localhost:8011/tt-manage/codeDrawRef/list",
+        url: "localhost:8011/tt-manage/codeDrawRef/list",
         method: "post",
       }).then(function (res) {
         const resultDate = res.data;
@@ -141,8 +145,7 @@ export default {
       // 保存设置数据
       // 这里需要两个保存按钮还是需要一个就可以？
       this.$axios({
-        // url: "http://localhost:8011/tt-manage/drawConfig/update",
-        url: "http://192.168.0.101:8011/tt-manage/drawConfig/update",
+        url: "http://localhost:8011/tt-manage/drawConfig/update",
         method: "post",
         data: form,
       })
@@ -183,14 +186,21 @@ export default {
 <style scoped>
 .list-area {
   width: 100%;
-  margin: 0 auto;
-  background: #9d0013;
+  margin: 0 auto 20px;
+  background: #fff;
 }
 .title {
   font-size: 24px;
   font-weight: bold;
   text-align: center;
   line-height: 3;
+  position: relative;
+}
+.title.router {
+  position: absolute;
+  top: 0;
+  left: calc(50% + 150px);
+  color: #fadfa1;
 }
 .list,
 .rule-list {
@@ -211,6 +221,9 @@ export default {
   font-weight: bold;
   vertical-align: middle;
   padding-right: 10px;
+  display: inline-block;
+  width: 100px;
+  text-align: right;
 }
 .list input {
   font-size: 16px;

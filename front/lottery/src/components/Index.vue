@@ -166,7 +166,7 @@ export default {
       //进入页面后会有一个用户的数据，根据用户数据判断是否可以抽奖
       isDraw: false,
       userId: "",
-      interval: null,
+      interval: null
     };
   },
   created() {
@@ -198,8 +198,7 @@ export default {
     getDate: function () {
       const that = this;
       this.$axios({
-        // url: 'http://localhost:8011/tt-manage/userReward/listForDraw',
-        url: "http://192.168.0.101:8011/tt-manage/userReward/listForDraw",
+        url: 'http://localhost:8011/tt-manage/userReward/listForDraw',
         method: "post",
         data: {},
       }).then(function (res) {
@@ -223,12 +222,12 @@ export default {
       // private String rewardStatus;
       // 这个是返回值数据的类型，测试可以直接返回这个 立即抽奖应该不可点击
       this.$axios({
-        url:
-          "http://localhost:8011/tt-manage/userReward/createReward/" + userId,
+        url:"http://localhost:8011/tt-manage/userReward/createReward/" + userId,
         method: "post",
-      }).then(function (res) {
-        const resultDate = res.data;
-        let rdata = resultDate.data;
+      }).then(res => {
+        const resultData = res.data;
+        let rdata = resultData.data;
+        that.isDraw = rdata.isDraw > 0 ? false : true;
         // rdata.reward = 234567;
         that.reward.bw = Math.floor(rdata.reward / 1000000);
         that.reward.sw = Math.floor(
@@ -254,6 +253,8 @@ export default {
           that.end();
         }, 500)
         console.log(res.data);
+      }).catch(err => {
+        
       });
     },
     allowDraw: function () {
@@ -263,8 +264,8 @@ export default {
       if (drawNum > 0) {
         this.isDraw = false;
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
