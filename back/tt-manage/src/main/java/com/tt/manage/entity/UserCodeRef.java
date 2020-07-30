@@ -6,13 +6,36 @@ public class UserCodeRef {
 
     private String userId;
 
+    private String userName;
+
     private Long code;
+
+    /**
+     * 上传时间 用于读取excel上面的内容
+     */
+    private String uploadTime;
 
     private Date createTime;
 
     private Date updateTime;
 
     private Integer drawNum;
+
+    public String getUploadTime() {
+        return uploadTime;
+    }
+
+    public void setUploadTime(String uploadTime) {
+        this.uploadTime = uploadTime;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public String getUserId() {
         return userId;

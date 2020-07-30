@@ -22,4 +22,12 @@ public interface UserCodeRefMapper {
     int updateByPrimaryKey(UserCodeRef record);
 
     int addUserCodeRefs(List<UserCodeRef> list);
+
+    /**
+     * 获取列表
+     *
+     * @param record
+     * @return
+     */
+    List<UserCodeRef> selectUserCodeRefList(UserCodeRef record);
 }

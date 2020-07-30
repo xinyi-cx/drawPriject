@@ -42,4 +42,9 @@ public class UserCodeRefServiceImpl implements UserCodeRefService {
         userCodeRefMapper.addUserCodeRefs(userCodeRefInsert);
     }
 
+    @Override
+    public List<UserCodeRef> selectUserCodeRefList(UserCodeRef ref) {
+        return userCodeRefMapper.selectUserCodeRefList(ref);
+    }
+
 }

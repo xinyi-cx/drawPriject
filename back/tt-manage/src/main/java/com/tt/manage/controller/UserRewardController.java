@@ -29,7 +29,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/userReward")
-public class UserRewardController {
+public class UserRewardController extends BaseController {
 
     @Autowired
     private UserRewardService userRewardService;
@@ -62,6 +62,7 @@ public class UserRewardController {
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public ResponseBean list(@RequestBody UserReward userReward) {
         try {
+            startPage();
             List<UserReward> list = userRewardService.selectUserRewardList(userReward, false);
             return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, list);
         } catch (Exception e) {

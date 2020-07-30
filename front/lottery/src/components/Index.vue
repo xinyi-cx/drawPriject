@@ -215,6 +215,7 @@ export default {
       }).then(res => {
         const resultData = res.data;
         let rdata = resultData.data;
+        debugger
         that.isDraw = rdata.isDraw > 0 ? false : true;
         console.log(that.isDraw);
         // rdata.reward = 234567;
@@ -240,7 +241,7 @@ export default {
         that.end();
         console.log(res.data);
       }).catch(err => {
-        
+
       });
     },
     allowDraw: function () {

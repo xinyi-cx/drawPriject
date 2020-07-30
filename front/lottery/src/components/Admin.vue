@@ -4,7 +4,7 @@
       抽奖设置管理端
       <router-link class="title router" :to="{name: 'QueryList'}">后台查询列表</router-link>
     </div>
-    
+
     <div class="list">
       <div class="list-item" v-for="item in formData" v-bind:key="item.id">
         <label class="label">{{item.digit}}:</label>
@@ -107,7 +107,7 @@ export default {
     getRuleData: function () {
       const that = this;
       this.$axios({
-        url: "localhost:8011/tt-manage/codeDrawRef/list",
+        url: "http://localhost:8011/tt-manage/codeDrawRef/list",
         method: "post",
       }).then(function (res) {
         const resultDate = res.data;
@@ -130,10 +130,10 @@ export default {
         .then(function (res) {
           const resultDate = res.data;
           that.ruleData = rule;
-          console.log("数据提交成功");
-          console.log(res.data);
+          alert("更新成功");
         })
         .catch(function (err) {
+          alert("更新失败，请联系管理员");
           console.log(err);
         });
     },
@@ -152,10 +152,10 @@ export default {
         .then(function (res) {
           const resultDate = res.data;
           that.formData = form;
-          console.log("数据提交成功");
-          console.log(res.data);
+          alert("更新成功");
         })
         .catch(function (err) {
+          alert("更新失败，请联系管理员");
           console.log(err);
         });
     },
