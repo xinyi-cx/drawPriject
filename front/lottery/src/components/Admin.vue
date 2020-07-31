@@ -106,6 +106,7 @@ export default {
     },
     getRuleData: function () {
       const that = this;
+      debugger;
       this.$axios({
         url: "http://localhost:8011/tt-manage/codeDrawRef/list",
         method: "post",
@@ -141,7 +142,6 @@ export default {
       console.log(this.formData);
       const form = this.formData;
       const that = this;
-      debugger;
       // 保存设置数据
       // 这里需要两个保存按钮还是需要一个就可以？
       this.$axios({
@@ -186,6 +186,7 @@ export default {
 <style scoped>
 .list-area {
   width: 100%;
+  min-height: 100%;
   margin: 0 auto 20px;
   background: #fff;
 }

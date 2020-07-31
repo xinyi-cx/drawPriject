@@ -5,13 +5,13 @@
       <a href="###" class="logo"></a>
       <ul>
         <li>
-          <a href="#" class="is-active">网站首页</a>
+          <a href="javascript: void(0);" class="is-active">网站首页</a>
         </li>
         <li>
           <a href="#">客服</a>
         </li>
         <li>
-          <router-link :to="{ name: 'QueryList', params: { userId: userId }}">中奖查询</router-link>
+          <a href="javascript: void(0);" @click="dialogTableVisible = true">中奖查询</a>
         </li>
         <li>
           <a href="#">活动规则</a>
@@ -22,7 +22,9 @@
       </ul>
     </header>
     <div class="banner"></div>
+
     <div class="bd-content">
+      <!-- 抽奖活动 -->
       <div class="lottery content">
         <div class="lg-title">
           抽奖活动
@@ -96,7 +98,6 @@
           </div>
         </div>
         <div class="btn-wrap">
-          <button class="btn" @click="end">立即邀请好友</button>
           <button
             class="btn btn-share"
             :class="[isDraw ? 'notAllowed' : '']"
@@ -105,6 +106,7 @@
           >立即抽奖</button>
         </div>
       </div>
+      <!-- 中奖查询 -->
       <div class="query-area content">
         <div class="lg-title">
           中奖查询
@@ -119,20 +121,34 @@
           <div class="item" v-for="item in listData" v-bind:key="item.id">
             <span class="point"></span>
             <span class="nickname">{{item.userName}}</span>
-            <span class="phone">{{item.reward}}</span>
             <span class="result">抽中{{item.reward}}元红包</span>
             <span class="date">{{item.creatTimeStr}}</span>
           </div>
         </div>
       </div>
+      <!-- 抽奖规则 -->
       <div class="rule-area content">
         <div class="lg-title">
           抽奖规则
           <div class="rule-decor left">
-            <div class="cracker-l"></div>
+            <div class="cracker-l">
+              <div class="fireOne lo-f"></div>
+              <div class="fireOne lo-s"></div>
+              <div class="fireOne lo-t"></div>
+              <div class="fireTwo lt-f"></div>
+              <div class="fireTwo lt-s"></div>
+              <div class="fireTwo lt-t"></div>
+            </div>
           </div>
           <div class="rule-decor right">
-            <div class="cracker-r"></div>
+            <div class="cracker-r">
+              <div class="fireOne ro-f"></div>
+              <div class="fireOne ro-s"></div>
+              <div class="fireOne ro-t"></div>
+              <div class="fireTwo rt-f"></div>
+              <div class="fireTwo rt-s"></div>
+              <div class="fireTwo rt-t"></div>
+            </div>
           </div>
         </div>
         <div class="res-list">
@@ -145,6 +161,17 @@
         </div>
       </div>
     </div>
+
+    <!-- 查询弹框 -->
+    <el-dialog title="中奖记录" :visible.sync="dialogTableVisible">
+      <el-table :data="queryList">
+        I
+        <el-table-column property="userId" label="用户Id" width></el-table-column>
+        <el-table-column property="userName" label="用户名" width></el-table-column>
+        <el-table-column property="reward" label="中奖金额" width></el-table-column>
+        <el-table-column property="creatTimeStr" label="中奖时间" width></el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 
@@ -166,7 +193,9 @@ export default {
       //进入页面后会有一个用户的数据，根据用户数据判断是否可以抽奖
       isDraw: false,
       userId: "",
-      interval: null
+      interval: null,
+      dialogTableVisible: false,
+      queryList: [],
     };
   },
   created() {
@@ -186,38 +215,42 @@ export default {
           _this.reward.s = Math.floor(Math.random() * 10);
           _this.reward.g = Math.floor(Math.random() * 10);
         }, 10);
-
-        _this.createReward();
-
       }
+      setTimeout(function () {
+        _this.createReward();
+      }, 150);
     },
     end: function () {
-      clearInterval(this.interval)
-      this.interval = null
+      clearInterval(this.interval);
+      this.interval = null;
     },
     getDate: function () {
       const that = this;
+      clearInterval(that.queryInterval);
       this.$axios({
-        url: 'http://localhost:8011/tt-manage/userReward/listForDraw',
+        url: "http://localhost:8011/tt-manage/userReward/listForDraw",
         method: "post",
         data: {},
       }).then(function (res) {
         const resultDate = res.data;
         that.listData = resultDate.data;
+        that.queryInterval = setInterval(function () {
+          that.getDate();
+        }, 1000);
       });
     },
     createReward: function () {
       const userId = this.userId;
       const that = this;
       this.$axios({
-        url:"http://localhost:8011/tt-manage/userReward/createReward/" + userId,
+        url:
+          "http://localhost:8011/tt-manage/userReward/createReward/" + userId,
         method: "post",
       }).then(res => {
         const resultData = res.data;
         let rdata = resultData.data;
-        debugger
         that.isDraw = rdata.isDraw > 0 ? false : true;
-        console.log(that.isDraw);
+        that.end();
         // rdata.reward = 234567;
         that.reward.bw = Math.floor(rdata.reward / 1000000);
         that.reward.sw = Math.floor(
@@ -238,10 +271,8 @@ export default {
         that.reward.g = Math.floor(
           (rdata.reward - Math.floor(rdata.reward / 10) * 10) / 1
         );
-        that.end();
-        console.log(res.data);
       }).catch(err => {
-
+        console.log(err);
       });
     },
     allowDraw: function () {
@@ -252,11 +283,38 @@ export default {
       } else {
         this.isDraw = true;
       }
-    }
-  }
+    },
+    // 查询功能
+    getQueryList: function () {
+      var id = this.userid;
+      const that = this;
+      //if(id !== '') {
+      // to-do
+      this.$axios({
+        url: "http://192.168.0.101:8011/tt-manage/userReward/list",
+        method: "post",
+        data: {
+          userId: id,
+        },
+      })
+        .then((res) => {
+          var result = res.data;
+          that.queryList = result.data;
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      //}
+    },
+  },
 };
 </script>
 
 <style scoped>
 @import "../assets/css/index.css";
+
+.index >>> .el-table th {
+  text-align: center;
+}
 </style>

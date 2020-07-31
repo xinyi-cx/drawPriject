@@ -3,7 +3,7 @@
     <div class="bg"></div>
     <header class="content">
       <a href="###" class="logo"></a>
-      <a href="###" class="navBar" @click="showNavbar">{{currentNav}}</a>
+      <a href="javascript: void(0);" class="navBar" @click="showNavbar">{{currentNav}}</a>
       <ul v-show="isShow">
         <li>
           <a href="#">网站首页</a>
@@ -12,7 +12,7 @@
           <a href="#">客服</a>
         </li>
         <li>
-          <router-link :to="{name: 'QueryList', params:{userId: userId} }">中奖查询</router-link>
+          <a href="javascript: void(0)" @click="queryDialog">中奖查询</a>
         </li>
         <li>
           <a href="#">活动规则</a>
@@ -97,11 +97,12 @@
           </div>
         </div>
         <div class="btn-wrap">
-          <button class="btn" @click="end">立即邀请好友</button>
-          <button class="btn btn-share" 
-          :class="isDraw ? 'notAllowed' : ''"
-          :disabled='isDraw'
-           @click="start">立即抽奖</button>
+          <button
+            class="btn btn-share"
+            :class="isDraw ? 'notAllowed' : ''"
+            :disabled="isDraw"
+            @click="start"
+          >立即抽奖</button>
         </div>
       </div>
       <div class="query-area content">
@@ -118,9 +119,7 @@
           <div class="item" v-for="item in listData" :key="item.id">
             <span class="point"></span>
             <span class="nickname">{{item.userName}}梦想的声音</span>
-            <span class="phone">{{item.reward}}3000000000</span>
-            <span class="result">抽中{{item.reward}}000000</span>
-            <span class="date">{{item.creatTimeStr}}</span>
+            <span class="result">抽中{{item.reward}}元</span>
           </div>
         </div>
       </div>
@@ -144,6 +143,16 @@
         </div>
       </div>
     </div>
+    <!-- 查询弹框 -->
+    <el-dialog title="中奖记录" :visible.sync="dialogTableVisible">
+      <el-table :data="queryList">
+        I
+        <el-table-column property="userId" label="用户Id" width></el-table-column>
+        <el-table-column property="userName" label="用户名" width></el-table-column>
+        <el-table-column property="reward" label="中奖金额" width></el-table-column>
+        <el-table-column property="creatTimeStr" label="中奖时间" width></el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 
@@ -168,6 +177,8 @@ export default {
       isDraw: true,
       userId: "",
       interval: null,
+      dialogTableVisible: false,
+      queryList: [],
     };
   },
   created() {
@@ -177,6 +188,10 @@ export default {
   methods: {
     showNavbar: function () {
       this.isShow = true;
+    },
+    queryDialog: function () {
+      this.dialogTableVisible = true;
+      this.isShow = false;
     },
     switchNavbar: function (e) {
       this.currentNav = e.target.text;
@@ -196,7 +211,9 @@ export default {
           _this.reward.g = Math.floor(Math.random() * 10);
         }, 10);
 
-        _this.createReward();
+        setTimeout(function () {
+          _this.createReward();
+        }, 150);
       }
     },
     end: function () {
@@ -206,7 +223,7 @@ export default {
     getDate: function () {
       const that = this;
       this.$axios({
-        url: 'http://localhost:8011/tt-manage/userReward/listForDraw',
+        url: "http://localhost:8011/tt-manage/userReward/listForDraw",
         method: "post",
         data: {},
       }).then(function (res) {
@@ -219,22 +236,16 @@ export default {
     createReward: function () {
       const userId = "10";
       const that = this;
-      // private String userId;
-      //
-      // private String userName;
-      //
-      // private Long reward;
-      //
-      // private Date creatTime;
-      //
       // private String rewardStatus;
       // 这个是返回值数据的类型，测试可以直接返回这个 立即抽奖应该不可点击
       this.$axios({
-        url:"http://localhost:8011/tt-manage/userReward/createReward/" + userId,
+        url:
+          "http://localhost:8011/tt-manage/userReward/createReward/" + userId,
         method: "post",
       }).then(function (res) {
         const resultDate = res.data;
         let rdata = resultDate.data;
+        that.end();
         this.isDraw = rdata.drawNum > 0 ? false : true;
         // rdata.reward = 234567;
         that.reward.bw = Math.floor(rdata.reward / 1000000);
@@ -256,18 +267,11 @@ export default {
         that.reward.g = Math.floor(
           (rdata.reward - Math.floor(rdata.reward / 10) * 10) / 1
         );
-        console.log("数据提交成功");
-
-        setTimeout(function () {
-          that.end();
-        }, 500);
-        console.log(res.data);
       });
     },
     allowDraw: function () {
       this.userId = this.$route.params.userId;
       const drawNum = this.$route.params.drawNum;
-      console.log(drawNum);
       if (drawNum > 0) {
         this.isDraw = false;
       }
@@ -278,4 +282,7 @@ export default {
 
 <style scoped>
 @import "../assets/css/index-mobile.css";
+.index >>> .el-dialog {
+  width: 95%;
+}
 </style>

@@ -267,7 +267,6 @@ li a.is-active {
 .btn-wrap .btn-share {
     color: #fe6146;
     background: linear-gradient(#fdf8f7, #e3dcd0);
-    margin-left: 90px;
 }
 
 
@@ -401,20 +400,157 @@ li a.is-active {
 
 .cracker-l,
 .cracker-r {
-    width: 215px;
-    height: 225px;
+    width: 145px;
+    height: 213px;
     background: center no-repeat;
     position: absolute;
 }
+.rule-decor .fireOne {
+    width: 74px;
+    height: 63px;
+    position: absolute;
+}
+.rule-decor .fireTwo {
+    width: 111px;
+    height: 86px;
+    
+    position: absolute;
+}
+.cracker-l .fireOne {
+    right: -7px;
+    bottom: 0;
+    transform: rotate(-154deg);
+    background: url(../imgs/fire1-l.png) center no-repeat;
+    background-size: contain;
+    position: absolute;
+}
+.cracker-l .fireTwo {
+    left: -43px;
+    bottom: -7px;
+    transform: rotate(182deg);
+    background: url(../imgs/fire2-l.png) center no-repeat;
+    background-size: contain;
+}
+.cracker-r .fireOne {
+    left: -4px;
+    bottom: 10px;
+    background: url(../imgs/fire1.png) center no-repeat;
+    background-size: contain;    
+}
+.cracker-r .fireTwo {
+    right: -33px;
+    bottom: -11px;
+    background: url(../imgs/fire2.png) center no-repeat;
+    background-size: contain;
+    
+}
 
+.cracker-l .lo-f {
+    opacity: 0;
+    bottom: 138px;
+    right: 6px;
+    animation: bang1 1s infinite;
+    animation-delay: 6s;
+}
+.cracker-l .lo-s {
+    opacity: 0;
+    bottom: 60px;
+    animation: bang1 .8s infinite;
+    animation-delay: 4s;
+}
+.cracker-l .lo-t {
+    animation: bang1 .4s infinite;
+    animation-delay: 2s;
+}
+.cracker-l .lt-f {
+    opacity: 0;
+    bottom: 138px;
+    left: -30px;
+    animation: bang2 .6s infinite;
+    animation-delay: 8s;
+}
+.cracker-l .lt-s {
+    opacity: 0;
+    left: -40px;
+    bottom: 75px;
+    animation: bang2 .5s infinite;
+    animation-delay: 6s;
+}
+.cracker-l .lt-t {
+    animation: bang2 .4s infinite;
+    animation-delay: 4s;
+}
+.cracker-r .ro-f {
+    opacity: 0;
+    bottom: 138px;
+    right: 6px;
+    animation: bang1 .8s infinite;
+    animation-delay: 4s;
+}
+.cracker-r .ro-s {
+    opacity: 0;
+    bottom: 60px;
+    animation: bang1 .6s infinite;
+    animation-delay: 2s;
+}
+.cracker-r .ro-t {
+    animation: bang1 .3s infinite;
+    animation-delay: 1s;
+}
+.cracker-r .rt-f {
+    opacity: 0;
+    bottom: 138px;
+    right: -6px;
+    animation: bang2 .8s infinite;
+    animation-delay: 6s;
+}
+.cracker-r .rt-s {
+    opacity: 0;
+    right: -44px;
+    bottom: 75px;
+    animation: bang2 .6s infinite;
+    animation-delay: 4s;
+}
+.cracker-r .rt-t {
+    animation: bang2 .4s infinite;
+    animation-delay: 2s;
+}
+@keyframes bang1 {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(0.4);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+}
+@keyframes bang2 {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(0.6);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+}
 .cracker-l {
-    background-image: url(../imgs/cracker-l.png);
-    top: 62px;
-    left: -82px;
+    background-image: url(../imgs/pao.png);
+    top: 71px;
+    left: -17px;
 }
 
 .cracker-r {
-    background-image: url(../imgs/cracker-l.png);
+    background-image: url(../imgs/pao.png);
     top: 63px;
     right: -18px;
 }

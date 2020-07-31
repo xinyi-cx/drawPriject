@@ -278,7 +278,6 @@ li a.is-active {
 .btn-wrap .btn-share {
   color: #fe6146;
   background: linear-gradient(#fdf8f7, #e3dcd0);
-  margin-left: 15px;
 }
 /* 中奖查询 */
 .query-area .lg-title,
@@ -400,11 +399,29 @@ li a.is-active {
   background-image: url(../imgs/cracker-l.png);
   top: 62px;
   left: -82px;
+  animation: bang1 1s infinite;
+  animation-delay: .25s;
 }
 .cracker-r {
   background-image: url(../imgs/cracker-l.png);
   top: 63px;
   right: -18px;
+  animation: bang1 1s infinite;
+  animation-delay: 5s;
+}
+@keyframes bang1 {
+  0% {
+      transform: scale(1);
+      opacity: 1;
+  }
+  50% {
+      transform: scale(1.2);
+      opacity: 0;
+  }
+  100% {
+      transform: scale(1);
+      opacity: 0;
+  }
 }
 @keyframes laternFlow {
   0% {
