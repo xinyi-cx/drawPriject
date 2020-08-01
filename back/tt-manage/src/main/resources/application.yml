@@ -1,5 +1,5 @@
 server:
-  port: 8848
+  port: 8011
   servlet:
     multipart:
       max-file-size: 2M
