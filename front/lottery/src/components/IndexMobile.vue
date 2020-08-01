@@ -118,7 +118,7 @@
         <div class="res-list">
           <div class="item" v-for="item in listData" :key="item.id">
             <span class="point"></span>
-            <span class="nickname">{{item.userName}}梦想的声音</span>
+            <span class="nickname">{{item.userName}}</span>
             <span class="result">抽中{{item.reward}}元</span>
           </div>
         </div>

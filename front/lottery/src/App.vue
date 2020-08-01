@@ -6,22 +6,7 @@
 
 <script>
 export default {
-  name: 'App',
-  mounted() {
-    if(this._isMobile()) {
-      //手机端入口
-      this.$router.replace('/mobile');
-    } else {
-      //PC端入口文件
-      this.$router.replace('/');
-    }
-  },
-  methods: {
-    _isMobile() {
-      let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i);
-      return flag;
-    }
-  }
+  name: 'App'
 }
 </script>
 

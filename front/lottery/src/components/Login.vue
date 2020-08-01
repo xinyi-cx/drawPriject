@@ -54,12 +54,28 @@ export default {
         ],
       },
       checked: false,
+      toPathName: "",
     };
   },
+  mounted() {
+    if (this._isMobile()) {
+      //手机端入口
+      this.toPathName = "IndexMobile";
+    } else {
+      //PC端入口文件
+      this.toPathName = "Index";
+    }
+  },
   methods: {
+    _isMobile() {
+      let flag = navigator.userAgent.match(
+        /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+      );
+      return flag;
+    },
     handleSubmit(event) {
       this.$refs.ruleForm2.validate(async (valid) => {
-        if (!valid) return this.$message.warning('请输入正确的用户Id和用户名');
+        if (!valid) return this.$message.warning("请输入正确的用户Id和用户名");
         this.logining = true;
 
         const { data: res } = await this.$http.post(
@@ -71,10 +87,10 @@ export default {
           return this.$message.error("用户Id或用户名错误！");
         }
 
-        // sessionStorage.setItem("user", this.ruleForm2.username);
-        this.$router.push({ name: "Index", params: res.data });
-        this.$message.success('登录成功');
-
+        this.$router.push({ name: `${this.toPathName}`, params: res.data });
+        console.log(this.toPathName);
+        sessionStorage.setItem("user", this.ruleForm2.userName);
+        this.$message.success("登录成功");
       });
     },
   },
@@ -110,7 +126,7 @@ label.el-checkbox.rememberme {
 
 @media screen and (max-width: 750px) {
   .login-page {
-    width: 100%;
+    width: 90%;
     margin: 20px auto;
     padding: 15px;
     box-sizing: border-box;
