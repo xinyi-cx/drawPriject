@@ -154,9 +154,9 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="queryInfo.pageNum"
-        :page-sizes="[5, 10, 15, 20]"
         :page-size="queryInfo.pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
+        :pager-count="2"
+        layout="pager, jumper"
         :total="total"
       ></el-pagination>
     </el-dialog>
@@ -190,7 +190,7 @@ export default {
         userId: "",
         userName: "",
         pageNum: 1,
-        pageSize: 5,
+        pageSize: 10,
       },
       total: 0,
     };

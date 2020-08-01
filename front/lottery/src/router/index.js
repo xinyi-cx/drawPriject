@@ -8,7 +8,7 @@ import Login from '@/components/login'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -24,14 +24,22 @@ export default new Router({
       path: '/mobile',
       name: 'IndexMobile',
       component: IndexMobile
-    }, {
-      path: '/admin',
-      name: 'Admin',
-      component: Admin
-    }, {
-      path: '/query',
-      name: 'QueryList',
-      component: QueryList
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  // to代表将要访问的路径
+  // from 从哪个页面来
+  // next 是个放行函数
+  if (to.path === '/') next();
+  // 获取token
+  const tokenStr = window.sessionStorage.getItem('user');
+  if (!tokenStr) return next('/');
+  next();
+})
+
+
+
+
+export default router;
