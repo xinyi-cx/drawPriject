@@ -83,7 +83,7 @@ export default {
         // 是否更新已经存在的用户数据
         updateSupport: 0,
         // 上传的地址
-        url: "http://localhost:8011/tt-manage/userCodeRef/excelIn",
+        url: "http://47.107.76.247:8848/tt-manage/userCodeRef/excelIn",
       },
     };
   },
@@ -95,7 +95,7 @@ export default {
     getDate: function () {
       const that = this;
       this.$axios({
-        url: "http://localhost:8011/tt-manage/drawConfig/list",
+        url: "http://47.107.76.247:8848/tt-manage/drawConfig/list",
         method: "post",
       }).then(function (res) {
         const resultDate = res.data;
@@ -108,7 +108,7 @@ export default {
       const that = this;
       debugger;
       this.$axios({
-        url: "http://localhost:8011/tt-manage/codeDrawRef/list",
+        url: "http://47.107.76.247:8848/tt-manage/codeDrawRef/list",
         method: "post",
       }).then(function (res) {
         const resultDate = res.data;
@@ -124,7 +124,7 @@ export default {
       // 保存设置数据
       // 这里需要两个保存按钮还是需要一个就可以？
       this.$axios({
-        url: "http://localhost:8011/tt-manage/codeDrawRef/updateByList",
+        url: "http://47.107.76.247:8848/tt-manage/codeDrawRef/updateByList",
         method: "post",
         data: rule,
       })
@@ -145,7 +145,7 @@ export default {
       // 保存设置数据
       // 这里需要两个保存按钮还是需要一个就可以？
       this.$axios({
-        url: "http://localhost:8011/tt-manage/drawConfig/update",
+        url: "http://47.107.76.247:8848/tt-manage/drawConfig/update",
         method: "post",
         data: form,
       })

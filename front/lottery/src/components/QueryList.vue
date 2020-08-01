@@ -4,7 +4,7 @@
       红包查询
       <router-link v-show="isExport" class="title router" :to="{name: 'Admin'}">抽奖设置管理端</router-link>
     </div>
-    
+
     <div class="query-area" v-show="isExport">
       <label class="label" for>用户id:</label>
       <input class="user-id" v-model="userid" type="text" placeholder="请输入用户id" />
@@ -59,7 +59,7 @@ export default {
       //if(id !== '') {
       // to-do
       this.$axios({
-        url: 'http://192.168.0.101:8011/tt-manage/userReward/list',
+        url: 'http://192.168.0.101:8848/tt-manage/userReward/list',
         method: "post",
         data: {
           userId: id,
@@ -79,7 +79,7 @@ export default {
     derive: function () {
       var id = this.userId;
       this.$axios({
-        url: "http://localhost:8011/tt-manage/userReward/excelOut",
+        url: "http://47.107.76.247:8848/tt-manage/userReward/excelOut",
         method: "post",
         headers: {
           "Content-Type": "application/json",
