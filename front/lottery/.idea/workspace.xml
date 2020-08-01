@@ -2,10 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="43211b90-5986-462c-822b-9f8a48ad4187" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/data/中奖记录.xls" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/data/中奖记录.xls" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/resources/generatorConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/resources/generatorConfig.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/selectListAdmin.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin/selectListAdmin.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/config/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Admin.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Admin.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Index.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/IndexMobile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/IndexMobile.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/QueryList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/QueryList.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +68,7 @@
       <workItem from="1596199796052" duration="247000" />
       <workItem from="1596200996080" duration="189000" />
       <workItem from="1596243887478" duration="1406000" />
-      <workItem from="1596252248543" duration="560000" />
+      <workItem from="1596252248543" duration="109000" />
     </task>
     <servers />
   </component>

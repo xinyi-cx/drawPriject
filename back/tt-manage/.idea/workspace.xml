@@ -2,10 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6fabbb74-f943-4a04-bf6c-095b1fc8062e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/中奖记录.xls" beforeDir="false" afterPath="$PROJECT_DIR$/data/中奖记录.xls" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/generatorConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/generatorConfig.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../front/lottery/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../front/lottery/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../front/lottery/src/components/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../front/lottery/src/components/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../front/lottery/src/components/IndexMobile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../front/lottery/src/components/IndexMobile.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../front/lottery/src/components/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../front/lottery/src/components/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../front/lottery/config/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../front/lottery/config/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -230,7 +232,6 @@
       <workItem from="1596199751471" duration="27000" />
       <workItem from="1596201189582" duration="2210000" />
       <workItem from="1596240344432" duration="2094000" />
-      <workItem from="1596252450723" duration="370000" />
     </task>
     <servers />
   </component>

@@ -62,7 +62,7 @@ export default {
         if (valid) {
           this.logining = true;
           this.$axios({
-            url: "http://47.107.76.247:8848/tt-manage/userInfo/login",
+            url: "http://localhost:8011/tt-manage/userInfo/login",
             method: "post",
             data: this.ruleForm2,
           })
