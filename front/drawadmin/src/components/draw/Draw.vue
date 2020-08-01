@@ -37,7 +37,7 @@
       <el-form
         :model="drawForm"
         :rules="editDrawFormRules"
-        ref="editDrawFormRef"
+        ref="drawFormRef"
         label-width="70px"
       >
         <el-form-item label="奖金位数">
@@ -50,7 +50,7 @@
       <!-- 底部区域 -->
       <span slot="footer" class="dialog-footer">
         <el-button @click="drawDialogVisible = false">取 消</el-button>
-        <el-button type="primary">确 定</el-button>
+        <el-button type="primary" @click="editDialogSubmit">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -67,8 +67,11 @@ export default {
       drawForm: {},
       drawDialogVisible: false,
       editDrawFormRules: {
-        
-      }
+        code: [
+          { required: true, message: "请输入最大值", trigger: "blur" },
+          // { validator: checkNumber, trigger: "blur" }
+        ]
+      },
     };
   },
   created() {
@@ -85,8 +88,23 @@ export default {
       this.drawForm = row;
     },
     drawDialogClosed() {
-      this.$refs.drawFormRef.resetFields()
-    }
+      this.$refs.drawFormRef.resetFields();
+    },
+    editDialogSubmit() {
+      this.$refs.drawFormRef.validate(async (valid) => {
+        if (!valid) return;
+        // 可以发起保存请求
+        const { data: res } = await this.$http.post(
+          "codeDrawRef/update",
+          this.drawForm
+        );
+        if (res.code !== 0)
+          return this.$message.error("更新失败，请联系管理员");
+        this.$message.success("更新成功");
+        this.drawDialogVisible = false;
+        this.drawList = res.data;
+      });
+    },
   },
 };
 </script>

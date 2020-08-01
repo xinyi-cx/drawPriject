@@ -3,7 +3,7 @@
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>抽奖管理</el-breadcrumb-item>
-      <el-breadcrumb-item>查询列表</el-breadcrumb-item>
+      <el-breadcrumb-item>中奖列表</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
       <!-- 搜索区域 -->
@@ -18,14 +18,18 @@
           ></el-date-picker>
         </el-col>
         <el-col :span="6">
-          <el-input placeholder="请输入userId" v-model="queryInfo.userId" clearable @clear="getQueryList">
-          </el-input>
+          <el-input
+            placeholder="请输入userId"
+            v-model="queryInfo.userId"
+            clearable
+            @clear="getQueryList"
+          ></el-input>
         </el-col>
         <el-col :span="2">
           <el-button type="primary" @click="getQueryList">查询</el-button>
         </el-col>
         <el-col :span="2">
-          <el-button type="primary">导出</el-button>
+          <el-button type="primary" @click="excelOut">导出</el-button>
         </el-col>
       </el-row>
       <!-- 查询列表区 -->
@@ -51,6 +55,8 @@
 </template>
 
 <script>
+import { export2Excel } from '@/common/js/utils'
+
 export default {
   data() {
     return {
@@ -61,10 +67,11 @@ export default {
         pageNum: 1,
         // 当前每页显示数据
         pageSize: 5,
-        dateRange: ""
+        dateRange: "",
       },
       queryList: [],
-      total: 0
+      total: 0,
+      columns: [{title: '用户ID', key: 'userId'}, {title: '用户姓名', key: 'userName'}, {title: '中奖金额', key: 'reward'}, {title: '中奖时间', key: 'creatTimeStr'}]
     };
   },
   created() {
@@ -81,14 +88,17 @@ export default {
     },
     // 监听PageSize改变的函数
     handleSizeChange(newPageSize) {
-        this.queryInfo.pageSize = newPageSize;
-        this.getQueryList();
+      this.queryInfo.pageSize = newPageSize;
+      this.getQueryList();
     },
     // 监听页码值改变的函数
     handleCurrentChange(newPage) {
-        this.queryInfo.pageNum = newPage;
-        this.queryList();
-    }
+      this.queryInfo.pageNum = newPage;
+      this.getQueryList();
+    },
+    excelOut: function () {
+      export2Excel(this.columns, this.queryList);
+    },
   },
 };
 </script>

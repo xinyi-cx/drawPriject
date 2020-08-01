@@ -59,63 +59,27 @@
 export default {
   data() {
     // 自定义校验规则 数字校验有问题；
-    var checkNumber = (rule, value, cb) => {
-      const regNumber = /\[0-9]/;
-      if (regNumber.test(value)) {
-        return cb();
-      }
+    // var checkNumber = (rule, value, cb) => {
+    //   const regNumber = //;
+    //   if (regNumber.test(value)) {
+    //     return cb();
+    //   }
 
-      cb(new Error("请输入合法的数值"));
-    };
+    //   cb(new Error("请输入合法的数值"));
+    // };
 
     return {
-      moneyList: [
-        {
-          digit: "个位",
-          digitStart: 1,
-          digitEnd: 9,
-        },
-        {
-          digit: "十位",
-          digitStart: 2,
-          digitEnd: 8,
-        },
-        {
-          digit: "百位",
-          digitStart: 3,
-          digitEnd: 7,
-        },
-        {
-          digit: "千位",
-          digitStart: 3,
-          digitEnd: 7,
-        },
-        {
-          digit: "万位",
-          digitStart: 3,
-          digitEnd: 7,
-        },
-        {
-          digit: "十万",
-          digitStart: 3,
-          digitEnd: 7,
-        },
-        {
-          digit: "百万",
-          digitStart: 3,
-          digitEnd: 7,
-        },
-      ],
+      moneyList: [],
       editDialogVisible: false,
       editForm: {},
       editFormRules: {
         digitStart: [
           { required: true, message: "请输入最小值", trigger: "blur" },
-          { validator: checkNumber, trigger: "blur" }
+          // { validator: checkNumber, trigger: "blur" }
         ],
         digitEnd: [
           { required: true, message: "请输入最大值", trigger: "blur" },
-          { validator: checkNumber, trigger: "blur" }
+          // { validator: checkNumber, trigger: "blur" }
         ]
       },
     };
@@ -145,14 +109,14 @@ export default {
           valid = false;
           this.$message.error('最小值不能大于最大值');
         }
+        
         if (!valid) return;
-        console.log(this.moneyList);
-        console.log(this.editForm)
         // 可以发起保存请求
-        const {data: res} = await this.$http.post("drawConfig/update", {params: this.editForm});
+        const {data: res} = await this.$http.post("drawConfig/updateOne", this.editForm);
         if(res.code !== 0) return this.$message.error('更新失败，请联系管理员');
         this.$message.success('更新成功');
         this.editDialogVisible = false;
+        debugger;
         this.moneyList = res.data;
       });
     },

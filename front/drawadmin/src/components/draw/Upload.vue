@@ -18,13 +18,12 @@
         </el-col>
       </el-row>
       <!-- 查询列表区 -->
-      <el-table border stripe>
-        <el-table-column type="selection" width="55"></el-table-column>
+      <el-table border stripe :data="queryList">
+        <el-table-column type="index" width="55"></el-table-column>
         <el-table-column label="用户Id" prop="userId"></el-table-column>
         <el-table-column label="用户名" prop="userName"></el-table-column>
-        <el-table-column label="中奖金额" prop="reward"></el-table-column>
-        <el-table-column label="中奖时间" prop="creatTimeStr"></el-table-column>
-        <el-table-column label="操作"></el-table-column>
+        <el-table-column label="打码量" prop="code"></el-table-column>
+        <el-table-column label="上传时间" prop="updateTime"></el-table-column>
       </el-table>
     </el-card>
 
@@ -87,7 +86,8 @@ export default {
         // 是否更新已经存在的用户数据
         updateSupport: 0,
         // 上传的地址
-        url: "http://localhost:8011/tt-manage/userCodeRef/excelIn",
+        // url: `${axios.defaults.baseURL} + 'userCodeRef/excelIn'`,
+        url: "http://192.168.0.101:8848/tt-manage/userCodeRef/excelIn"
       },
     };
   },
@@ -96,7 +96,7 @@ export default {
   },
   methods: {
     async getQueryList() {
-      const { data: res } = await this.$http.get("userReward/list", {
+      const { data: res } = await this.$http.get("userCodeRef/list", {
         params: this.queryInfo,
       });
       if (res.code !== 0) return this.$message.error("获取查询列表失败");

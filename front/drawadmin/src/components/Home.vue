@@ -93,7 +93,7 @@ export default {
             },
             {
               id: 14,
-              authName: "查询列表",
+              authName: "中奖列表",
               path: "/query",
             },
             {
