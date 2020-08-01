@@ -7,7 +7,7 @@
     </el-breadcrumb>
     <el-card>
       <!-- 搜索区域 -->
-      <el-row :gutter="50">
+      <el-row :gutter="30">
         <el-col :span="8">
           <el-date-picker
             v-model="queryInfo.dateRange"
@@ -19,10 +19,12 @@
         </el-col>
         <el-col :span="6">
           <el-input placeholder="请输入userId" v-model="queryInfo.userId" clearable @clear="getQueryList">
-            <el-button slot="append" icon="el-icon-search" @click="getQueryList"></el-button>
           </el-input>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="2">
+          <el-button type="primary" @click="getQueryList">查询</el-button>
+        </el-col>
+        <el-col :span="2">
           <el-button type="primary">导出</el-button>
         </el-col>
       </el-row>
@@ -39,7 +41,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="queryInfo.pageNum"
-        :page-sizes="[1, 2, 3, 4]"
+        :page-sizes="[5, 10, 15, 20]"
         :page-size="queryInfo.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
@@ -58,23 +60,10 @@ export default {
         // 当前页码
         pageNum: 1,
         // 当前每页显示数据
-        pageSize: 2,
+        pageSize: 5,
         dateRange: ""
       },
-      queryList: [
-        {
-          userId: "111",
-          userName: "梦想的声音",
-          reward: 100,
-          creatTimeStr: "2020-07-20 09:20:22",
-        },
-        {
-          userId: "1d11",
-          userName: "梦想的声音",
-          reward: 1000,
-          creatTimeStr: "2020-07-27 09:20:22",
-        },
-      ],
+      queryList: [],
       total: 0
     };
   },

@@ -15,10 +15,10 @@ import axios from 'axios'
 // http://localhost:8011/tt-manage/userReward/listForDraw
 axios.defaults.baseURL = 'http://192.168.0.101:8848/tt-manage/';
 // axios请求拦截
-axios.interceptors.request.use(config => {
-  config.headers.Authorization = window.sessionStorage.getItem('token');
-  return config;
-})
+// axios.interceptors.request.use(config => {
+//   config.headers.Authorization = window.sessionStorage.getItem('token');
+//   return config;
+// })
 Vue.prototype.$http = axios;
 /** 挂载到vue的原型对象上 这样 vue的每个组件都可通过this直接访问到$http,从而发起ajax请求 */
 

@@ -16,8 +16,8 @@ const router = new Router({
     { path: '/', redirect: '/login' },
     { path: '/login', component: Login },
     {
-      path: '/home', 
-      component: Home, 
+      path: '/home',
+      component: Home,
       redirect: '/welcome',
       children: [
         { path: '/welcome', component: Welcome },
@@ -33,17 +33,16 @@ const router = new Router({
 
 // 路由导航守卫控制页面访问权限
 // 挂载路由导航守卫
-/**
-  router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => {
   // to代表将要访问的路径
   // from 从哪个页面来
   // next 是个放行函数
-  if(to.path === '/login') next();
+  if (to.path === '/login') next();
   // 获取token
   const tokenStr = window.sessionStorage.getItem('token');
-  if(!tokenStr) return next('/login')
+  if (!tokenStr) return next('/login')
+  next();
 })
- */
 
 
 export default router

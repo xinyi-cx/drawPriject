@@ -7,11 +7,11 @@
       </div>
       <!-- 表单区域 -->
       <el-form class="login_form" ref="loginFormRef" :model="loginForm" :rules="loginFormRules">
-        <el-form-item prop="userId">
-          <el-input placeholder="请输入用户Id" v-model="loginForm.userId" prefix-icon="el-icon-user-solid"></el-input>
-        </el-form-item>
         <el-form-item prop="userName">
-          <el-input placeholder="请输入用户名" v-model="loginForm.userName" prefix-icon="el-icon-s-goods"></el-input>
+          <el-input placeholder="请输入用户名" v-model="loginForm.userName" prefix-icon="el-icon-user-solid"></el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input placeholder="请输入密码" v-model="loginForm.password" prefix-icon="el-icon-s-goods"></el-input>
         </el-form-item>
         <el-form-item class="btns">
           <el-button type="primary" @click="login">登录</el-button>
@@ -27,15 +27,15 @@ export default {
     data() {
         return {
             loginForm: {
-                userId: '',
-                userName: ''
+                userName: '',
+                password: ''
             },
             loginFormRules: {
-                userId: [
-                    { required: true, message: '请输入用户Id', trigger: 'blur' }
-                ],
                 userName: [
                     { required: true, message: '请输入用户名', trigger: 'blur' }
+                ],
+                password: [
+                    { required: true, message: '请输入密码', trigger: 'blur' }
                 ]
             }
         }
@@ -47,29 +47,15 @@ export default {
         },
         //登录
         login: function() {
-            this.$router.push('/home');
-            this.$refs.loginFormRef.validate(valid => {
-                console.log(valid);
+            
+            this.$refs.loginFormRef.validate(async valid => {
                 if(!valid) return this.$message.warning('请输入正确的用户Id和用户名');
-                const {data: res} = this.$http.post("userInfo/login", this.loginForm);
-                console.log(res);
+                const {data: res} = await this.$http.post("systemUser/login", this.loginForm);
                 if(res.code !== 0) return this.$message.error('登录失败');
-                this.$message.success('登录成功过');
-                // 
-                // window.sessionStorage.setItem('token', res.data.token);
+                this.$message.success('登录成功');
+                window.sessionStorage.setItem('token', res.data.userName);
                 this.$router.push('/home');
             })
-
-            /**
-             this.$refs.loginFormRef.validate(async valid => {
-                console.log(valid);
-                if(!valid) return;
-                // 如果返回的是promise 可以用async await 简化promise操作
-                const result = await this.$http.post("userInfo/login", this.loginForm);
-                //result 返回的是axios封装好的数据 需要用的只有data下的数据 所以可以解构赋值
-                const {data: res} = await this.$http.post("userInfo/login", this.loginForm);
-            })
-             */
         }
     }
 };

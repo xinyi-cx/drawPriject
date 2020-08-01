@@ -60,7 +60,7 @@ export default {
   data() {
     // 自定义校验规则 数字校验有问题；
     var checkNumber = (rule, value, cb) => {
-      const regNumber = /\D+/;
+      const regNumber = /\[0-9]/;
       if (regNumber.test(value)) {
         return cb();
       }
@@ -111,12 +111,12 @@ export default {
       editFormRules: {
         digitStart: [
           { required: true, message: "请输入最小值", trigger: "blur" },
-          { validator: checkNumber, trigger: "blur" },
+          { validator: checkNumber, trigger: "blur" }
         ],
         digitEnd: [
           { required: true, message: "请输入最大值", trigger: "blur" },
-          { validator: checkNumber, trigger: "blur" },
-        ],
+          { validator: checkNumber, trigger: "blur" }
+        ]
       },
     };
   },
@@ -133,20 +133,23 @@ export default {
     showEditDialog(row) {
       this.editDialogVisible = true;
       this.editForm = row;
-      console.log(row);
     },
-    // 监听对话框关事件
+    // 监听对话框关闭事件
     editDialogClosed() {
       this.$refs.editFormRef.resetFields();
     },
     // 表单提交预校验
     editDialogSubmit() {
-      this.$refs.editFormRef.validate(valid => {
+      this.$refs.editFormRef.validate(async valid => {
+        if(this.editForm.digitStart > this.editForm.digitEnd) {
+          valid = false;
+          this.$message.error('最小值不能大于最大值');
+        }
         if (!valid) return;
         console.log(this.moneyList);
         console.log(this.editForm)
         // 可以发起保存请求
-        const {data: res} = this.$http.post("drawConfig/update", {params: this.editForm});
+        const {data: res} = await this.$http.post("drawConfig/update", {params: this.editForm});
         if(res.code !== 0) return this.$message.error('更新失败，请联系管理员');
         this.$message.success('更新成功');
         this.editDialogVisible = false;
