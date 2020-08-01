@@ -86,11 +86,9 @@ export default {
           this.logining = false;
           return this.$message.error("用户Id或用户名错误！");
         }
-
-        this.$router.push({ name: `${this.toPathName}`, params: res.data });
-        console.log(this.toPathName);
         sessionStorage.setItem("user", this.ruleForm2.userName);
         this.$message.success("登录成功");
+        this.$router.push({ name: `${this.toPathName}`, params: res.data });
       });
     },
   },
