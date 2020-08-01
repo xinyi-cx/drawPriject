@@ -17,7 +17,7 @@ import 'babel-polyfill'
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
-axios.defaults.baseURL = 'http://192.168.0.101:8848/tt-manage/';
+axios.defaults.baseURL = 'http://47.107.76.247:8848/tt-manage/';
 // axios请求拦截
 // axios.interceptors.request.use(config => {
 //   config.headers.Authorization = window.sessionStorage.getItem('token');

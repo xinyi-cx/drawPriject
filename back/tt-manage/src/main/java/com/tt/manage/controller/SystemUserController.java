@@ -54,6 +54,12 @@ public class SystemUserController extends BaseController {
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public ResponseBean insert(@RequestBody SystemUser systemUser) {
         try {
+            SystemUser newSystemUser = new SystemUser();
+            newSystemUser.setUserName(systemUser.getUserName());
+            SystemUser user = systemUserService.selectByPrimaryKey(newSystemUser);
+            if (user != null) {
+                return new ResponseBean(RestApi.Msg.FAIL, RestApi.Code.FAIL, "用户已存在");
+            }
             systemUserService.insert(systemUser);
             return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, systemUser);
         } catch (Exception e) {
@@ -105,6 +111,12 @@ public class SystemUserController extends BaseController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResponseBean updateByPrimaryKey(@RequestBody SystemUser systemUser) {
         try {
+            SystemUser newSystemUser = new SystemUser();
+            newSystemUser.setUserName(systemUser.getUserName());
+            SystemUser user = systemUserService.selectByPrimaryKey(newSystemUser);
+            if (user != null) {
+                return new ResponseBean(RestApi.Msg.FAIL, RestApi.Code.FAIL, "用户已存在");
+            }
             systemUserService.updateByPrimaryKey(systemUser);
             return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, systemUser);
         } catch (Exception e) {

@@ -2,22 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="43211b90-5986-462c-822b-9f8a48ad4187" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/entity/BaseEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../back/tt-base/tt-base/src/main/java/com/tt/base/pojo/ResponseBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-base/tt-base/src/main/java/com/tt/base/pojo/ResponseBean.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../back/tt-manage/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/controller/SystemUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/controller/SystemUserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/controller/UserCodeRefController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/controller/UserCodeRefController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/controller/UserRewardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/controller/UserRewardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/entity/SystemUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/entity/SystemUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/entity/UserCodeRef.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/entity/UserCodeRef.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/entity/UserReward.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/entity/UserReward.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/mapper/UserInfoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/mapper/UserInfoMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/service/UserCodeRefService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/service/UserCodeRefService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/service/impl/UserCodeRefServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/service/impl/UserCodeRefServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/resources/mapper/UserCodeRefMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/resources/mapper/UserCodeRefMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/resources/mapper/UserInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/resources/mapper/UserInfoMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../drawadmin/config/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../drawadmin/config/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,6 +60,10 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="338" y="1" key="CommitChangelistDialog2" timestamp="1596267945083">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="338" y="1" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1596267945083" />
     <state x="549" y="111" key="FileChooserDialogImpl" timestamp="1595667100415">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -95,10 +88,15 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="270" y="54" key="SettingsEditor/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1595667104806" />
-    <state x="447" y="145" width="642" height="534" key="find.popup" timestamp="1595658575573">
+    <state x="447" y="145" width="642" height="534" key="find.popup" timestamp="1596277908170">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="447" y="145" width="642" height="534" key="find.popup/0.0.1536.824/1920.0.1920.1040@0.0.1536.824" timestamp="1595658575573" />
+    <state x="447" y="145" width="642" height="534" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1596277908170" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1596267461222">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1596267461222" />
     <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1595685215200">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
