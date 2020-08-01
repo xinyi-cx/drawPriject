@@ -2,7 +2,7 @@ package com.tt.manage.entity;
 
 import java.util.Date;
 
-public class SystemUser {
+public class SystemUser extends BaseEntity {
     private Integer userId;
 
     private String userName;

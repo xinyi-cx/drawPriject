@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface UserCodeRefService {
 
-    void addUserCodeRefsByPath(InputStream is);
+    List<UserCodeRef> addUserCodeRefsByPath(InputStream is);
 
     List<UserCodeRef> selectUserCodeRefList(UserCodeRef ref);
 

@@ -1,6 +1,7 @@
 package com.tt.manage.controller;
 
 
+import com.github.pagehelper.PageInfo;
 import com.tt.base.cotent.RestApi;
 import com.tt.base.pojo.ResponseBean;
 import com.tt.manage.entity.SystemUser;
@@ -24,6 +25,26 @@ public class SystemUserController extends BaseController {
 
     @Autowired
     private SystemUserService systemUserService;
+
+    /**
+     * 登陆
+     */
+    @ResponseBody
+    @ApiOperation(value = "登陆", httpMethod = "POST")
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ResponseBean login(@RequestBody SystemUser systemUser) {
+        try {
+            SystemUser systemUser1 = systemUserService.selectByPrimaryKey(systemUser.getUserId());
+            if (systemUser.getPassword().equals(systemUser1.getPassword())) {
+                return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, systemUser);
+            }
+            return new ResponseBean(RestApi.Msg.FAIL, RestApi.Code.FAIL, "登录失败");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseBean(RestApi.Msg.FAIL, RestApi.Code.FAIL, "");
+        }
+
+    }
 
     /**
      * 新增
@@ -93,14 +114,13 @@ public class SystemUserController extends BaseController {
     /**
      * 查询列表
      */
-    @ResponseBody
-    @ApiOperation(value = "登陆", httpMethod = "POST")
-    @RequestMapping(value = "/selectSystemUserList", method = RequestMethod.POST)
-    public ResponseBean selectSystemUserList(@RequestBody SystemUser systemUser) {
+    @ApiOperation(value = "查询列表", httpMethod = "GET")
+    @GetMapping("/list")
+    public ResponseBean selectSystemUserList(SystemUser systemUser) {
         try {
             startPage();
             List<SystemUser> systemUsers = systemUserService.selectSystemUserList(systemUser);
-            return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, systemUsers);
+            return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, systemUsers, new PageInfo(systemUsers).getTotal());
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseBean(RestApi.Msg.FAIL, RestApi.Code.FAIL, "");

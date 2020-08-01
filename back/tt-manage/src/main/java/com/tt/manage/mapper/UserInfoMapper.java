@@ -4,6 +4,8 @@ import com.tt.manage.entity.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Mapper
 @Component
 public interface UserInfoMapper {
@@ -18,4 +20,11 @@ public interface UserInfoMapper {
     int updateByPrimaryKeySelective(UserInfo record);
 
     int updateByPrimaryKey(UserInfo record);
+
+    /**
+     * 获取列表
+     *
+     * @return
+     */
+    List<UserInfo> selectUserInfoList();
 }

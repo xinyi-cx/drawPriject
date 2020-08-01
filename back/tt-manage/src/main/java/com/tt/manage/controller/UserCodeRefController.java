@@ -1,13 +1,17 @@
 package com.tt.manage.controller;
 
 
+import com.github.pagehelper.PageInfo;
 import com.tt.base.cotent.RestApi;
 import com.tt.base.pojo.ResponseBean;
 import com.tt.manage.entity.UserCodeRef;
 import com.tt.manage.service.UserCodeRefService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -38,13 +42,14 @@ public class UserCodeRefController extends BaseController {
     /**
      * 查询-列表
      */
-    @ResponseBody
-    @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public ResponseBean list(@RequestBody UserCodeRef ref) {
+    @ApiOperation(value = "查询-列表", httpMethod = "GET")
+//    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    @GetMapping("/list")
+    public ResponseBean list(UserCodeRef ref) {
         try {
             startPage();
             List<UserCodeRef> list = userCodeRefService.selectUserCodeRefList(ref);
-            return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, list);
+            return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, list, new PageInfo(list).getTotal());
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseBean(RestApi.Msg.FAIL, RestApi.Code.FAIL, "");

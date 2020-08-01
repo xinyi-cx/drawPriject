@@ -2,7 +2,7 @@ package com.tt.manage.entity;
 
 import java.util.Date;
 
-public class UserReward {
+public class UserReward extends BaseEntity {
     private String userId;
 
     private String userName;

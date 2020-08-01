@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.tt.manage.entity.UserCodeRef">
         <id column="user_id" property="userId" jdbcType="VARCHAR"/>
         <result column="code" property="code" jdbcType="BIGINT"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
         <result column="draw_num" property="drawNum" jdbcType="INTEGER"/>
@@ -107,8 +108,10 @@
     <select id="selectUserCodeRefList" parameterType="com.tt.manage.entity.UserCodeRef" resultMap="BaseResultMap">
 
         select
-        <include refid="Base_Column_List"/>
-        from user_code_ref
+        ref.user_id, ref.code, ref.create_time, ref.update_time, ref.draw_num,
+        info.user_name
+        from user_code_ref ref left join user_info info
+        on ref.user_id = info.user_id
         order by update_time desc
 
     </select>

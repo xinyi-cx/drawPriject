@@ -12,11 +12,33 @@ public class ResponseBean {
     private int code;
     private Object data;
 
-    private ResponseBean(){}
+    /**
+     * 总纪录数
+     */
+    private long total;
+
+    public long getTotal() {
+        return total;
+    }
+
+    public void setTotal(long total) {
+        this.total = total;
+    }
+
+    private ResponseBean() {
+    }
+
     public ResponseBean(String msg, int code, Object data) {
         this.msg = msg;
         this.code = code;
         this.data = data;
+    }
+
+    public ResponseBean(String msg, int code, Object data, long total) {
+        this.msg = msg;
+        this.code = code;
+        this.data = data;
+        this.total = total;
     }
 
     public String getMsg() {
@@ -43,43 +65,44 @@ public class ResponseBean {
         this.data = data;
     }
 
-    public String toJSONString(){
+    public String toJSONString() {
         JSONObject json = new JSONObject();
-        json.put(RestApi.RequestKey.CODE,this.code);
-        json.put(RestApi.RequestKey.MSG,this.msg);
-        json.put(RestApi.RequestKey.DATA,this.data);
+        json.put(RestApi.RequestKey.CODE, this.code);
+        json.put(RestApi.RequestKey.MSG, this.msg);
+        json.put(RestApi.RequestKey.DATA, this.data);
         return JSON.toJSONString(json, SerializerFeature.WriteMapNullValue);
     }
 
-    public static ResponseBean paramerError(){
+    public static ResponseBean paramerError() {
         ResponseBean reb = new ResponseBean();
         reb.msg = RestApi.Msg.PARAMER_ERROR;
-        reb.code =  RestApi.Code.PARAMER_ERROR;
+        reb.code = RestApi.Code.PARAMER_ERROR;
         reb.data = null;
         return reb;
     }
 
-    public static ResponseBean paramerFail(){
+    public static ResponseBean paramerFail() {
         ResponseBean reb = new ResponseBean();
         reb.msg = RestApi.Msg.FAIL;
-        reb.code =  RestApi.Code.FAIL;
-        reb.data = null;
-        return reb;
-    }
-//test git
-    public static ResponseBean paramerNotData(){
-        ResponseBean reb = new ResponseBean();
-        reb.msg = RestApi.Msg.NOT_DATA;
-        reb.code =  RestApi.Code.NOT_DATA;
+        reb.code = RestApi.Code.FAIL;
         reb.data = null;
         return reb;
     }
 
-    public static ResponseBean parse(String jsonText){
-        String msg = JsonUtil.getStringValue(jsonText,RestApi.RequestKey.MSG);
-        int code = JsonUtil.getIntValue(jsonText,RestApi.RequestKey.CODE);
-        Object data = JsonUtil.getObjectValue(jsonText,RestApi.RequestKey.DATA);
-        return new ResponseBean(msg,code,data);
+    //test git
+    public static ResponseBean paramerNotData() {
+        ResponseBean reb = new ResponseBean();
+        reb.msg = RestApi.Msg.NOT_DATA;
+        reb.code = RestApi.Code.NOT_DATA;
+        reb.data = null;
+        return reb;
+    }
+
+    public static ResponseBean parse(String jsonText) {
+        String msg = JsonUtil.getStringValue(jsonText, RestApi.RequestKey.MSG);
+        int code = JsonUtil.getIntValue(jsonText, RestApi.RequestKey.CODE);
+        Object data = JsonUtil.getObjectValue(jsonText, RestApi.RequestKey.DATA);
+        return new ResponseBean(msg, code, data);
     }
 
 }

@@ -2,6 +2,8 @@ package com.tt.manage.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.tt.base.Util.ExcelUtils;
 import com.tt.base.cotent.RestApi;
 import com.tt.base.pojo.ResponseBean;
@@ -58,13 +60,12 @@ public class UserRewardController extends BaseController {
      * 查询-列表
      */
     @ApiOperation(value = "获取所有抽奖信息（不脱敏），用于后台管理显示", httpMethod = "POST")
-    @ResponseBody
-    @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public ResponseBean list(@RequestBody UserReward userReward) {
+    @GetMapping("/list")
+    public ResponseBean list(UserReward userReward) {
         try {
             startPage();
             List<UserReward> list = userRewardService.selectUserRewardList(userReward, false);
-            return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, list);
+            return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, list, new PageInfo(list).getTotal());
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseBean(RestApi.Msg.FAIL, RestApi.Code.FAIL, "");
@@ -79,6 +80,7 @@ public class UserRewardController extends BaseController {
     @RequestMapping(value = "/listForDraw", method = RequestMethod.POST)
     public ResponseBean listForDraw(@RequestBody UserReward userReward) {
         try {
+            PageHelper.startPage(1, 15, "");
             List<UserReward> list = userRewardService.selectUserRewardList(userReward, true);
             return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, list);
         } catch (Exception e) {

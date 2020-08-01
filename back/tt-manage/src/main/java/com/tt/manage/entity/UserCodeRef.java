@@ -2,7 +2,7 @@ package com.tt.manage.entity;
 
 import java.util.Date;
 
-public class UserCodeRef {
+public class UserCodeRef extends BaseEntity {
 
     private String userId;
 

@@ -2,24 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="43211b90-5986-462c-822b-9f8a48ad4187" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/config/CORSFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/request.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/entity/BaseEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../back/tt-base/tt-base/src/main/java/com/tt/base/pojo/ResponseBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-base/tt-base/src/main/java/com/tt/base/pojo/ResponseBean.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../back/tt-manage/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/data/中奖记录.xls" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/data/中奖记录.xls" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/TTManageApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/TTManageApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/config/CorsConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/config/CorsConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/controller/DrawConfigController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/controller/DrawConfigController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/controller/SystemUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/controller/SystemUserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/controller/UserCodeRefController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/controller/UserCodeRefController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/controller/UserRewardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/controller/UserRewardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/resources/mapper/CodeDrawRefMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/resources/mapper/CodeDrawRefMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/resources/mapper/DrawConfigMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/resources/mapper/DrawConfigMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/entity/SystemUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/entity/SystemUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/entity/UserCodeRef.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/entity/UserCodeRef.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/entity/UserReward.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/entity/UserReward.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/mapper/UserInfoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/mapper/UserInfoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/service/UserCodeRefService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/service/UserCodeRefService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/service/impl/UserCodeRefServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/java/com/tt/manage/service/impl/UserCodeRefServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/resources/mapper/UserCodeRefMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/resources/mapper/UserCodeRefMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../back/tt-manage/src/main/resources/mapper/UserInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../back/tt-manage/src/main/resources/mapper/UserInfoMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/selectListAdmin.html" beforeDir="false" afterPath="$PROJECT_DIR$/admin/selectListAdmin.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Admin.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Admin.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/QueryList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/QueryList.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
