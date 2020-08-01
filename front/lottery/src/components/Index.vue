@@ -201,6 +201,12 @@ export default {
       isDraw: false,
       userId: "",
       interval: null,
+      intervalS: null,
+      intervalB: null,
+      intervalQ: null,
+      intervalW: null,
+      intervalSw: null,
+      intervalBw: null,
       dialogTableVisible: false,
       queryList: [],
       queryInfo: {
@@ -221,22 +227,72 @@ export default {
       const _this = this;
       if (!this.interval) {
         this.interval = setInterval(function () {
-          _this.reward.bw = Math.floor(Math.random() * 10);
-          _this.reward.sw = Math.floor(Math.random() * 10);
-          _this.reward.w = Math.floor(Math.random() * 10);
-          _this.reward.q = Math.floor(Math.random() * 10);
-          _this.reward.b = Math.floor(Math.random() * 10);
-          _this.reward.s = Math.floor(Math.random() * 10);
           _this.reward.g = Math.floor(Math.random() * 10);
-        }, 10);
+        }, 100);
+      }
+      if (!this.intervalS) {
+        this.intervalS = setInterval(function () {
+          _this.reward.s = Math.floor(Math.random() * 10);
+        }, 100);
+      }
+      if (!this.intervalB) {
+        this.intervalB = setInterval(function () {
+          _this.reward.b = Math.floor(Math.random() * 10);
+        }, 100);
+      }
+      if (!this.intervalQ) {
+        this.intervalQ = setInterval(function () {
+          _this.reward.q = Math.floor(Math.random() * 10);
+        }, 100);
+      }
+      if (!this.intervalW) {
+        this.intervalW = setInterval(function () {
+          _this.reward.w = Math.floor(Math.random() * 10);
+        }, 100);
+      }
+      if (!this.intervalSw) {
+        this.intervalSw = setInterval(function () {
+          _this.reward.sw = Math.floor(Math.random() * 10);
+        }, 100);
+      }
+      if (!this.intervalBw) {
+        this.intervalBw = setInterval(function () {
+          _this.reward.bw = Math.floor(Math.random() * 10);
+        }, 100);
       }
       setTimeout(function () {
         _this.createReward();
       }, 150);
     },
-    end: function () {
-      clearInterval(this.interval);
-      this.interval = null;
+    end: function (flag) {
+      if(flag==1){
+        clearInterval(this.interval);
+        this.interval = null;
+      }
+      if(flag==2){
+        clearInterval(this.intervalS);
+        this.intervalS = null;
+      }
+      if(flag==3){
+        clearInterval(this.intervalB);
+        this.intervalB = null;
+      }
+      if(flag==4){
+        clearInterval(this.intervalQ);
+        this.intervalQ = null;
+      }
+      if(flag==5){
+        clearInterval(this.intervalW);
+        this.intervalW = null;
+      }
+      if(flag==6){
+        clearInterval(this.intervalSw);
+        this.intervalSw = null;
+      }
+      if(flag==7){
+        clearInterval(this.intervalBw);
+        this.intervalBw = null;
+      }
     },
     async getDate() {
       const _this = this;
@@ -258,27 +314,44 @@ export default {
 
       let rdata = res.data;
       that.isDraw = rdata.isDraw > 0 ? false : true;
-      that.end();
-      // rdata.reward = 234567;
-      that.reward.bw = Math.floor(rdata.reward / 1000000);
-      that.reward.sw = Math.floor(
-        (rdata.reward - Math.floor(rdata.reward / 1000000) * 1000000) / 100000
-      );
-      that.reward.w = Math.floor(
-        (rdata.reward - Math.floor(rdata.reward / 100000) * 100000) / 10000
-      );
-      that.reward.q = Math.floor(
-        (rdata.reward - Math.floor(rdata.reward / 10000) * 10000) / 1000
-      );
-      that.reward.b = Math.floor(
-        (rdata.reward - Math.floor(rdata.reward / 1000) * 1000) / 100
-      );
-      that.reward.s = Math.floor(
-        (rdata.reward - Math.floor(rdata.reward / 100) * 100) / 10
-      );
+      that.end(1);
       that.reward.g = Math.floor(
         (rdata.reward - Math.floor(rdata.reward / 10) * 10) / 1
       );
+      setTimeout(function () {
+        that.end(2);
+        that.reward.s = Math.floor(
+          (rdata.reward - Math.floor(rdata.reward / 100) * 100) / 10
+        );
+        setTimeout(function () {
+          that.end(3);
+          that.reward.b = Math.floor(
+            (rdata.reward - Math.floor(rdata.reward / 1000) * 1000) / 100
+          );
+          setTimeout(function () {
+            that.end(4);
+            that.reward.q = Math.floor(
+              (rdata.reward - Math.floor(rdata.reward / 10000) * 10000) / 1000
+            );
+            setTimeout(function () {
+              that.end(5);
+              that.reward.w = Math.floor(
+                (rdata.reward - Math.floor(rdata.reward / 100000) * 100000) / 10000
+              );
+              setTimeout(function () {
+                that.end(6);
+                that.reward.sw = Math.floor(
+                  (rdata.reward - Math.floor(rdata.reward / 1000000) * 1000000) / 100000
+                );
+                setTimeout(function () {
+                  that.end(7);
+                  that.reward.bw = Math.floor(rdata.reward / 1000000);
+                }, 1000);
+              }, 1000);
+            }, 1000);
+          }, 1000);
+        }, 1000);
+      }, 1000);
     },
     allowDraw: function () {
       this.userId = this.$route.params.userId;
@@ -294,7 +367,7 @@ export default {
     async getQueryList() {
       this.dialogTableVisible = true;
       let id = this.userId;
-      
+
       const { data: res } = await this.$http.get(
         "userReward/list",{params: this.queryInfo}
       );

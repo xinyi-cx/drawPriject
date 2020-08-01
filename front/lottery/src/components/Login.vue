@@ -66,9 +66,11 @@ export default {
           "userInfo/login",
           this.ruleForm2
         );
-        if (res.code !== 0) return this.$message.error("用户Id或用户名错误！");
+        if (res.code !== 0) {
+          this.logining = false;
+          return this.$message.error("用户Id或用户名错误！");
+        }
 
-        this.logining = false;
         // sessionStorage.setItem("user", this.ruleForm2.username);
         this.$router.push({ name: "Index", params: res.data });
         this.$message.success('登录成功');
