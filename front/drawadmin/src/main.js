@@ -13,7 +13,7 @@ import Icon from 'vue-awesome/components/Icon'
 import axios from 'axios'
 // 设置请求的根路径
 // http://localhost:8011/tt-manage/userReward/listForDraw
-axios.defaults.baseURL = 'http://localhost:8011/tt-manage/';
+axios.defaults.baseURL = 'http://192.168.0.101:8848/tt-manage/';
 // axios请求拦截
 axios.interceptors.request.use(config => {
   config.headers.Authorization = window.sessionStorage.getItem('token');

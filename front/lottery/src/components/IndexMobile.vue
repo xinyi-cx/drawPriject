@@ -246,13 +246,13 @@ export default {
     },
     async createReward() {
       const userId = this.userId;
-      const _this = this;
+      const that = this;
       const { data: res } = await this.$http.post(
         `userReward/createReward/${userId}`
       );
       if (res.code !== 0) return this.$message.error("获取失败");
 
-      let rData = res.data;
+      let rdata = res.data;
       that.isDraw = rdata.isDraw > 0 ? false : true;
       that.end();
       // rdata.reward = 234567;

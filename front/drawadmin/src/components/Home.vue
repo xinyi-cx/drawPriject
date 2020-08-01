@@ -96,6 +96,11 @@ export default {
               authName: "查询列表",
               path: "/query",
             },
+            {
+              id: 15,
+              authName: "用户列表",
+              path: "/userList",
+            },
           ],
         },
       ];

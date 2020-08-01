@@ -7,7 +7,8 @@ import Money from '@/components/draw/Money'
 import Draw from '@/components/draw/Draw'
 import QueryList from '@/components/draw/QueryList'
 import Upload from '@/components/draw/Upload'
- 
+import UserList from '@/components/draw/UserList'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -23,7 +24,8 @@ const router = new Router({
         { path: '/money', component: Money },
         { path: '/draw', component: Draw },
         { path: '/upload', component: Upload },
-        { path: '/query', component: QueryList }
+        { path: '/query', component: QueryList },
+        { path: '/userList', component: UserList }
       ]
     }
   ]

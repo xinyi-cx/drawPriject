@@ -121,7 +121,7 @@
           <div class="item" v-for="item in listData" v-bind:key="item.id">
             <span class="point"></span>
             <span class="nickname">{{item.userName}}</span>
-            <span class="result">抽中{{item.reward}}元红包</span>
+            <span class="result">抽中{{item.reward}}元</span>
             <span class="date">{{item.creatTimeStr}}</span>
           </div>
         </div>
@@ -250,13 +250,13 @@ export default {
     },
     async createReward() {
       const userId = this.userId;
-      const _this = this;
+      const that = this;
       const { data: res } = await this.$http.post(
         `userReward/createReward/${userId}`
       );
       if (res.code !== 0) return this.$message.error("获取失败");
 
-      let rData = res.data;
+      let rdata = res.data;
       that.isDraw = rdata.isDraw > 0 ? false : true;
       that.end();
       // rdata.reward = 234567;
