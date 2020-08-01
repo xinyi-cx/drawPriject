@@ -17,6 +17,14 @@ import './assets/css/reset.css'
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
+axios.defaults.baseURL = 'http://192.168.0.101:8848/tt-manage/';
+// axios请求拦截
+// axios.interceptors.request.use(config => {
+//   config.headers.Authorization = window.sessionStorage.getItem('token');
+//   return config;
+// })
+Vue.prototype.$http = axios;
+
 
 /* eslint-disable no-new */
 new Vue({

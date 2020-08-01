@@ -12,7 +12,7 @@
           <a href="#">客服</a>
         </li>
         <li>
-          <a href="javascript: void(0)" @click="queryDialog">中奖查询</a>
+          <a href="javascript: void(0)" @click="getQueryList">中奖查询</a>
         </li>
         <li>
           <a href="#">活动规则</a>
@@ -146,12 +146,19 @@
     <!-- 查询弹框 -->
     <el-dialog title="中奖记录" :visible.sync="dialogTableVisible">
       <el-table :data="queryList">
-        I
-        <el-table-column property="userId" label="用户Id" width></el-table-column>
-        <el-table-column property="userName" label="用户名" width></el-table-column>
         <el-table-column property="reward" label="中奖金额" width></el-table-column>
         <el-table-column property="creatTimeStr" label="中奖时间" width></el-table-column>
       </el-table>
+      <!-- 分页 -->
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="queryInfo.pageNum"
+        :page-sizes="[5, 10, 15, 20]"
+        :page-size="queryInfo.pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      ></el-pagination>
     </el-dialog>
   </div>
 </template>
@@ -179,6 +186,13 @@ export default {
       interval: null,
       dialogTableVisible: false,
       queryList: [],
+      queryInfo: {
+        userId: "",
+        userName: "",
+        pageNum: 1,
+        pageSize: 5,
+      },
+      total: 0,
     };
   },
   created() {
@@ -220,54 +234,47 @@ export default {
       clearInterval(this.interval);
       this.interval = null;
     },
-    getDate: function () {
-      const that = this;
-      this.$axios({
-        url: "http://localhost:8011/tt-manage/userReward/listForDraw",
-        method: "post",
-        data: {},
-      }).then(function (res) {
-        const resultDate = res.data;
-        that.listData = resultDate.data;
-        console.log("数据提交成功");
-        console.log(res.data);
-      });
+    async getDate() {
+      const _this = this;
+      clearInterval(this.queryInterval);
+      const { data: res } = await this.$http.post("userReward/listForDraw", {});
+      if (res.code !== 0) return this.$message.error("获取用户列表失败");
+      _this.listData = res.data;
+      _this.queryInterval = setInterval(function () {
+        _this.getDate();
+      }, 60000);
     },
-    createReward: function () {
-      const userId = "10";
-      const that = this;
-      // private String rewardStatus;
-      // 这个是返回值数据的类型，测试可以直接返回这个 立即抽奖应该不可点击
-      this.$axios({
-        url:
-          "http://localhost:8011/tt-manage/userReward/createReward/" + userId,
-        method: "post",
-      }).then(function (res) {
-        const resultDate = res.data;
-        let rdata = resultDate.data;
-        that.end();
-        this.isDraw = rdata.drawNum > 0 ? false : true;
-        // rdata.reward = 234567;
-        that.reward.bw = Math.floor(rdata.reward / 1000000);
-        that.reward.sw = Math.floor(
-          (rdata.reward - Math.floor(rdata.reward / 1000000) * 1000000) / 100000
-        );
-        that.reward.w = Math.floor(
-          (rdata.reward - Math.floor(rdata.reward / 100000) * 100000) / 10000
-        );
-        that.reward.q = Math.floor(
-          (rdata.reward - Math.floor(rdata.reward / 10000) * 10000) / 1000
-        );
-        that.reward.b = Math.floor(
-          (rdata.reward - Math.floor(rdata.reward / 1000) * 1000) / 100
-        );
-        that.reward.s = Math.floor(
-          (rdata.reward - Math.floor(rdata.reward / 100) * 100) / 10
-        );
-        that.reward.g = Math.floor(
-          (rdata.reward - Math.floor(rdata.reward / 10) * 10) / 1
-        );
-      });
+    async createReward() {
+      const userId = this.userId;
+      const _this = this;
+      const { data: res } = await this.$http.post(
+        `userReward/createReward/${userId}`
+      );
+      if (res.code !== 0) return this.$message.error("获取失败");
+
+      let rData = res.data;
+      that.isDraw = rdata.isDraw > 0 ? false : true;
+      that.end();
+      // rdata.reward = 234567;
+      that.reward.bw = Math.floor(rdata.reward / 1000000);
+      that.reward.sw = Math.floor(
+        (rdata.reward - Math.floor(rdata.reward / 1000000) * 1000000) / 100000
+      );
+      that.reward.w = Math.floor(
+        (rdata.reward - Math.floor(rdata.reward / 100000) * 100000) / 10000
+      );
+      that.reward.q = Math.floor(
+        (rdata.reward - Math.floor(rdata.reward / 10000) * 10000) / 1000
+      );
+      that.reward.b = Math.floor(
+        (rdata.reward - Math.floor(rdata.reward / 1000) * 1000) / 100
+      );
+      that.reward.s = Math.floor(
+        (rdata.reward - Math.floor(rdata.reward / 100) * 100) / 10
+      );
+      that.reward.g = Math.floor(
+        (rdata.reward - Math.floor(rdata.reward / 10) * 10) / 1
+      );
     },
     allowDraw: function () {
       this.userId = this.$route.params.userId;
@@ -276,7 +283,29 @@ export default {
         this.isDraw = false;
       }
     },
-  },
+    async getQueryList() {
+      this.dialogTableVisible = true;
+      this.isShow = false;
+      let id = this.userId;
+      
+      const { data: res } = await this.$http.get(
+        "userReward/list",{params: this.queryInfo}
+      );
+      if (res.code !== 0) return this.$message.error("获取查询列表失败");
+      this.queryList = res.data;
+      this.total = res.total;
+    },
+    // 监听PageSize改变的函数
+    handleSizeChange(newPageSize) {
+      this.queryInfo.pageSize = newPageSize;
+      this.getQueryList();
+    },
+    // 监听页码值改变的函数
+    handleCurrentChange(newPage) {
+      this.queryInfo.pageNum = newPage;
+      this.getQueryList();
+    }
+  }
 };
 </script>
 
@@ -284,5 +313,12 @@ export default {
 @import "../assets/css/index-mobile.css";
 .index >>> .el-dialog {
   width: 95%;
+}
+.index >>> .el-table th,
+.index >>> .el-table td {
+  text-align: center;
+}
+.el-pagination {
+  margin-top: 15px;
 }
 </style>

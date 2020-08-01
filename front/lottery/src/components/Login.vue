@@ -58,42 +58,24 @@ export default {
   },
   methods: {
     handleSubmit(event) {
-      this.$refs.ruleForm2.validate((valid) => {
-        if (valid) {
-          this.logining = true;
-          this.$axios({
-            url: "http://localhost:8011/tt-manage/userInfo/login",
-            method: "post",
-            data: this.ruleForm2,
-          })
-            .then((res) => {
-              const resultData = res.data;
-              if(resultData.code === 0) {
-                const params = resultData.data;
-                this.logining = false;
-                // sessionStorage.setItem("user", this.ruleForm2.username);
-                this.$router.push({ name: "Index", params: params });
-              } else {
-                this.logining = false;
-                  this.$alert("userId or userName wrong!", "info", {
-                      confirmButtonText: "ok",
-                  });
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-              this.logining = false;
-              this.$alert("userId or userName wrong!", "info", {
-                confirmButtonText: "ok",
-              });
-            });
-        } else {
-          console.log("error submit!");
-          return false;
-        }
+      this.$refs.ruleForm2.validate(async (valid) => {
+        if (!valid) return this.$message.warning('请输入正确的用户Id和用户名');
+        this.logining = true;
+
+        const { data: res } = await this.$http.post(
+          "userInfo/login",
+          this.ruleForm2
+        );
+        if (res.code !== 0) return this.$message.error("用户Id或用户名错误！");
+
+        this.logining = false;
+        // sessionStorage.setItem("user", this.ruleForm2.username);
+        this.$router.push({ name: "Index", params: res.data });
+        this.$message.success('登录成功');
+
       });
     },
-  }
+  },
 };
 </script>
 
