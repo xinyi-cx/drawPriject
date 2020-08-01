@@ -13,7 +13,7 @@ import Export2Excel from 'excel/Export2Excel.js'
 Vue.use(ElementUI);
 
 import './assets/css/reset.css'
-
+import 'babel-polyfill'
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios

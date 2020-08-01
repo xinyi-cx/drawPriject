@@ -34,7 +34,7 @@ public class SystemUserController extends BaseController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseBean login(@RequestBody SystemUser systemUser) {
         try {
-            SystemUser systemUser1 = systemUserService.selectByPrimaryKey(systemUser.getUserId());
+            SystemUser systemUser1 = systemUserService.selectByPrimaryKey(systemUser);
             if (systemUser.getPassword().equals(systemUser1.getPassword())) {
                 return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, systemUser);
             }
@@ -87,7 +87,9 @@ public class SystemUserController extends BaseController {
     @PostMapping("/selectByPrimaryKey/{userId}")
     public ResponseBean selectByPrimaryKey(@PathVariable("userId") Integer userId, ModelMap map) {
         try {
-            SystemUser systemUsers = systemUserService.selectByPrimaryKey(userId);
+            SystemUser param = new SystemUser();
+            param.setUserId(userId);
+            SystemUser systemUsers = systemUserService.selectByPrimaryKey(param);
             return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, systemUsers);
         } catch (Exception e) {
             e.printStackTrace();

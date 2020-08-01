@@ -19,7 +19,7 @@ public interface SystemUserService {
 
     int insertSelective(SystemUser record);
 
-    SystemUser selectByPrimaryKey(Integer userId);
+    SystemUser selectByPrimaryKey(SystemUser record);
 
     int updateByPrimaryKeySelective(SystemUser record);
 

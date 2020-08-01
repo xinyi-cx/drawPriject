@@ -37,8 +37,8 @@ public class SystemUserServiceImpl implements SystemUserService {
     }
 
     @Override
-    public SystemUser selectByPrimaryKey(Integer userId) {
-        return systemUserMapper.selectByPrimaryKey(userId);
+    public SystemUser selectByPrimaryKey(SystemUser record) {
+        return systemUserMapper.selectByPrimaryKey(record);
     }
 
     @Override

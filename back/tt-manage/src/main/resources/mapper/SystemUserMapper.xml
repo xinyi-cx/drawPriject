@@ -11,20 +11,27 @@
     <sql id="Base_Column_List">
     user_id, user_name, password, create_time, update_time
   </sql>
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.tt.manage.entity.SystemUser">
         select
         <include refid="Base_Column_List"/>
         from system_user
-        where user_id = #{userId,jdbcType=INTEGER}
+        <where>
+            <if test="userName != null and userName !='' ">
+                and user_name = #{userName,jdbcType=VARCHAR}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId,jdbcType=INTEGER}
+            </if>
+        </where>
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from system_user
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
     <insert id="insert" parameterType="com.tt.manage.entity.SystemUser">
-    insert into system_user (user_id, user_name, password, 
+    insert into system_user (user_name, password,
       create_time, update_time)
-    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+    values (#{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
       now(), now())
   </insert>
     <insert id="insertSelective" parameterType="com.tt.manage.entity.SystemUser">
@@ -106,7 +113,7 @@
                 and update_time = #{updateTime,jdbcType=TIMESTAMP},
             </if>
         </where>
-        order by creat_time desc
+        order by create_time desc
 
     </select>
 
