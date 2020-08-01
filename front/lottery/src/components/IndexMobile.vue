@@ -97,12 +97,20 @@
           </div>
         </div>
         <div class="btn-wrap">
+<<<<<<< Updated upstream
           <button
             class="btn btn-share"
             :class="isDraw ? 'notAllowed' : ''"
             :disabled="isDraw"
             @click="start"
           >立即抽奖</button>
+=======
+          <button class="btn" @click="end">立即邀请好友</button>
+          <button class="btn btn-share"
+          :class="isDraw ? 'notAllowed' : ''"
+          :disabled='isDraw'
+           @click="start">立即抽奖</button>
+>>>>>>> Stashed changes
         </div>
       </div>
       <div class="query-area content">
@@ -223,7 +231,7 @@ export default {
     getDate: function () {
       const that = this;
       this.$axios({
-        url: "http://localhost:8011/tt-manage/userReward/listForDraw",
+        url: 'http://47.107.76.247:8848/tt-manage/userReward/listForDraw',
         method: "post",
         data: {},
       }).then(function (res) {
@@ -239,8 +247,12 @@ export default {
       // private String rewardStatus;
       // 这个是返回值数据的类型，测试可以直接返回这个 立即抽奖应该不可点击
       this.$axios({
+<<<<<<< Updated upstream
         url:
           "http://localhost:8011/tt-manage/userReward/createReward/" + userId,
+=======
+        url:"http://47.107.76.247:8848/tt-manage/userReward/createReward/" + userId,
+>>>>>>> Stashed changes
         method: "post",
       }).then(function (res) {
         const resultDate = res.data;

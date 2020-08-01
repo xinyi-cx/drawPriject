@@ -228,7 +228,7 @@ export default {
       const that = this;
       clearInterval(that.queryInterval);
       this.$axios({
-        url: "http://localhost:8011/tt-manage/userReward/listForDraw",
+        url: 'http://47.107.76.247:8848/tt-manage/userReward/listForDraw',
         method: "post",
         data: {},
       }).then(function (res) {
@@ -243,8 +243,12 @@ export default {
       const userId = this.userId;
       const that = this;
       this.$axios({
+<<<<<<< Updated upstream
         url:
           "http://localhost:8011/tt-manage/userReward/createReward/" + userId,
+=======
+        url:"http://47.107.76.247:8848/tt-manage/userReward/createReward/" + userId,
+>>>>>>> Stashed changes
         method: "post",
       }).then(res => {
         const resultData = res.data;
