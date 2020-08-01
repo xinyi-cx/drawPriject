@@ -56,6 +56,7 @@
 
 <script>
 import { export2Excel } from '@/common/js/utils'
+import moment from 'moment'
 
 export default {
   data() {
@@ -78,6 +79,7 @@ export default {
     this.getQueryList();
   },
   methods: {
+    
     async getQueryList() {
       const { data: res } = await this.$http.get("userReward/list", {
         params: this.queryInfo,
@@ -98,6 +100,7 @@ export default {
     },
     excelOut: function () {
       export2Excel(this.columns, this.queryList);
+      this.queryList();
     },
   },
 };

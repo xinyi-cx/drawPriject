@@ -23,7 +23,7 @@
         <el-table-column label="用户Id" prop="userId"></el-table-column>
         <el-table-column label="用户名" prop="userName"></el-table-column>
         <el-table-column label="打码量" prop="code"></el-table-column>
-        <el-table-column label="上传时间" prop="updateTime"></el-table-column>
+        <el-table-column label="上传时间" prop="updateTime" :formatter="dateFormat"></el-table-column>
       </el-table>
     </el-card>
 
@@ -63,6 +63,8 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
   data() {
     return {
@@ -95,6 +97,14 @@ export default {
     this.getQueryList();
   },
   methods: {
+    // 格式化日期
+    dateFormat(row, column) {
+      const date = row[column.property];
+      if (date == undefined) {
+        return "";
+      }
+      return moment(date).format("YYYY-MM-DD  HH:mm:ss");
+    },
     async getQueryList() {
       const { data: res } = await this.$http.get("userCodeRef/list", {
         params: this.queryInfo,
