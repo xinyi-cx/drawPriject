@@ -11,6 +11,26 @@ public class UserReward extends BaseEntity {
 
     private Date creatTime;
 
+    private Date starttTime;
+
+    private Date enddTime;
+
+    public Date getStarttTime() {
+        return starttTime;
+    }
+
+    public void setStarttTime(Date starttTime) {
+        this.starttTime = starttTime;
+    }
+
+    public Date getEnddTime() {
+        return enddTime;
+    }
+
+    public void setEnddTime(Date enddTime) {
+        this.enddTime = enddTime;
+    }
+
     private String rewardStatus;
 
     private String creatTimeStr;

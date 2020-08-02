@@ -68,7 +68,9 @@ export default {
         pageNum: 1,
         // 当前每页显示数据
         pageSize: 5,
-        dateRange: "",
+        dateRange: [],
+        beginTime:'',
+        endTime:''
       },
       queryList: [],
       total: 0,
@@ -90,6 +92,14 @@ export default {
       return moment(date).format("YYYY-MM-DD  HH:mm:ss");
     },
     async getQueryList() {
+      if (null != this.queryInfo.dateRange && '' != this.queryInfo.dateRange) {
+        this.queryInfo.beginTime = this.queryInfo.dateRange[0];
+        this.queryInfo.endTime = this.queryInfo.dateRange[1];
+      }
+      if (null == this.queryInfo.dateRange || '' == this.queryInfo.dateRange) {
+        this.queryInfo.beginTime = '';
+        this.queryInfo.endTime = '';
+      }
       const { data: res } = await this.$http.get("userReward/list", {
         params: this.queryInfo,
       });

@@ -56,7 +56,9 @@ public class UserCodeRefServiceImpl implements UserCodeRefService {
                 }
             }
         }
-        userCodeRefMapper.addUserCodeRefs(userCodeRefInsert);
+        if (!CollectionUtils.isEmpty(userCodeRefInsert)) {
+            userCodeRefMapper.addUserCodeRefs(userCodeRefInsert);
+        }
         return userCodeRefMapper.selectUserCodeRefList(new UserCodeRef());
     }
 
