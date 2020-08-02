@@ -35,8 +35,8 @@ public class UserCodeRefController extends BaseController {
     @ApiOperation(value = "导入", httpMethod = "POST")
     @PostMapping("/excelIn")
     public ResponseBean excelIn(MultipartFile file, boolean updateSupport) throws Exception {
-        userCodeRefService.addUserCodeRefsByPath(file.getInputStream());
-        return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, "");
+        List<UserCodeRef> userCodeRefs = userCodeRefService.addUserCodeRefsByPath(file.getInputStream());
+        return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, userCodeRefs);
     }
 
     /**

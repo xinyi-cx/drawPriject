@@ -9,6 +9,7 @@ import './assets/css/global.css'
 // 导入字体图标库
 import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
+import 'babel-polyfill'
 
 import axios from 'axios'
 // 设置请求的根路径

@@ -39,19 +39,21 @@ public class UserCodeRefServiceImpl implements UserCodeRefService {
         List<UserInfo> users = userInfoMapper.selectUserInfoList();
         Set<String> userIds = users.stream().map(UserInfo::getUserId).collect(Collectors.toSet());
         for (UserCodeRef userCodeRef : userCodeRefs) {
-            if (CollectionUtils.isEmpty(userIds) || !userIds.contains(userCodeRef.getUserId())) {
-                UserInfo newUser = new UserInfo();
-                newUser.setUserId(userCodeRef.getUserId());
-                newUser.setUserName(userCodeRef.getUserName());
-                userInfoMapper.insert(newUser);
-            }
-            userCodeRef.setDrawNum(1);
-            UserCodeRef userCodeRefOld = userCodeRefMapper.selectByPrimaryKey(userCodeRef.getUserId());
-            if (userCodeRefOld == null) {
-                userCodeRefInsert.add(userCodeRef);
-            } else {
-                userCodeRef.setCode(userCodeRefOld.getCode() + userCodeRef.getCode());
-                userCodeRefMapper.updateByPrimaryKey(userCodeRef);
+            if (userCodeRef != null && userCodeRef.getUserId() != "") {
+                if (CollectionUtils.isEmpty(userIds) || !userIds.contains(userCodeRef.getUserId())) {
+                    UserInfo newUser = new UserInfo();
+                    newUser.setUserId(userCodeRef.getUserId());
+                    newUser.setUserName(userCodeRef.getUserName());
+                    userInfoMapper.insert(newUser);
+                }
+                userCodeRef.setDrawNum(1);
+                UserCodeRef userCodeRefOld = userCodeRefMapper.selectByPrimaryKey(userCodeRef.getUserId());
+                if (userCodeRefOld == null) {
+                    userCodeRefInsert.add(userCodeRef);
+                } else {
+                    userCodeRef.setCode(userCodeRefOld.getCode() + userCodeRef.getCode());
+                    userCodeRefMapper.updateByPrimaryKey(userCodeRef);
+                }
             }
         }
         userCodeRefMapper.addUserCodeRefs(userCodeRefInsert);

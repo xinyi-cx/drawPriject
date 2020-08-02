@@ -50,7 +50,8 @@ public class CodeDrawRefController {
     public ResponseBean update(@RequestBody CodeDrawRef codeDrawRef) {
         try {
             codeDrawRefService.updateByDrawDigit(codeDrawRef);
-            return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, codeDrawRef);
+            List<CodeDrawRef> list = codeDrawRefService.selectCodeDrawRefList();
+            return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, list);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseBean(RestApi.Msg.FAIL, RestApi.Code.FAIL, "");

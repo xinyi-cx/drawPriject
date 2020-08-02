@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,6 +34,17 @@ public class DrawConfigController {
     public ResponseBean update(@RequestBody List<DrawConfig> drawConfigs) {
         drawConfigService.updateDrawConfig(drawConfigs);
         return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, drawConfigs);
+    }
+
+    @ApiOperation(value = "更新一个抽奖配置表", httpMethod = "POST")
+    @ResponseBody
+    @RequestMapping(value = "/updateOne", method = RequestMethod.POST)
+    public ResponseBean updateOne(@RequestBody DrawConfig drawConfig) {
+        List<DrawConfig> drawConfigs = new ArrayList<>();
+        drawConfigs.add(drawConfig);
+        drawConfigService.updateDrawConfig(drawConfigs);
+        List<DrawConfig> drawConfigAll = drawConfigService.selectAll();
+        return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, drawConfigAll);
     }
 
     /**
