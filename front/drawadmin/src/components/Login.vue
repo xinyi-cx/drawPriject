@@ -3,7 +3,7 @@
     <div class="login_box">
       <!-- Logo区域 -->
       <div class="avatar_box">
-        <img src="../assets/logo.png" alt />
+        <img src="../assets/image/logo-new.png" alt />
       </div>
       <!-- 表单区域 -->
       <el-form class="login_form" ref="loginFormRef" :model="loginForm" :rules="loginFormRules">
@@ -40,6 +40,15 @@ export default {
             }
         }
     },
+    created() {
+      let that = this;
+      document.onkeydown = function(e) {
+        e = window.event || e;
+        if(that.$route.path ==='/login' && (e.code === 'enter' || e.conde === 'Enter')) {
+          this.login();
+        }
+      }
+    },
     methods: {
         //重置
         resetLoginForm: function() {
@@ -47,7 +56,7 @@ export default {
         },
         //登录
         login: function() {
-            
+            console.log('登录');
             this.$refs.loginFormRef.validate(async valid => {
                 if(!valid) return this.$message.warning('请输入正确的用户Id和用户名');
                 const {data: res} = await this.$http.post("systemUser/login", this.loginForm);

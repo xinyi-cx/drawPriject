@@ -3,7 +3,7 @@
     <!-- 头部区域 -->
     <el-header>
       <div class="title">
-        <img src="../assets/image/logo.jpg" alt />
+        <img src="../assets/image/logo-new.png" alt />
         <span>抽奖后台管理系统</span>
       </div>
       <el-button class="logout" @click="logout">退出</el-button>
