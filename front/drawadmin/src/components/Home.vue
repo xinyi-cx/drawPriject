@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     logout: function () {
-      // window.sessionStorage.clear();
+      window.sessionStorage.clear();
       this.$router.push("/login");
     },
     getMenuList: function () {
@@ -73,22 +73,29 @@ export default {
         {
           id: 1,
           authName: "抽奖管理",
-          path: "/users",
+          path: "/draws",
           order: 1,
           children: [
             {
               id: 11,
-              authName: "金额设置",
+              authName: "抽奖设置",
               path: "/money",
             },
             {
               id: 12,
               authName: "打码量设置",
               path: "/draw",
-            },
+            }
+          ]
+        },{
+          id: 2,
+          authName: "用户管理",
+          path: "/users",
+          order: 2,
+          children: [
             {
               id: 13,
-              authName: "上传数据",
+              authName: "用户打码量",
               path: "/upload",
             },
             {
@@ -98,11 +105,11 @@ export default {
             },
             {
               id: 15,
-              authName: "用户列表",
+              authName: "系统用户列表",
               path: "/userList",
             },
           ],
-        },
+        }
       ];
     },
     toggleCollapse: function () {

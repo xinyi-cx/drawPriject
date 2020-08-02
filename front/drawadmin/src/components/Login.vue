@@ -11,7 +11,7 @@
           <el-input placeholder="请输入用户名" v-model="loginForm.userName" prefix-icon="el-icon-user-solid"></el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input placeholder="请输入密码" v-model="loginForm.password" prefix-icon="el-icon-s-goods"></el-input>
+          <el-input type="password" placeholder="请输入密码" v-model="loginForm.password" prefix-icon="el-icon-s-goods"></el-input>
         </el-form-item>
         <el-form-item class="btns">
           <el-button type="primary" @click="login">登录</el-button>
@@ -53,8 +53,10 @@ export default {
                 const {data: res} = await this.$http.post("systemUser/login", this.loginForm);
                 if(res.code !== 0) return this.$message.error('登录失败');
                 this.$message.success('登录成功');
-                window.sessionStorage.setItem('token', res.data.userName);
+                
                 this.$router.push('/home');
+                
+                window.sessionStorage.setItem('token', res.data.userName);
             })
         }
     }

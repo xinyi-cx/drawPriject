@@ -3,14 +3,14 @@
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>抽奖管理</el-breadcrumb-item>
-      <el-breadcrumb-item>用户列表</el-breadcrumb-item>
+      <el-breadcrumb-item>系统用户列表</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
       <!-- 搜索区域 -->
       <el-row :gutter="50">
         <el-col :span="6">
           <el-input
-            placeholder="请输入userId"
+            placeholder="请输入用户ID"
             v-model="queryInfo.userId"
             clearable
             @clear="getQueryList"
@@ -18,7 +18,7 @@
         </el-col>
         <el-col :span="6">
           <el-input
-            placeholder="请输入userName"
+            placeholder="请输入用户名"
             v-model="queryInfo.userName"
             clearable
             @clear="getQueryList"
@@ -33,10 +33,10 @@
       </el-row>
       <!-- 查询列表区 -->
       <el-table border stripe :data="queryList">
-        <el-table-column type="index" width="55"></el-table-column>
+        <el-table-column label="序号" type="index" width="55"></el-table-column>
         <el-table-column label="用户Id" prop="userId"></el-table-column>
         <el-table-column label="用户名" prop="userName"></el-table-column>
-        <el-table-column label="创建时间" prop="createTime"></el-table-column>
+        <el-table-column label="创建时间" prop="createTime" :formatter="dateFormat"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
@@ -59,7 +59,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="queryInfo.pageNum"
-        :page-sizes="[1, 2, 3, 4]"
+        :page-sizes="[5, 10, 15, 20]"
         :page-size="queryInfo.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
@@ -91,17 +91,20 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
   data() {
     return {
       // 问题： 还应该有个日期？
+
       queryInfo: {
         userId: "",
         userName: "",
         // 当前页码
         pageNum: 1,
         // 当前每页显示数据
-        pageSize: 2,
+        pageSize: 5,
       },
       queryList: [],
       total: 0,
@@ -123,6 +126,14 @@ export default {
     this.getQueryList();
   },
   methods: {
+    // 格式化日期
+    dateFormat(row, column) {
+      const date = row[column.property];
+      if (date == undefined) {
+        return "";
+      }
+      return moment(date).format("YYYY-MM-DD  HH:mm:ss");
+    },
     async getQueryList() {
       const { data: res } = await this.$http.get("systemUser/list", {
         params: this.queryInfo,
@@ -157,7 +168,7 @@ export default {
             return this.$message.error("更新用户失败，请联系管理员");
           this.$message.success("修改用户成功");
 
-          this.queryList = res.data;
+          this.getQueryList();
 
         } else {
           const { data: res } = await this.$http.post(
@@ -168,7 +179,7 @@ export default {
             return this.$message.error("添加用户失败，请联系管理员");
           this.$message.success("添加用户成功");
 
-          this.queryList = res.data;
+          this.getQueryList();
 
         }
         this.addDialogVisible = false;
@@ -178,6 +189,7 @@ export default {
       this.$refs.addFormRef.resetFields();
     },
     async removeUser(id) {
+      debugger;
       const confirmResult = await this.$confirm(
         "此操作将永久删除该用户, 是否继续?",
         "提示",
@@ -190,8 +202,8 @@ export default {
       if (confirmResult !== "confirm") {
         return this.$message.info("已取消删除");
       }
-      const { data: res } = await this.$http.delete(
-        "systemUser/deleteByPrimaryKey" + id
+      const { data: res } = await this.$http.post(
+        "systemUser/deleteByPrimaryKey/" + id
       );
       if (res.code !== 0) {
         return this.$message.error("删除用户失败！");

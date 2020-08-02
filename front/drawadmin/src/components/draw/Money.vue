@@ -3,7 +3,7 @@
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>抽奖管理</el-breadcrumb-item>
-      <el-breadcrumb-item>金额设置</el-breadcrumb-item>
+      <el-breadcrumb-item>抽奖设置</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
       <!-- 查询列表区 -->
@@ -58,7 +58,7 @@
 <script>
 export default {
   data() {
-    // 自定义校验规则 数字校验有问题；
+    // 自定义校验规则 数字校验有问题；* + ?(0,1) {1s}
     // var checkNumber = (rule, value, cb) => {
     //   const regNumber = //;
     //   if (regNumber.test(value)) {

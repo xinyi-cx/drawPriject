@@ -19,7 +19,7 @@
         </el-col>
         <el-col :span="6">
           <el-input
-            placeholder="请输入userId"
+            placeholder="请输入用户ID"
             v-model="queryInfo.userId"
             clearable
             @clear="getQueryList"
@@ -72,6 +72,8 @@ export default {
       },
       queryList: [],
       total: 0,
+      exportInfo: {},
+      exportList: [],
       columns: [{title: '用户ID', key: 'userId'}, {title: '用户姓名', key: 'userName'}, {title: '中奖金额', key: 'reward'}, {title: '中奖时间', key: 'creatTimeStr'}]
     };
   },
@@ -79,7 +81,14 @@ export default {
     this.getQueryList();
   },
   methods: {
-    
+    // 格式化日期
+    dateFormat(row, column) {
+      const date = row[column.property];
+      if (date == undefined) {
+        return "";
+      }
+      return moment(date).format("YYYY-MM-DD  HH:mm:ss");
+    },
     async getQueryList() {
       const { data: res } = await this.$http.get("userReward/list", {
         params: this.queryInfo,
@@ -98,11 +107,15 @@ export default {
       this.queryInfo.pageNum = newPage;
       this.getQueryList();
     },
-    excelOut: function () {
-      export2Excel(this.columns, this.queryList);
-      this.queryList();
-    },
-  },
+    async excelOut () {
+      const { data: res } = await this.$http.get("userReward/list", {
+        params: this.exportInfo,
+      });
+      if (res.code !== 0) return this.$message.error("获取查询列表失败");
+      this.exportList = res.data;
+      export2Excel(this.columns, this.exportList);
+    }
+  }
 };
 </script>
 

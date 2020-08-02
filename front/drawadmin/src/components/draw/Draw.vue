@@ -60,10 +60,7 @@
 export default {
   data() {
     return {
-      drawList: [
-        { drawDigit: "百位", code: "100" },
-        { drawDigit: "千位", code: "200" },
-      ],
+      drawList: [],
       drawForm: {},
       drawDialogVisible: false,
       editDrawFormRules: {

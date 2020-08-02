@@ -3,13 +3,13 @@
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>抽奖管理</el-breadcrumb-item>
-      <el-breadcrumb-item>上传数据</el-breadcrumb-item>
+      <el-breadcrumb-item>用户打码量</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
       <!-- 搜索区域 -->
       <el-row :gutter="20">
         <el-col :span="6">
-          <el-input placeholder="请输入userId">
+          <el-input placeholder="请输入用户ID">
             <el-button slot="append" icon="el-icon-search"></el-button>
           </el-input>
         </el-col>
@@ -25,14 +25,20 @@
         <el-table-column label="打码量" prop="code"></el-table-column>
         <el-table-column label="上传时间" prop="updateTime" :formatter="dateFormat"></el-table-column>
       </el-table>
+      <!-- 分页 -->
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="queryInfo.pageNum"
+        :page-sizes="[5, 10, 15, 20]"
+        :page-size="queryInfo.pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      ></el-pagination>
     </el-card>
 
     <!-- 上传弹框 -->
-    <el-dialog
-      title="数据导入"
-      :visible.sync="uploadDialogVisiable"
-      width="400px"
-    >
+    <el-dialog title="数据导入" :visible.sync="uploadDialogVisiable" width="400px">
       <!-- 上传文件选择区域 -->
       <el-upload
         ref="upload"
@@ -43,6 +49,7 @@
         :disabled="upload.isUploading"
         :on-progress="handleFileUploadProgress"
         :on-success="handleFileSuccess"
+        :on-error="handleFileError"
         :auto-upload="false"
         drag
       >
@@ -63,7 +70,7 @@
 </template>
 
 <script>
-import moment from 'moment'
+import moment from "moment";
 
 export default {
   data() {
@@ -71,7 +78,7 @@ export default {
       queryInfo: {
         userId: "",
         pageNum: 1,
-        pageSize: 2,
+        pageSize: 5,
       },
       queryList: [],
       total: 0,
@@ -88,8 +95,7 @@ export default {
         // 是否更新已经存在的用户数据
         updateSupport: 0,
         // 上传的地址
-        // url: `${axios.defaults.baseURL} + 'userCodeRef/excelIn'`,
-        url: "http://192.168.0.101:8848/tt-manage/userCodeRef/excelIn"
+        url: `${this.baseURL}userCodeRef/excelIn`,
       },
     };
   },
@@ -123,7 +129,16 @@ export default {
       this.upload.isUploading = false;
       this.$refs.upload.clearFiles();
       this.$alert(response.msg, "导入结果", { dangerouslyUseHTMLString: true });
-      // this.getList();
+      this.uploadDialogVisiable = false;
+      this.getQueryList();
+    },
+    handleFileError(err, file, fileList) {
+      this.upload.open = false;
+      this.upload.isUploading = false;
+      this.$refs.upload.clearFiles();
+      this.$alert(err.msg, "导入结果", { dangerouslyUseHTMLString: true });
+      this.uploadDialogVisiable = false;
+      this.getQueryList();
     },
     // 提交上传文件
     submitFileForm() {
@@ -132,6 +147,15 @@ export default {
     cancelFile() {
       this.$refs.upload.clearFiles();
     },
+    handleSizeChange(newPageSize) {
+      this.queryInfo.pageSize = newPageSize;
+      this.getQueryList();
+    },
+    // 监听页码值改变的函数
+    handleCurrentChange(newPage) {
+      this.queryInfo.pageNum = newPage;
+      this.getQueryList();
+    }
   },
 };
 </script>
