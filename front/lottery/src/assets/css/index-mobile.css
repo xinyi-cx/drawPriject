@@ -6,6 +6,10 @@ html {
   height: auto;
   background: #9d0013;
   position: absolute;
+  background-image: url(../imgs/fireflower.png);
+  background-repeat: repeat;
+  background-position: center 0;
+  background-size: contain;
 }
 .bg {
   width: 100%;
@@ -15,7 +19,7 @@ html {
   background-size: contain;
   position: absolute;
   top: 56px;
-  z-index: 0;
+  z-index: -1;
 }
 .clearfix:after {
   display: block;
@@ -38,7 +42,7 @@ header.content {
   display: inline-block;
   width: 126px;
   height: 46px;
-  background: url(../imgs/logo.jpg) center no-repeat;
+  background: url(../imgs/logo.png) center no-repeat;
   background-size: cover;
   vertical-align: middle;
 }
@@ -59,6 +63,7 @@ ul {
   background: #7b000f;
   border-radius: 10px;
   padding: 5px;
+  z-index: 9;
 }
 
 li {
@@ -127,7 +132,7 @@ li a.is-active {
 }
 .money-area {
   width: 60%;
-  height: 254px;
+  height: 2.3rem;
   border-radius: 20px;
   margin: .3rem auto .33rem;
   padding: 12px 14px;
@@ -165,23 +170,18 @@ li a.is-active {
 
 .digit-list {
   width: 100%;
-  height: 230px;
+  height: 1.9rem;
   border: 1px solid #9e4f26;
   border-radius: 20px;
-  padding: 14px 15px 24px 20px;
+  padding: .6rem .2rem .4rem;
   box-sizing: border-box;
   position: relative;
 }
 
 .digit-item {
   float: left;
-  margin-right: 10px;
-  margin-bottom: 6px;
+  margin-right: .1rem;
 }
-.digit-item.million {
-  margin: 0 52px 5px;
-}
-
 .mr-0 {
   margin-right: 0 !important;
 }
@@ -206,18 +206,18 @@ li a.is-active {
 }
 
 .down-up-translate-fade-leave-active {
-    transform: translateY(-.8rem);
-    -webkit-transform: translateY(-.8rem);
-    -moz-transform: translateY(-.8rem);
-    -o-transform: translateY(-.8rem);
+    transform: translateY(-.4rem);
+    -webkit-transform: translateY(-.4rem);
+    -moz-transform: translateY(-.4rem);
+    -o-transform: translateY(-.4rem);
 }
 
 .digit-item .digits {
-  width: .8rem;
-  height: .8rem;
+  width: .4rem;
+  height: .4rem;
   border-radius: .12rem;
   background: #8a2605;
-  line-height: 1rem;
+  line-height: .4rem;
   font-size: .2rem;
   font-weight: bold;
   text-align: center;
@@ -225,39 +225,39 @@ li a.is-active {
   overflow: hidden;
 }
 .digits .number {
-  width: .8rem;
-  height: .8rem;
+  width: .4rem;
+  height: .4rem;
   border-radius: .12rem;
   background: #8a2605;
-  line-height: .8rem;
-  font-size: .3rem;
+  line-height: .4rem;
+  font-size: .2rem;
   font-weight: bold;
   text-align: center;
   color: #da8335;
 }
 .digit-item .units {
   color: #ce6e4d;
-  font-size: 16px;
+  font-size: .16rem;
   text-align: center;
   margin-top: 6px;
 }
 
 .digit-list .lf {
   width: 2px;
-  height: 148px;
+  height: 1.2rem;
   background: #faead1;
   position: absolute;
   left: -2px;
-  top: 42px;
+  top: .42rem;
 }
 
 .digit-list .rg {
   width: 2px;
-  height: 148px;
+  height: 1.2rem;
   background: #fff7a0;
   position: absolute;
   right: -2px;
-  top: 42px;
+  top: .42rem;
 }
 .btn-wrap {
   text-align: center;

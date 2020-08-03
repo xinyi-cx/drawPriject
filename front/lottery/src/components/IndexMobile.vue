@@ -20,6 +20,9 @@
         <li>
           <a href="#">关于我们</a>
         </li>
+        <li>
+          <a href="javascript:void(0);" @click="loginClick">{{currentState}}</a>
+        </li>
       </ul>
     </header>
     <div class="banner"></div>
@@ -101,7 +104,7 @@
             class="btn btn-share"
             :class="isDraw ? 'notAllowed' : ''"
             :disabled="isDraw"
-            @click="start"
+            @click="drawClick"
           >立即抽奖</button>
         </div>
       </div>
@@ -145,7 +148,7 @@
     </div>
     <!-- 查询弹框 -->
     <el-dialog title="中奖记录" :visible.sync="dialogTableVisible">
-      <el-table :data="queryList">
+      <el-table :data="queryList" border stripe>
         <el-table-column property="reward" label="中奖金额" width></el-table-column>
         <el-table-column property="creatTimeStr" label="中奖时间" width></el-table-column>
       </el-table>
@@ -155,10 +158,52 @@
         @current-change="handleCurrentChange"
         :current-page="queryInfo.pageNum"
         :page-size="queryInfo.pageSize"
-        :pager-count="2"
+        :pager-count="5"
         layout="pager, jumper"
         :total="total"
       ></el-pagination>
+    </el-dialog>
+    <!-- 登录弹窗 -->
+    <el-dialog class="login_dialog" title="登录弹窗" :visible.sync="loginDialogVisible">
+      <div class="form-box">
+        <div class="login-container">
+          <el-form
+            :model="ruleForm2"
+            :rules="rules2"
+            status-icon
+            ref="ruleForm2"
+            label-position="left"
+            label-width="0px"
+            class="demo-ruleForm login-page"
+          >
+            <el-form-item prop="userId">
+              <el-input
+                type="text"
+                v-model="ruleForm2.userId"
+                auto-complete="off"
+                placeholder="用户Id"
+              ></el-input>
+            </el-form-item>
+            <el-form-item prop="userName">
+              <el-input
+                type="text"
+                v-model="ruleForm2.userName"
+                auto-complete="off"
+                placeholder="用户名"
+              ></el-input>
+            </el-form-item>
+            <!-- <el-checkbox v-model="checked" class="rememberme">记住密码</el-checkbox> -->
+            <el-form-item style="width:100%;">
+              <el-button
+                type="primary"
+                style="width:100%;"
+                @click="handleSubmit"
+                :loading="logining"
+              >登录</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -193,13 +238,52 @@ export default {
         pageSize: 10,
       },
       total: 0,
+      currentState: "请登录",
+      user: "",
+      path: "",
+      loginDialogVisible: false,
+      ruleForm2: {
+        userId: "",
+        userName: "",
+      },
+      rules2: {
+        userId: [
+          {
+            required: true,
+            message: "please enter your userId",
+            trigger: "blur",
+          },
+        ],
+        userName: [
+          {
+            required: true,
+            message: "enter your userName",
+            trigger: "blur",
+          },
+        ],
+      },
+      logining: false,
+      toPathName: ''
     };
   },
   created() {
     this.allowDraw();
     this.getDate();
+    if (this._isMobile()) {
+      this.toPathName = 'IndexMobild';
+      this.$router.replace("/mobile");
+    } else {
+      this.toPathName = 'Index';
+      this.$router.replace("/index");
+    }
   },
   methods: {
+    _isMobile() {
+      let flag = navigator.userAgent.match(
+        /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+      );
+      return flag;
+    },
     showNavbar: function () {
       this.isShow = true;
     },
@@ -216,23 +300,72 @@ export default {
       const _this = this;
       if (!this.interval) {
         this.interval = setInterval(function () {
-          _this.reward.bw = Math.floor(Math.random() * 10);
-          _this.reward.sw = Math.floor(Math.random() * 10);
-          _this.reward.w = Math.floor(Math.random() * 10);
-          _this.reward.q = Math.floor(Math.random() * 10);
-          _this.reward.b = Math.floor(Math.random() * 10);
-          _this.reward.s = Math.floor(Math.random() * 10);
           _this.reward.g = Math.floor(Math.random() * 10);
-        }, 10);
-
-        setTimeout(function () {
-          _this.createReward();
-        }, 150);
+        }, 100);
       }
+      if (!this.intervalS) {
+        this.intervalS = setInterval(function () {
+          _this.reward.s = Math.floor(Math.random() * 10);
+        }, 100);
+      }
+      if (!this.intervalB) {
+        this.intervalB = setInterval(function () {
+          _this.reward.b = Math.floor(Math.random() * 10);
+        }, 100);
+      }
+      if (!this.intervalQ) {
+        this.intervalQ = setInterval(function () {
+          _this.reward.q = Math.floor(Math.random() * 10);
+        }, 100);
+      }
+      if (!this.intervalW) {
+        this.intervalW = setInterval(function () {
+          _this.reward.w = Math.floor(Math.random() * 10);
+        }, 100);
+      }
+      if (!this.intervalSw) {
+        this.intervalSw = setInterval(function () {
+          _this.reward.sw = Math.floor(Math.random() * 10);
+        }, 100);
+      }
+      if (!this.intervalBw) {
+        this.intervalBw = setInterval(function () {
+          _this.reward.bw = Math.floor(Math.random() * 10);
+        }, 100);
+      }
+      setTimeout(function () {
+        _this.createReward();
+      }, 150);
     },
-    end: function () {
-      clearInterval(this.interval);
-      this.interval = null;
+    end: function (flag) {
+      if (flag == 1) {
+        clearInterval(this.interval);
+        this.interval = null;
+      }
+      if (flag == 2) {
+        clearInterval(this.intervalS);
+        this.intervalS = null;
+      }
+      if (flag == 3) {
+        clearInterval(this.intervalB);
+        this.intervalB = null;
+      }
+      if (flag == 4) {
+        clearInterval(this.intervalQ);
+        this.intervalQ = null;
+      }
+      if (flag == 5) {
+        clearInterval(this.intervalW);
+        this.intervalW = null;
+      }
+      if (flag == 6) {
+        clearInterval(this.intervalSw);
+        this.intervalSw = null;
+      }
+      if (flag == 7) {
+        clearInterval(this.intervalBw);
+        this.intervalBw = null;
+      }
     },
     async getDate() {
       const _this = this;
@@ -254,43 +387,67 @@ export default {
 
       let rdata = res.data;
       that.isDraw = rdata.isDraw > 0 ? false : true;
-      that.end();
-      // rdata.reward = 234567;
-      that.reward.bw = Math.floor(rdata.reward / 1000000);
-      that.reward.sw = Math.floor(
-        (rdata.reward - Math.floor(rdata.reward / 1000000) * 1000000) / 100000
-      );
-      that.reward.w = Math.floor(
-        (rdata.reward - Math.floor(rdata.reward / 100000) * 100000) / 10000
-      );
-      that.reward.q = Math.floor(
-        (rdata.reward - Math.floor(rdata.reward / 10000) * 10000) / 1000
-      );
-      that.reward.b = Math.floor(
-        (rdata.reward - Math.floor(rdata.reward / 1000) * 1000) / 100
-      );
-      that.reward.s = Math.floor(
-        (rdata.reward - Math.floor(rdata.reward / 100) * 100) / 10
-      );
+      that.end(1);
       that.reward.g = Math.floor(
         (rdata.reward - Math.floor(rdata.reward / 10) * 10) / 1
       );
+      setTimeout(function () {
+        that.end(2);
+        that.reward.s = Math.floor(
+          (rdata.reward - Math.floor(rdata.reward / 100) * 100) / 10
+        );
+        setTimeout(function () {
+          that.end(3);
+          that.reward.b = Math.floor(
+            (rdata.reward - Math.floor(rdata.reward / 1000) * 1000) / 100
+          );
+          setTimeout(function () {
+            that.end(4);
+            that.reward.q = Math.floor(
+              (rdata.reward - Math.floor(rdata.reward / 10000) * 10000) / 1000
+            );
+            setTimeout(function () {
+              that.end(5);
+              that.reward.w = Math.floor(
+                (rdata.reward - Math.floor(rdata.reward / 100000) * 100000) /
+                  10000
+              );
+              setTimeout(function () {
+                that.end(6);
+                that.reward.sw = Math.floor(
+                  (rdata.reward -
+                    Math.floor(rdata.reward / 1000000) * 1000000) /
+                    100000
+                );
+                setTimeout(function () {
+                  that.end(7);
+                  that.reward.bw = Math.floor(rdata.reward / 1000000);
+                }, 1000);
+              }, 1000);
+            }, 1000);
+          }, 1000);
+        }, 1000);
+      }, 1000);
     },
     allowDraw: function () {
-      this.userId = this.$route.params.userId;
-      const drawNum = this.$route.params.drawNum;
+      this.loginState();
+      const drawNum = this.userInfo ? this.userInfo.drawNum : '';
+      this.queryInfo.userId = this.userInfo ? this.userInfo.userId : '';
+      this.queryInfo.userName = this.userInfo ? this.userInfo.userName : '';
       if (drawNum > 0) {
         this.isDraw = false;
+      } else {
+        this.isDraw = true;
       }
     },
     async getQueryList() {
       this.dialogTableVisible = true;
       this.isShow = false;
       let id = this.userId;
-      
-      const { data: res } = await this.$http.get(
-        "userReward/list",{params: this.queryInfo}
-      );
+
+      const { data: res } = await this.$http.get("userReward/list", {
+        params: this.queryInfo,
+      });
       if (res.code !== 0) return this.$message.error("获取查询列表失败");
       this.queryList = res.data;
       this.total = res.total;
@@ -304,8 +461,65 @@ export default {
     handleCurrentChange(newPage) {
       this.queryInfo.pageNum = newPage;
       this.getQueryList();
-    }
-  }
+    },
+    drawClick() {
+      if (!this.userId) {
+        return this.$message({
+          showClose: true,
+          message: "请登录",
+          type: "error",
+        });
+      }
+      if (this.isDraw) {
+        this.start();
+      } else {
+        this.$message({
+          showClose: true,
+          message: "您还没有抽奖机会！",
+          type: "wraning",
+        });
+      }
+    },
+    loginState() {
+      if (sessionStorage.getItem("user")) {
+        this.user = sessionStorage.getItem("user");
+        this.currentState = `${this.user},退出`;
+      } else {
+        this.currentState = `请登录`;
+      }
+    },
+    loginClick() {
+      this.isShow = false;
+      if (sessionStorage.getItem("user")) {
+        window.sessionStorage.clear();
+        this.loginState();
+        this.$message.success('退出成功');
+      } else {
+        this.loginDialogVisible = true;
+      }
+    },
+    handleSubmit(event) {
+      this.$refs.ruleForm2.validate(async (valid) => {
+        if (!valid) return this.$message.warning("请输入正确的用户Id和用户名");
+        this.logining = true;
+
+        const { data: res } = await this.$http.post(
+          "userInfo/login",
+          this.ruleForm2
+        );
+        if (res.code !== 0) {
+          this.logining = false;
+          return this.$message.error("用户Id或用户名错误！");
+        }
+        sessionStorage.setItem("user", this.ruleForm2.userName);
+        this.userInfo = res.data;
+        this.$message.success("登录成功");
+        this.loginState();
+        this.loginDialogVisible = false;
+        this.logining = false;
+      });
+    },
+  },
 };
 </script>
 
@@ -320,5 +534,71 @@ export default {
 }
 .el-pagination {
   margin-top: 15px;
+}
+
+/**登录弹窗 */
+.login_dialog {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: url(../assets/imgs/login-bg.png) center no-repeat;
+  background-size: cover;
+}
+/* .login_dialog >>> .el-dialog__header,
+.login_dialog >>> .el-dialog__body {
+  background: rgba(0, 0, 0, 0.7) !important;
+  color: #fff;
+} */
+.login_dialog >>> .el-dialog__title {
+  color: #409eff;
+}
+.login_dialog >>> .el-input {
+  background-image: linear-gradient(to right, #e8198b, #3b65bb);
+  border-radius: 25px;
+  height: 45px;
+  width: 100%;
+}
+.login_dialog >>> .el-input__inner {
+  margin-top: 2px;
+  height: calc(100% - 4px);
+  width: calc(100% - 4px);
+  border-radius: 25px;
+  font-size: 14px;
+}
+.login_dialog >>> .el-button {
+  border-radius: 25px;
+}
+.form-box {
+  width: 100%;
+}
+.form-box .title {
+  margin-bottom: 20px;
+}
+.login-container {
+  width: 100%;
+  height: 100%;
+}
+.login-page {
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  margin: 20px auto;
+  width: 350px;
+  padding: 35px 35px 15px;
+}
+label.el-checkbox.rememberme {
+  margin: 0px 0px 15px;
+  text-align: left;
+}
+
+@media screen and (max-width: 750px) {
+  .login-page {
+    width: 90%;
+    margin: 20px auto;
+    padding: 15px;
+    box-sizing: border-box;
+  }
+  .login_dialog >>> .el-dialog {
+    width: 90%;
+  }
 }
 </style>

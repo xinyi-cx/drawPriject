@@ -4,16 +4,19 @@
     background: #9d0013;
     position: absolute;
     background-image: url(../imgs/fireflower.png);
-    background-repeat: repeat;
+    background-repeat: repeat-y;
+    background-position: center 0;
+    background-size: contain;
 }
 .bg {
+
     width: 100%;
-    height: 2500px;
+    height: auto;
     background: url(../imgs/fireflower.png) top center repeat-y;
     background-size: contain;
     position: absolute;
     top: 120px;
-    z-index: 0;
+    z-index: -1;
 }
 
 .clearfix:after {
@@ -24,25 +27,25 @@
 }
 
 .content {
-    width: 1000px;
+    width: 1200px;
+    height: 98px;
     margin: 0 auto;
-}
-
-header.content {
-    padding: 40px 0;
 }
 
 .logo {
     display: inline-block;
-    width: 126px;
-    height: 46px;
-    background: url(../imgs/logo.jpg) center no-repeat;
+    width: 200px;
+    height: 98px;
+    background: url(../imgs/logo.png) center no-repeat;
     background-size: cover;
     vertical-align: middle;
+    position: absolute;
+    left: 172px;
 }
 
 ul {
     float: right;
+    margin-top: 28px;
 }
 
 ul,
@@ -54,9 +57,10 @@ li {
 
 li a {
     padding: 13px 36px;
-    margin-right: 12px;
+    margin-right: 35px;
     color: #fff;
     line-height: 46px;
+    border-radius: 23px;
 }
 
 li a:hover,
@@ -66,25 +70,27 @@ li a.is-active {
 }
 
 .banner {
-    width: 100%;
-    height: 778px;
+    width: 1000px;
+    height: 448px;
     background: url(../imgs/banner.png) center no-repeat;
-    background-size: contain;
+    background-size: cover;
+    margin: 0 auto 20px;
 }
 
 .bd-content {
     position: relative;
+    width: 800px;
+    margin: 0 auto;
 }
 
 .lottery {
-    margin-top: 120px;
-    margin-bottom: 115px;
+    margin-bottom: 50px;
 }
 
 .lottery .lg-title {
-    font-size: 35px;
+    font-size: 28px;
     color: #c20000;
-    line-height: 73px;
+    line-height: 62px;
     text-align: center;
     background: #fadfa1;
     font-weight: bold;
@@ -95,23 +101,24 @@ li a.is-active {
     width: 231px;
     height: 284px;
     position: absolute;
+    transform: scale(.84);
 }
 
 .celebrate.left {
-    left: -229px;
-    top: -16px;
+    left: -212px;
+    top: -36px;
     background: url(../imgs/qing-left.png) center no-repeat;
 }
 
 .celebrate.right {
     background: url(../imgs/qing-right.png) center no-repeat;
-    right: -231px;
-    top: -15px;
+    right: -208px;
+    top: -35px;
 }
 
 .money-area {
-    width: 1000px;
-    height: 254px;
+    width: 800px;
+    height: 210px;
     border-radius: 20px;
     margin: 82px auto 55px;
     padding: 12px 14px;
@@ -141,19 +148,19 @@ li a.is-active {
 
 .border-br {
     background-image: url(../imgs/border-br.png);
-    bottom: -186px;
+    bottom: -140px;
     right: -40px;
 }
 
 .border-bl {
     background-image: url(../imgs/border-bl.png);
-    bottom: -186px;
+    bottom: -140px;
     left: -40px;
 }
 
 .digit-list {
     width: 100%;
-    height: 230px;
+    height: 185px;
     border: 1px solid #9e4f26;
     border-radius: 20px;
     padding: 44px 20px 38px;
@@ -191,15 +198,15 @@ li a.is-active {
 }
 
 .down-up-translate-fade-leave-active {
-    transform: translateY(-114px);
-    -webkit-transform: translateY(-114px);
-    -moz-transform: translateY(-114px);
-    -o-transform: translateY(-114px);
+    transform: translateY(-85px);
+    -webkit-transform: translateY(-85px);
+    -moz-transform: translateY(-85px);
+    -o-transform: translateY(-85px);
 }
 
 .digit-item .digits {
-    width: 114px;
-    height: 114px;
+    width: 85px;
+    height: 85px;
     border-radius: 20px;
     background: #8a2605;
     line-height: 114px;
@@ -211,11 +218,11 @@ li a.is-active {
 }
 
 .digits .number {
-    width: 114px;
-    height: 114px;
+    width: 85px;
+    height: 85px;
     border-radius: 20px;
     background: #8a2605;
-    line-height: 114px;
+    line-height: 85px;
     font-size: 62px;
     font-weight: bold;
     text-align: center;
@@ -275,9 +282,9 @@ li a.is-active {
 
 .query-area .lg-title,
 .rule-area .lg-title {
-    font-size: 35px;
+    font-size: 28px;
     color: #c20000;
-    line-height: 73px;
+    line-height: 62px;
     text-align: center;
     background: #fadfa1;
     font-weight: bold;
@@ -285,8 +292,8 @@ li a.is-active {
 }
 
 .res-list {
-    margin: 30px auto 120px;
-    padding: 52px 48px;
+    margin: 30px auto 50px;
+    padding: 32px 20px;
     width: 100%;
     box-sizing: border-box;
     border: 10px solid #fadfa1;
@@ -324,7 +331,7 @@ li a.is-active {
 }
 
 .res-list .nickname {
-    width: 225px;
+    width: 165px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -339,7 +346,7 @@ li a.is-active {
 }
 
 .res-list .date {
-    width: 225px;
+    width: 175px;
 }
 
 .rule-area .res-list {
@@ -358,17 +365,18 @@ li a.is-active {
     height: 100px;
     background: center no-repeat;
     position: absolute;
+    transform: scale(.84);
 }
 
 .rule-decor.left {
-    top: -16px;
-    left: -150px;
+    top: -20px;
+    left: -138px;
     background-image: url(../imgs/decorate-lf.png);
 }
 
 .rule-decor.right {
-    top: -16px;
-    right: -150px;
+    top: -20px;
+    right: -138px;
     background-image: url(../imgs/decorate.png);
 }
 

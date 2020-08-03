@@ -19,13 +19,16 @@
         <li>
           <a href="#">关于我们</a>
         </li>
+        <li>
+          <a href="javascript: void(0);" @click="loginClick">{{currentState}}</a>
+        </li>
       </ul>
     </header>
     <div class="banner"></div>
 
     <div class="bd-content">
       <!-- 抽奖活动 -->
-      <div class="lottery content">
+      <div class="lottery">
         <div class="lg-title">
           抽奖活动
           <div class="celebrate left"></div>
@@ -98,16 +101,11 @@
           </div>
         </div>
         <div class="btn-wrap">
-          <button
-            class="btn btn-share"
-            :class="[isDraw ? 'notAllowed' : '']"
-            @click="start"
-            :disabled="isDraw"
-          >立即抽奖</button>
+          <button class="btn btn-share" @click="drawClick">立即抽奖</button>
         </div>
       </div>
       <!-- 中奖查询 -->
-      <div class="query-area content">
+      <div class="query-area">
         <div class="lg-title">
           中奖查询
           <div class="rule-decor left">
@@ -127,7 +125,7 @@
         </div>
       </div>
       <!-- 抽奖规则 -->
-      <div class="rule-area content">
+      <div class="rule-area">
         <div class="lg-title">
           抽奖规则
           <div class="rule-decor left">
@@ -179,6 +177,49 @@
         :total="total"
       ></el-pagination>
     </el-dialog>
+
+    <!-- 登录弹窗 -->
+    <el-dialog class="login_dialog" title="登录弹窗" :visible.sync="loginDialogVisible">
+      <div class="form-box">
+        <div class="login-container">
+          <el-form
+            :model="ruleForm2"
+            :rules="rules2"
+            status-icon
+            ref="ruleForm2"
+            label-position="left"
+            label-width="0px"
+            class="demo-ruleForm login-page"
+          >
+            <el-form-item prop="userId">
+              <el-input
+                type="text"
+                v-model="ruleForm2.userId"
+                auto-complete="off"
+                placeholder="用户Id"
+              ></el-input>
+            </el-form-item>
+            <el-form-item prop="userName">
+              <el-input
+                type="text"
+                v-model="ruleForm2.userName"
+                auto-complete="off"
+                placeholder="用户名"
+              ></el-input>
+            </el-form-item>
+            <!-- <el-checkbox v-model="checked" class="rememberme">记住密码</el-checkbox> -->
+            <el-form-item style="width:100%;">
+              <el-button
+                type="primary"
+                style="width:100%;"
+                @click="handleSubmit"
+                :loading="logining"
+              >登录</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -199,7 +240,7 @@ export default {
       listData: [],
       //进入页面后会有一个用户的数据，根据用户数据判断是否可以抽奖
       isDraw: false,
-      userId: "",
+      userInfo: {},
       interval: null,
       intervalS: null,
       intervalB: null,
@@ -215,14 +256,53 @@ export default {
         pageNum: 1,
         pageSize: 5,
       },
-      total: 0
+      total: 0,
+      currentState: "请登录",
+      user: "",
+      path: "",
+      loginDialogVisible: false,
+      ruleForm2: {
+        userId: "",
+        userName: "",
+      },
+      rules2: {
+        userId: [
+          {
+            required: true,
+            message: "please enter your userId",
+            trigger: "blur",
+          },
+        ],
+        userName: [
+          {
+            required: true,
+            message: "enter your userName",
+            trigger: "blur",
+          },
+        ],
+      },
+      logining: false,
+      toPathName: "",
     };
   },
   created() {
     this.allowDraw();
     this.getDate();
+    if (this._isMobile()) {
+      this.toPathName = "IndexMobile";
+      this.$router.replace("/mobile");
+    } else {
+      this.toPathName = "Index";
+      this.$router.replace("/index");
+    }
   },
   methods: {
+    _isMobile() {
+      let flag = navigator.userAgent.match(
+        /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+      );
+      return flag;
+    },
     start: function () {
       const _this = this;
       if (!this.interval) {
@@ -265,31 +345,31 @@ export default {
       }, 150);
     },
     end: function (flag) {
-      if(flag==1){
+      if (flag == 1) {
         clearInterval(this.interval);
         this.interval = null;
       }
-      if(flag==2){
+      if (flag == 2) {
         clearInterval(this.intervalS);
         this.intervalS = null;
       }
-      if(flag==3){
+      if (flag == 3) {
         clearInterval(this.intervalB);
         this.intervalB = null;
       }
-      if(flag==4){
+      if (flag == 4) {
         clearInterval(this.intervalQ);
         this.intervalQ = null;
       }
-      if(flag==5){
+      if (flag == 5) {
         clearInterval(this.intervalW);
         this.intervalW = null;
       }
-      if(flag==6){
+      if (flag == 6) {
         clearInterval(this.intervalSw);
         this.intervalSw = null;
       }
-      if(flag==7){
+      if (flag == 7) {
         clearInterval(this.intervalBw);
         this.intervalBw = null;
       }
@@ -336,12 +416,15 @@ export default {
             setTimeout(function () {
               that.end(5);
               that.reward.w = Math.floor(
-                (rdata.reward - Math.floor(rdata.reward / 100000) * 100000) / 10000
+                (rdata.reward - Math.floor(rdata.reward / 100000) * 100000) /
+                  10000
               );
               setTimeout(function () {
                 that.end(6);
                 that.reward.sw = Math.floor(
-                  (rdata.reward - Math.floor(rdata.reward / 1000000) * 1000000) / 100000
+                  (rdata.reward -
+                    Math.floor(rdata.reward / 1000000) * 1000000) /
+                    100000
                 );
                 setTimeout(function () {
                   that.end(7);
@@ -354,10 +437,12 @@ export default {
       }, 1000);
     },
     allowDraw: function () {
-      this.userId = this.$route.params.userId;
-      const drawNum = this.$route.params.drawNum;
-      this.queryInfo.userId = this.userId;
-      this.queryInfo.userName = this.$route.params.userName;
+      this.loginState();
+
+      const drawNum = this.userInfo ? this.userInfo.drawNum : '';
+      this.queryInfo.userId = this.userInfo ? this.userInfo.userId : '';
+      this.queryInfo.userName = this.userInfo ? this.userInfo.userName : '';
+
       if (drawNum > 0) {
         this.isDraw = false;
       } else {
@@ -368,9 +453,9 @@ export default {
       this.dialogTableVisible = true;
       let id = this.userId;
 
-      const { data: res } = await this.$http.get(
-        "userReward/list",{params: this.queryInfo}
-      );
+      const { data: res } = await this.$http.get("userReward/list", {
+        params: this.queryInfo,
+      });
       if (res.code !== 0) return this.$message.error("获取查询列表失败");
       this.queryList = res.data;
       this.total = res.total;
@@ -384,8 +469,67 @@ export default {
     handleCurrentChange(newPage) {
       this.queryInfo.pageNum = newPage;
       this.getQueryList();
-    }
-  }
+    },
+    drawClick() {
+      console.log('顶顶顶顶');
+      if (!this.userId) {
+        return this.message({
+          showClose: true,
+          message: "登录后才有抽奖资格!",
+          type: "error",
+          offset: "100",
+        });
+      }
+      if (this.isDraw) {
+        this.start();
+      } else {
+        this.$message({
+          showClose: true,
+          message: "您还没有抽奖机会！",
+          type: "warning",
+          offset: "100",
+        });
+      }
+    },
+    loginState() {
+      if (sessionStorage.getItem("user")) {
+        this.user = sessionStorage.getItem("user");
+        this.currentState = `${this.user},退出`;
+      } else {
+        this.currentState = "请登录";
+      }
+    },
+    loginClick() {
+      if (sessionStorage.getItem("user")) {
+        window.sessionStorage.clear();
+        this.loginState();
+        this.$message.success("成功退出");
+      } else {
+        this.loginDialogVisible = true;
+      }
+    },
+    handleSubmit(event) {
+      this.$refs.ruleForm2.validate(async (valid) => {
+        if (!valid) return this.$message.warning("请输入正确的用户Id和用户名");
+        this.logining = true;
+
+        const { data: res } = await this.$http.post(
+          "userInfo/login",
+          this.ruleForm2
+        );
+        if (res.code !== 0) {
+          this.logining = false;
+          return this.$message.error("用户Id或用户名错误！");
+        }
+        sessionStorage.setItem("user", this.ruleForm2.userName);
+        this.userInfo = res.data;
+        this.$message.success("登录成功");
+        this.loginState();
+        this.logining = false;
+        this.loginDialogVisible = false;
+      });
+    },
+  },
 };
 </script>
 
@@ -398,5 +542,59 @@ export default {
 }
 .el-pagination {
   margin-top: 15px;
+}
+
+/**登录弹窗 */
+.login_dialog {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: url(../assets/imgs/login-bg.png) center no-repeat;
+  background-size: cover;
+}
+/* .login_dialog >>> .el-dialog__header,
+.login_dialog >>> .el-dialog__body {
+  background: rgba(0, 0, 0, 0.7) !important;
+  color: #fff;
+} */
+.login_dialog >>> .el-dialog__title {
+  color: #409eff;
+}
+.login_dialog >>> .el-input {
+  background-image: linear-gradient(to right, #e8198b, #3b65bb);
+  border-radius: 25px;
+  height: 45px;
+  width: 100%;
+}
+.login_dialog >>> .el-input__inner {
+  margin-top: 2px;
+  height: calc(100% - 4px);
+  width: calc(100% - 4px);
+  border-radius: 25px;
+  font-size: 14px;
+}
+.login_dialog >>> .el-button {
+  border-radius: 25px;
+}
+.form-box {
+  width: 100%;
+}
+.form-box .title {
+  margin-bottom: 20px;
+}
+.login-container {
+  width: 100%;
+  height: 100%;
+}
+.login-page {
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  margin: 20px auto;
+  width: 350px;
+  padding: 35px 35px 15px;
+}
+label.el-checkbox.rememberme {
+  margin: 0px 0px 15px;
+  text-align: left;
 }
 </style>
