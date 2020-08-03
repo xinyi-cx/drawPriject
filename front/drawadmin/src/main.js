@@ -14,8 +14,8 @@ import 'babel-polyfill'
 import axios from 'axios'
 // 设置请求的根路径
 // http://localhost:8011/tt-manage/userReward/listForDraw
-axios.defaults.baseURL = 'http://192.168.0.103:8848/tt-manage/';
-Vue.prototype.baseURL = 'http://192.168.0.103:8848/tt-manage/';
+axios.defaults.baseURL = 'http://47.107.76.247:8848/tt-manage/';
+Vue.prototype.baseURL = 'http://47.107.76.247:8848/tt-manage/';
 // axios请求拦截
 // axios.interceptors.request.use(config => {
 //   config.headers.Authorization = window.sessionStorage.getItem('token');

@@ -34,12 +34,7 @@
       @close="drawDialogClosed"
     >
       <!-- 主体区 -->
-      <el-form
-        :model="drawForm"
-        :rules="editDrawFormRules"
-        ref="drawFormRef"
-        label-width="70px"
-      >
+      <el-form :model="drawForm" :rules="editDrawFormRules" ref="drawFormRef" label-width="70px">
         <el-form-item label="奖金位数">
           <el-input v-model="drawForm.drawDigit" disabled></el-input>
         </el-form-item>
@@ -59,14 +54,24 @@
 <script>
 export default {
   data() {
+    // 自定义校验规则 数字校验有问题；
+    var checkNumber = (rule, value, cb) => {
+      const regNumber = /^\d{1,}$/;
+      if (regNumber.test(value)) {
+        return cb();
+      }
+
+      cb(new Error("只能输入数值"));
+    };
     return {
       drawList: [],
       drawForm: {},
       drawDialogVisible: false,
       editDrawFormRules: {
         code: [
-          { required: true, message: "请输入最大值", trigger: "blur" },
-          // { validator: checkNumber, trigger: "blur" }
+          { required: true, message: "请输入打码量", trigger: "blur" },
+          { min: 1, message: "请输入数值", trigger: "blur"},
+          { validator: checkNumber, trigger: "blur" }
         ]
       },
     };
@@ -88,6 +93,7 @@ export default {
       this.$refs.drawFormRef.resetFields();
     },
     editDialogSubmit() {
+
       this.$refs.drawFormRef.validate(async (valid) => {
         if (!valid) return;
         // 可以发起保存请求

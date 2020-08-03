@@ -40,10 +40,10 @@
           <el-input v-model="editForm.digit" disabled></el-input>
         </el-form-item>
         <el-form-item label="最小值" prop="digitStart">
-          <el-input v-model="editForm.digitStart"></el-input>
+          <el-input maxlength="1" v-model="editForm.digitStart"></el-input>
         </el-form-item>
         <el-form-item label="最大值" prop="digitEnd">
-          <el-input v-model="editForm.digitEnd"></el-input>
+          <el-input maxlength="1" v-model="editForm.digitEnd"></el-input>
         </el-form-item>
       </el-form>
       <!-- 底部区域 -->
@@ -58,15 +58,15 @@
 <script>
 export default {
   data() {
-    // 自定义校验规则 数字校验有问题；* + ?(0,1) {1s}
-    // var checkNumber = (rule, value, cb) => {
-    //   const regNumber = //;
-    //   if (regNumber.test(value)) {
-    //     return cb();
-    //   }
+    //自定义校验规则 数字校验有问题；* + ?(0,1) {1s}
+    var checkNumber = (rule, value, cb) => {
+      const regNumber = /\d{1}/;
+      if (regNumber.test(value)) {
+        return cb();
+      }
 
-    //   cb(new Error("请输入合法的数值"));
-    // };
+      cb(new Error("请输入合法的数值"));
+    };
 
     return {
       moneyList: [],
@@ -75,11 +75,11 @@ export default {
       editFormRules: {
         digitStart: [
           { required: true, message: "请输入最小值", trigger: "blur" },
-          // { validator: checkNumber, trigger: "blur" }
+          { validator: checkNumber, trigger: "blur" }
         ],
         digitEnd: [
           { required: true, message: "请输入最大值", trigger: "blur" },
-          // { validator: checkNumber, trigger: "blur" }
+          { validator: checkNumber, trigger: "blur" }
         ]
       },
     };

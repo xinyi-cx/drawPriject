@@ -44,8 +44,8 @@ export default {
       let that = this;
       document.onkeydown = function(e) {
         e = window.event || e;
-        if(that.$route.path ==='/login' && (e.code === 'enter' || e.conde === 'Enter')) {
-          this.login();
+        if(that.$route.path ==='/login' && e.keyCode == 13) {
+          that.login();
         }
       }
     },
@@ -56,7 +56,6 @@ export default {
         },
         //登录
         login: function() {
-            console.log('登录');
             this.$refs.loginFormRef.validate(async valid => {
                 if(!valid) return this.$message.warning('请输入正确的用户Id和用户名');
                 const {data: res} = await this.$http.post("systemUser/login", this.loginForm);
