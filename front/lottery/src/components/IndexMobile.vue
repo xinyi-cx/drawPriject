@@ -102,8 +102,6 @@
         <div class="btn-wrap">
           <button
             class="btn btn-share"
-            :class="isDraw ? 'notAllowed' : ''"
-            :disabled="isDraw"
             @click="drawClick"
           >立即抽奖</button>
         </div>
