@@ -8,10 +8,7 @@ import com.tt.manage.entity.UserCodeRef;
 import com.tt.manage.service.UserCodeRefService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -48,7 +45,6 @@ public class UserCodeRefController extends BaseController {
      * 查询-列表
      */
     @ApiOperation(value = "查询-列表", httpMethod = "GET")
-//    @RequestMapping(value = "/list", method = RequestMethod.POST)
     @GetMapping("/list")
     public ResponseBean list(UserCodeRef ref) {
         try {
@@ -60,5 +56,71 @@ public class UserCodeRefController extends BaseController {
             return new ResponseBean(RestApi.Msg.FAIL, RestApi.Code.FAIL, "");
         }
     }
+
+    /**
+     * 新增
+     */
+    @ResponseBody
+    @ApiOperation(value = "新增", httpMethod = "POST")
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    public ResponseBean insert(@RequestBody UserCodeRef ref) {
+        try {
+            userCodeRefService.insert(ref);
+            return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, ref);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseBean(RestApi.Msg.FAIL, RestApi.Code.FAIL, "");
+        }
+    }
+
+    /**
+     * 删除
+     */
+    @ResponseBody
+    @ApiOperation(value = "删除", httpMethod = "POST")
+    @PostMapping("/deleteByPrimaryKey/{userId}")
+    public ResponseBean deleteByPrimaryKey(@PathVariable("userId") String userId) {
+        try {
+            userCodeRefService.deleteByPrimaryKey(userId);
+            return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, "");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseBean(RestApi.Msg.FAIL, RestApi.Code.FAIL, "");
+        }
+    }
+
+    /**
+     * 查询一个
+     */
+    @ResponseBody
+    @ApiOperation(value = "查询一个", httpMethod = "POST")
+    @RequestMapping(value = "/selectByPrimaryKey", method = RequestMethod.POST)
+    @PostMapping("/selectByPrimaryKey/{userId}")
+    public ResponseBean selectByPrimaryKey(@PathVariable("userId") String userId) {
+        try {
+            UserCodeRef ref = userCodeRefService.selectByPrimaryKey(userId);
+            return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, ref);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseBean(RestApi.Msg.FAIL, RestApi.Code.FAIL, "");
+        }
+    }
+
+    /**
+     * 更新
+     */
+    @ResponseBody
+    @ApiOperation(value = "更新", httpMethod = "POST")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public ResponseBean updateByPrimaryKey(@RequestBody UserCodeRef ref) {
+        try {
+            userCodeRefService.updateByPrimaryKey(ref);
+            return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, ref);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseBean(RestApi.Msg.FAIL, RestApi.Code.FAIL, "");
+        }
+    }
+
 
 }

@@ -6,9 +6,10 @@
         <result column="user_name" property="userName" jdbcType="VARCHAR"/>
         <result column="login_time" property="loginTime" jdbcType="TIMESTAMP"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="is_vip" property="isVip" jdbcType="BIGINT"/>
     </resultMap>
     <sql id="Base_Column_List">
-    user_id, user_name, login_time, create_time
+    user_id, user_name, login_time, create_time,is_vip
   </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
@@ -22,9 +23,9 @@
   </delete>
     <insert id="insert" parameterType="com.tt.manage.entity.UserInfo">
     insert into user_info (user_id, user_name, login_time, 
-      create_time)
+      create_time,is_vip)
     values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{loginTime,jdbcType=TIMESTAMP}, 
-      now())
+      now(),#{isVip,jdbcType=BIGINT})
   </insert>
     <insert id="insertSelective" parameterType="com.tt.manage.entity.UserInfo">
         insert into user_info
@@ -41,6 +42,9 @@
             <if test="createTime != null">
                 create_time,
             </if>
+            <if test="isVip != null">
+                is_vip,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null">
@@ -54,6 +58,9 @@
             </if>
             <if test="createTime != null">
                 #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isVip != null">
+                #{isVip,jdbcType=BIGINT},
             </if>
         </trim>
     </insert>
@@ -69,6 +76,9 @@
             <if test="createTime != null">
                 create_time = #{createTime,jdbcType=TIMESTAMP},
             </if>
+            <if test="isVip != null">
+                is_vip = #{isVip,jdbcType=BIGINT},
+            </if>
         </set>
         where user_id = #{userId,jdbcType=VARCHAR}
     </update>
@@ -76,6 +86,7 @@
     update user_info
     set user_name = #{userName,jdbcType=VARCHAR},
       login_time = #{loginTime,jdbcType=TIMESTAMP},
+      is_vip = #{isVip,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where user_id = #{userId,jdbcType=VARCHAR}
   </update>

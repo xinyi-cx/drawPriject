@@ -21,6 +21,29 @@ public class UserCodeRef extends BaseEntity {
 
     private Integer drawNum;
 
+    /**
+     * 是否是vip 1是0否
+     */
+    private Integer isVip;
+
+    private Long reward;
+
+    public Long getReward() {
+        return reward;
+    }
+
+    public void setReward(Long reward) {
+        this.reward = reward;
+    }
+
+    public Integer getIsVip() {
+        return isVip;
+    }
+
+    public void setIsVip(Integer isVip) {
+        this.isVip = isVip;
+    }
+
     public String getUploadTime() {
         return uploadTime;
     }

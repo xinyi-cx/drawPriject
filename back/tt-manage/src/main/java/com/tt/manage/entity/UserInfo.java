@@ -13,6 +13,16 @@ public class UserInfo {
 
     private Integer drawNum;
 
+    private Integer isVip;
+
+    public Integer getIsVip() {
+        return isVip;
+    }
+
+    public void setIsVip(Integer isVip) {
+        this.isVip = isVip;
+    }
+
     public Integer getDrawNum() {
         return drawNum;
     }

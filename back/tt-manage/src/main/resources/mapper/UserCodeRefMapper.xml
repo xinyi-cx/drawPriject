@@ -8,9 +8,10 @@
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
         <result column="draw_num" property="drawNum" jdbcType="INTEGER"/>
+        <result column="reward" property="reward" jdbcType="BIGINT"/>
     </resultMap>
     <sql id="Base_Column_List">
-    user_id, code, create_time, update_time, draw_num
+    user_id, code, create_time, update_time, draw_num, reward
   </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
@@ -24,9 +25,9 @@
   </delete>
     <insert id="insert" parameterType="com.tt.manage.entity.UserCodeRef">
     insert into user_code_ref (user_id, code, create_time, 
-      update_time, draw_num)
-    values (#{userId,jdbcType=VARCHAR}, #{code,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
-      #{updateTime,jdbcType=TIMESTAMP}, #{drawNum,jdbcType=INTEGER})
+      update_time, draw_num, reward)
+    values (#{userId,jdbcType=VARCHAR}, #{code,jdbcType=BIGINT}, now(),
+      now(), #{drawNum,jdbcType=INTEGER}, #{reward,jdbcType=BIGINT})
   </insert>
     <insert id="insertSelective" parameterType="com.tt.manage.entity.UserCodeRef">
         insert into user_code_ref
@@ -46,6 +47,9 @@
             <if test="drawNum != null">
                 draw_num,
             </if>
+            <if test="reward != null">
+                reward,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="userId != null">
@@ -62,6 +66,9 @@
             </if>
             <if test="drawNum != null">
                 #{drawNum,jdbcType=INTEGER},
+            </if>
+            <if test="reward != null">
+                #{reward,jdbcType=BIGINT},
             </if>
         </trim>
     </insert>
@@ -80,6 +87,9 @@
             <if test="drawNum != null">
                 draw_num = #{drawNum,jdbcType=INTEGER},
             </if>
+            <if test="reward != null">
+                reward = #{reward,jdbcType=BIGINT},
+            </if>
         </set>
         where user_id = #{userId,jdbcType=VARCHAR}
     </update>
@@ -87,6 +97,7 @@
     update user_code_ref
     set code = #{code,jdbcType=BIGINT},
       update_time = now(),
+      reward = #{reward,jdbcType=BIGINT},
       draw_num = #{drawNum,jdbcType=INTEGER}
     where user_id = #{userId,jdbcType=VARCHAR}
   </update>
@@ -94,12 +105,12 @@
     <insert id="addUserCodeRefs" parameterType="java.util.ArrayList">
 
         insert into user_code_ref (user_id, code, create_time,
-        update_time, draw_num)
+        update_time, draw_num, reward)
         values
         <foreach collection="list" item="item" index="index" separator=",">
 
             (#{item.userId,jdbcType=VARCHAR}, #{item.code,jdbcType=BIGINT}, now(),
-            now(), #{item.drawNum,jdbcType=INTEGER})
+            now(), #{item.drawNum,jdbcType=INTEGER}, #{item.reward,jdbcType=BIGINT})
 
         </foreach>
 
@@ -109,9 +120,17 @@
 
         select
         ref.user_id, ref.code, ref.create_time, ref.update_time, ref.draw_num,
-        info.user_name
+        info.user_name, ref.reward
         from user_code_ref ref left join user_info info
         on ref.user_id = info.user_id
+        <where>
+            <if test="isVip != null and isVip==0 ">
+                info.is_vip is null or info.is_vip != 1
+            </if>
+            <if test="isVip != null and isVip==1 ">
+                info.is_vip =1
+            </if>
+        </where>
         order by update_time desc
 
     </select>

@@ -6,6 +6,7 @@ import com.tt.manage.entity.UserInfo;
 import com.tt.manage.mapper.UserCodeRefMapper;
 import com.tt.manage.mapper.UserInfoMapper;
 import com.tt.manage.service.UserCodeRefService;
+import com.tt.manage.service.UserRewardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -30,6 +31,8 @@ public class UserCodeRefServiceImpl implements UserCodeRefService {
     private UserCodeRefMapper userCodeRefMapper;
     @Autowired
     private UserInfoMapper userInfoMapper;
+    @Autowired
+    private UserRewardService userRewardService;
 
     @Override
     public List<UserCodeRef> addUserCodeRefsByPath(InputStream is) {
@@ -44,9 +47,11 @@ public class UserCodeRefServiceImpl implements UserCodeRefService {
                     UserInfo newUser = new UserInfo();
                     newUser.setUserId(userCodeRef.getUserId());
                     newUser.setUserName(userCodeRef.getUserName());
+                    newUser.setIsVip(userCodeRef.getIsVip());
                     userInfoMapper.insert(newUser);
                 }
                 userCodeRef.setDrawNum(1);
+                userCodeRef.setReward((long) userRewardService.createRewardByUserCodeRef(userCodeRef));
                 UserCodeRef userCodeRefOld = userCodeRefMapper.selectByPrimaryKey(userCodeRef.getUserId());
                 if (userCodeRefOld == null) {
                     userCodeRefInsert.add(userCodeRef);
@@ -65,6 +70,26 @@ public class UserCodeRefServiceImpl implements UserCodeRefService {
     @Override
     public List<UserCodeRef> selectUserCodeRefList(UserCodeRef ref) {
         return userCodeRefMapper.selectUserCodeRefList(ref);
+    }
+
+    @Override
+    public int deleteByPrimaryKey(String userId) {
+        return userCodeRefMapper.deleteByPrimaryKey(userId);
+    }
+
+    @Override
+    public int insert(UserCodeRef record) {
+        return userCodeRefMapper.insert(record);
+    }
+
+    @Override
+    public UserCodeRef selectByPrimaryKey(String userId) {
+        return userCodeRefMapper.selectByPrimaryKey(userId);
+    }
+
+    @Override
+    public int updateByPrimaryKey(UserCodeRef record) {
+        return userCodeRefMapper.updateByPrimaryKey(record);
     }
 
 }

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tt.manage.mapper.SystemConfigMapper">
+    <resultMap id="BaseResultMap" type="com.tt.manage.entity.SystemConfig">
+        <id column="config_id" property="configId" jdbcType="BIGINT"/>
+        <result column="config_key" property="configKey" jdbcType="VARCHAR"/>
+        <result column="config_value" property="configValue" jdbcType="VARCHAR"/>
+        <result column="config_name" property="configName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    config_id, config_key, config_value, config_name
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from system_config
+        where config_id = #{configId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectByKey" resultMap="BaseResultMap" parameterType="string">
+        select
+        <include refid="Base_Column_List"/>
+        from system_config
+        where config_key = #{configKey,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from system_config
+    where config_id = #{configId,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.tt.manage.entity.SystemConfig">
+    insert into system_config (config_id, config_key, config_value, 
+      config_name)
+    values (#{configId,jdbcType=BIGINT}, #{configKey,jdbcType=VARCHAR}, #{configValue,jdbcType=VARCHAR}, 
+      #{configName,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.tt.manage.entity.SystemConfig">
+        insert into system_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="configId != null">
+                config_id,
+            </if>
+            <if test="configKey != null">
+                config_key,
+            </if>
+            <if test="configValue != null">
+                config_value,
+            </if>
+            <if test="configName != null">
+                config_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="configId != null">
+                #{configId,jdbcType=BIGINT},
+            </if>
+            <if test="configKey != null">
+                #{configKey,jdbcType=VARCHAR},
+            </if>
+            <if test="configValue != null">
+                #{configValue,jdbcType=VARCHAR},
+            </if>
+            <if test="configName != null">
+                #{configName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.tt.manage.entity.SystemConfig">
+        update system_config
+        <set>
+            <if test="configKey != null">
+                config_key = #{configKey,jdbcType=VARCHAR},
+            </if>
+            <if test="configValue != null">
+                config_value = #{configValue,jdbcType=VARCHAR},
+            </if>
+            <if test="configName != null">
+                config_name = #{configName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where config_id = #{configId,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.tt.manage.entity.SystemConfig">
+    update system_config
+    set config_key = #{configKey,jdbcType=VARCHAR},
+      config_value = #{configValue,jdbcType=VARCHAR},
+      config_name = #{configName,jdbcType=VARCHAR}
+    where config_id = #{configId,jdbcType=BIGINT}
+  </update>
+</mapper>

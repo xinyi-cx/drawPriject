@@ -18,4 +18,12 @@ public interface UserCodeRefService {
 
     List<UserCodeRef> selectUserCodeRefList(UserCodeRef ref);
 
+    int deleteByPrimaryKey(String userId);
+
+    int insert(UserCodeRef record);
+
+    UserCodeRef selectByPrimaryKey(String userId);
+
+    int updateByPrimaryKey(UserCodeRef record);
+
 }

@@ -1,6 +1,7 @@
 package com.tt.manage.service;
 
 
+import com.tt.manage.entity.UserCodeRef;
 import com.tt.manage.entity.UserReward;
 
 import java.util.List;
@@ -23,4 +24,13 @@ public interface UserRewardService {
     UserReward createRewardByUserId(String userId);
 
     List<UserReward> selectUserRewardByUserId(String userId);
+
+    /**
+     * 根据userCodeRef生成reward
+     *
+     * @param userCodeRef
+     * @return
+     */
+    int createRewardByUserCodeRef(UserCodeRef userCodeRef);
+
 }
