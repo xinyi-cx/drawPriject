@@ -55,12 +55,12 @@ export default {
     return {
       menuList: [],
       isCollapse: false,
-      activePath: ''
+      activePath: "",
     };
   },
   created() {
     this.getMenuList();
-    this.activePath = window.sessionStorage.getItem('activePath');
+    this.activePath = window.sessionStorage.getItem("activePath");
     console.log(this.activePath);
   },
   methods: {
@@ -79,15 +79,16 @@ export default {
             {
               id: 11,
               authName: "抽奖设置",
-              path: "/money",
+              path: "/draw",
             },
             {
               id: 12,
               authName: "打码量设置",
-              path: "/draw",
-            }
-          ]
-        },{
+              path: "/code",
+            },
+          ],
+        },
+        {
           id: 2,
           authName: "用户管理",
           path: "/users",
@@ -96,12 +97,12 @@ export default {
             {
               id: 13,
               authName: "用户打码量",
-              path: "/upload",
+              path: "/userCode",
             },
             {
               id: 14,
               authName: "中奖列表",
-              path: "/query",
+              path: "/winList",
             },
             {
               id: 15,
@@ -109,18 +110,49 @@ export default {
               path: "/userList",
             },
           ],
-        }
+        },
+        {
+          id: 3,
+          authName: "活动设置",
+          path: "/activity",
+          order: "3",
+          children: [
+            {
+              id: 31,
+              authName: "活动是否开启",
+              path: "/activityStart",
+            },
+          ],
+        },
+        {
+          id: 4,
+          authName: "Vip管理",
+          path: "/vip",
+          order: 4,
+          children: [
+            {
+              id: 11,
+              authName: "抽奖设置",
+              path: "/VipDraw",
+            },
+            {
+              id: 12,
+              authName: "打码量设置",
+              path: "/VipCode",
+            },
+          ],
+        },
       ];
     },
     toggleCollapse: function () {
       this.isCollapse = !this.isCollapse;
     },
     // 保存链接的激活状态
-    saveNavState: function(activePath) {
-        window.sessionStorage.setItem('activePath', activePath);
-        this.activePath = activePath;
-    }
-  }
+    saveNavState: function (activePath) {
+      window.sessionStorage.setItem("activePath", activePath);
+      this.activePath = activePath;
+    },
+  },
 };
 </script>
 

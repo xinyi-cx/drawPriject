@@ -8,10 +8,17 @@
     <el-card>
       <!-- 搜索区域 -->
       <el-row :gutter="20">
-        <el-col :span="6">
-          <el-input placeholder="请输入用户ID">
-            <el-button slot="append" icon="el-icon-search"></el-button>
-          </el-input>
+        <el-col :span="4">
+          <el-input placeholder="请输入用户ID"></el-input>
+        </el-col>
+        <el-col :span="4">
+          <el-input placeholder="是否为vip"></el-input>
+        </el-col>
+        <el-col :span="2">
+          <el-button type="primary" icon="el-icon-search" @click="getQueryList"></el-button>
+        </el-col>
+        <el-col :span="2">
+          <el-button type="primary" @click="addDialogVisible = true">添加</el-button>
         </el-col>
         <el-col :span="4">
           <el-button type="primary" @click="uploadDialogVisiable=true">导入</el-button>
@@ -22,8 +29,26 @@
         <el-table-column type="index" width="55"></el-table-column>
         <el-table-column label="用户Id" prop="userId"></el-table-column>
         <el-table-column label="用户名" prop="userName"></el-table-column>
+        <el-table-column label="奖励" prop="reward"></el-table-column>
         <el-table-column label="打码量" prop="code"></el-table-column>
+        <el-table-column label="是否Vip" prop="ifVip"></el-table-column>
         <el-table-column label="上传时间" prop="updateTime" :formatter="dateFormat"></el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button
+              type="primary"
+              size="mini"
+              icon="el-icon-edit-outline"
+              @click="editUserDialog(scope.row)"
+            >修改</el-button>
+            <el-button
+              type="warning"
+              size="mini"
+              icon="el-icon-edit-outline"
+              @click="removeUser(scope.row.userId)"
+            >删除</el-button>
+          </template>
+        </el-table-column>
       </el-table>
       <!-- 分页 -->
       <el-pagination
@@ -66,6 +91,32 @@
         <el-button @click="cancelFile">取 消</el-button>
       </div>
     </el-dialog>
+
+    <!-- 添加用户 -->
+    <el-dialog
+      :title="dialogTitle"
+      :visible.sync="addDialogVisible"
+      width="30%"
+      @close="addDialogClosed"
+    >
+      <!-- 主体区 -->
+      <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="100px">
+        <el-form-item label="用户名">
+          <el-input v-model="addForm.userName" prop="userName"></el-input>
+        </el-form-item>
+        <el-form-item label="用户Id" prop="userId">
+          <el-input v-model="addForm.userId"></el-input>
+        </el-form-item>
+        <el-form-item label="奖励" prop="reward">
+          <el-input v-model="addForm.reward"></el-input>
+        </el-form-item>
+      </el-form>
+      <!-- 底部区域 -->
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addFormSubmit">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -97,6 +148,18 @@ export default {
         // 上传的地址
         url: `${this.baseURL}userCodeRef/excelIn`,
       },
+      // 添加用户
+      addDialogVisible: false,
+      addForm: {},
+      addFormRules: {
+        userName: [
+          { required: true, message: "请输入用户名", trigger: "blur" },
+        ],
+        userId: [{ required: true, message: "请输入用户Id", trigger: "blur" }],
+      },
+      dialogTitle: "",
+      isAdd: false,
+      userId: "",
     };
   },
   created() {
@@ -155,7 +218,73 @@ export default {
     handleCurrentChange(newPage) {
       this.queryInfo.pageNum = newPage;
       this.getQueryList();
-    }
+    },
+    // 添加用户
+    addFormSubmit() {
+      debugger;
+      this.$refs.addFormRef.validate(async (valid) => {
+        if (!valid) return this.$message.warning("请添加正确的用户名密码");
+
+        // 有值 更新
+        if (this.userId !== "") {
+          const { data: res } = await this.$http.post(
+            "systemUser/update",
+            this.addForm
+          );
+          if (res.code !== 0)
+            return this.$message.error("更新用户失败，请联系管理员");
+          this.$message.success("修改用户成功");
+
+          this.getQueryList();
+
+        } else {
+          const { data: res } = await this.$http.post(
+            "systemUser/insert",
+            this.addForm
+          );
+          if (res.code !== 0)
+            return this.$message.error("添加用户失败，请联系管理员");
+          this.$message.success("添加用户成功");
+
+          this.getQueryList();
+
+        }
+        this.addDialogVisible = false;
+      });
+    },
+    addDialogClosed() {
+      this.$refs.addFormRef.resetFields();
+    },
+    //展示编辑用户的对话框
+    editUserDialog(row) {
+      this.addDialogVisible = true;
+      this.userId = row.userId;
+      this.addForm = row;
+    },
+    // 删除用户
+    async removeUser(id) {
+      const confirmResult = await this.$confirm(
+        "此操作将永久删除该用户, 是否继续?",
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      ).catch((err) => err);
+      if (confirmResult !== "confirm") {
+        return this.$message.info("已取消删除");
+      }
+      const { data: res } = await this.$http.post(
+        "systemUser/deleteByPrimaryKey/" + id
+      );
+      if (res.code !== 0) {
+        return this.$message.error("删除用户失败！");
+      }
+
+      this.$message.success("删除用户成功！");
+      this.getQueryList();
+    },
   },
 };
 </script>

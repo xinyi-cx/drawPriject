@@ -3,11 +3,13 @@ import Router from 'vue-router'
 import Login from '@/components/Login'
 import Home from '@/components/Home'
 import Welcome from '@/components/Welcome'
-import Money from '@/components/draw/Money'
+import Code from '@/components/draw/Code'
 import Draw from '@/components/draw/Draw'
-import QueryList from '@/components/draw/QueryList'
-import Upload from '@/components/draw/Upload'
-import UserList from '@/components/draw/UserList'
+import WinningList from '@/components/user/WinningList'
+import UserCode from '@/components/user/UserCode'
+import UserList from '@/components/user/UserList'
+import VipCode from '@/components/vip/VipCode'
+import VipDraw from '@/components/vip/VipDraw'
 
 Vue.use(Router)
 
@@ -21,11 +23,13 @@ const router = new Router({
       redirect: '/welcome',
       children: [
         { path: '/welcome', component: Welcome },
-        { path: '/money', component: Money },
+        { path: '/code', component: Code },
         { path: '/draw', component: Draw },
-        { path: '/upload', component: Upload },
-        { path: '/query', component: QueryList },
-        { path: '/userList', component: UserList }
+        { path: '/userCode', component: UserCode },
+        { path: '/winList', component: WinningList },
+        { path: '/userList', component: UserList }, 
+        { path: '/vipCode', component: VipCode },
+        { path: '/vipDraw', component: VipDraw }
       ]
     }
   ]
