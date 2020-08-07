@@ -178,48 +178,53 @@
       ></el-pagination>
     </el-dialog>
 
-    <!-- 登录弹窗 -->
-    <el-dialog class="login_dialog" title="登录弹窗" :visible.sync="loginDialogVisible">
-      <div class="form-box">
-        <div class="login-container">
-          <el-form
-            :model="ruleForm2"
-            :rules="rules2"
-            status-icon
-            ref="ruleForm2"
-            label-position="left"
-            label-width="0px"
-            class="demo-ruleForm login-page"
-          >
-            <el-form-item prop="userId">
-              <el-input
-                type="text"
-                v-model="ruleForm2.userId"
-                auto-complete="off"
-                placeholder="用户Id"
-              ></el-input>
-            </el-form-item>
-            <el-form-item prop="userName">
-              <el-input
-                type="text"
-                v-model="ruleForm2.userName"
-                auto-complete="off"
-                placeholder="用户名"
-              ></el-input>
-            </el-form-item>
-            <!-- <el-checkbox v-model="checked" class="rememberme">记住密码</el-checkbox> -->
-            <el-form-item style="width:100%;">
-              <el-button
-                type="primary"
-                style="width:100%;"
-                @click="handleSubmit"
-                :loading="logining"
-              >登录</el-button>
-            </el-form-item>
-          </el-form>
+    <div class="login-modal" v-show="loginDialogVisible">
+      <div class="login_dialog">
+        <div class="form-box">
+          <div class="login-container">
+            <el-form
+              :model="ruleForm2"
+              :rules="rules2"
+              status-icon
+              ref="ruleForm2"
+              label-position="left"
+              label-width="0px"
+              class="demo-ruleForm login-page"
+            >
+              <div class="title">
+                登录弹框
+                <i class="el-icon-circle-close icon-close" @click="closeLoginDialog"></i>
+              </div>
+              <el-form-item prop="userId">
+                <el-input
+                  type="text"
+                  v-model="ruleForm2.userId"
+                  auto-complete="off"
+                  placeholder="用户Id"
+                ></el-input>
+              </el-form-item>
+              <el-form-item prop="userName">
+                <el-input
+                  type="text"
+                  v-model="ruleForm2.userName"
+                  auto-complete="off"
+                  placeholder="用户名"
+                ></el-input>
+              </el-form-item>
+              <!-- <el-checkbox v-model="checked" class="rememberme">记住密码</el-checkbox> -->
+              <el-form-item style="width:100%;">
+                <el-button
+                  type="primary"
+                  style="width:100%;"
+                  @click="handleSubmit"
+                  :loading="logining"
+                >登录</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
         </div>
       </div>
-    </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -385,7 +390,7 @@ export default {
       }, 60000);
     },
     async createReward() {
-      const userId = this.userId;
+      const userId = this.userInfo.userId || '';
       const that = this;
       const { data: res } = await this.$http.post(
         `userReward/createReward/${userId}`
@@ -439,9 +444,9 @@ export default {
     allowDraw: function () {
       this.loginState();
 
-      const drawNum = this.userInfo ? this.userInfo.drawNum : '';
-      this.queryInfo.userId = this.userInfo ? this.userInfo.userId : '';
-      this.queryInfo.userName = this.userInfo ? this.userInfo.userName : '';
+      const drawNum = this.userInfo.drawNum || "";
+      this.queryInfo.userId = this.userInfo.userId || "";
+      this.queryInfo.userName = this.userInfo.userName || "";
 
       if (drawNum > 0) {
         this.isDraw = false;
@@ -471,9 +476,8 @@ export default {
       this.getQueryList();
     },
     drawClick() {
-      console.log('顶顶顶顶');
-      if (!this.userId) {
-        return this.message({
+      if (!this.userInfo.userId) {
+        return this.$message({
           showClose: true,
           message: "登录后才有抽奖资格!",
           type: "error",
@@ -492,9 +496,12 @@ export default {
       }
     },
     loginState() {
+      let vip = false;
       if (sessionStorage.getItem("user")) {
-        this.user = sessionStorage.getItem("user");
-        this.currentState = `${this.user},退出`;
+        this.userInfo = JSON.parse(sessionStorage.getItem("user"));
+        console.log(this.userInfo);
+        vip = this.userInfo.isVip === 1 ? 'vip ' : '';
+        this.currentState = `${vip}${this.userInfo.userName},退出`;
       } else {
         this.currentState = "请登录";
       }
@@ -502,6 +509,7 @@ export default {
     loginClick() {
       if (sessionStorage.getItem("user")) {
         window.sessionStorage.clear();
+        this.userInfo = {};
         this.loginState();
         this.$message.success("成功退出");
       } else {
@@ -521,14 +529,18 @@ export default {
           this.logining = false;
           return this.$message.error("用户Id或用户名错误！");
         }
-        sessionStorage.setItem("user", this.ruleForm2.userName);
-        this.userInfo = res.data;
+        sessionStorage.setItem("user", JSON.stringify(res.data));
+        // this.userInfo = res.data;
+        // console.log(this.userInfo);
         this.$message.success("登录成功");
         this.loginState();
         this.logining = false;
         this.loginDialogVisible = false;
       });
     },
+    closeLoginDialog() {
+      this.loginDialogVisible = false;
+    }
   },
 };
 </script>
@@ -545,18 +557,14 @@ export default {
 }
 
 /**登录弹窗 */
+
 .login_dialog {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: url(../assets/imgs/login-bg.png) center no-repeat;
-  background-size: cover;
+  bottom: 20%;
 }
-/* .login_dialog >>> .el-dialog__header,
-.login_dialog >>> .el-dialog__body {
-  background: rgba(0, 0, 0, 0.7) !important;
-  color: #fff;
-} */
+
 .login_dialog >>> .el-dialog__title {
   color: #409eff;
 }
@@ -589,12 +597,36 @@ export default {
 .login-page {
   -webkit-border-radius: 5px;
   border-radius: 5px;
-  margin: 20px auto;
   width: 350px;
-  padding: 35px 35px 15px;
+  padding: 0 35px 15px;
+  background: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 label.el-checkbox.rememberme {
   margin: 0px 0px 15px;
   text-align: left;
+}
+
+.login-modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.login-page .title {
+  padding-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #409EFF;
+}
+.login-page .icon-close {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  cursor: pointer;
 }
 </style>
