@@ -10,6 +10,7 @@ import UserCode from '@/components/user/UserCode'
 import UserList from '@/components/user/UserList'
 import VipCode from '@/components/vip/VipCode'
 import VipDraw from '@/components/vip/VipDraw'
+import ActivityOn from '@/components/activity/ActivityOn'
 
 Vue.use(Router)
 
@@ -29,7 +30,8 @@ const router = new Router({
         { path: '/winList', component: WinningList },
         { path: '/userList', component: UserList }, 
         { path: '/vipCode', component: VipCode },
-        { path: '/vipDraw', component: VipDraw }
+        { path: '/vipDraw', component: VipDraw },
+        { path: '/activityOn', component: ActivityOn }
       ]
     }
   ]

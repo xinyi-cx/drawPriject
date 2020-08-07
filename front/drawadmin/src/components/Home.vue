@@ -120,7 +120,7 @@ export default {
             {
               id: 31,
               authName: "活动是否开启",
-              path: "/activityStart",
+              path: "/activityOn",
             },
           ],
         },
