@@ -4,6 +4,7 @@
     <header class="content">
       <a href="###" class="logo"></a>
       <a href="javascript: void(0);" class="navBar" @click="showNavbar">{{currentNav}}</a>
+      <a href="javascript: void(0);" class="navBar" @click="loginClick">{{currentState}}</a>
       <ul v-show="isShow">
         <li>
           <a href="#">网站首页</a>
@@ -19,9 +20,6 @@
         </li>
         <li>
           <a href="#">关于我们</a>
-        </li>
-        <li>
-          <a href="javascript:void(0);" @click="loginClick">{{currentState}}</a>
         </li>
       </ul>
     </header>
@@ -267,7 +265,8 @@ export default {
         ],
       },
       logining: false,
-      toPathName: ''
+      toPathName: '',
+      drawNum: 0
     };
   },
   created() {
@@ -289,7 +288,7 @@ export default {
       return flag;
     },
     showNavbar: function () {
-      this.isShow = true;
+      this.isShow = !this.isShow;
     },
     queryDialog: function () {
       this.dialogTableVisible = true;
@@ -389,7 +388,7 @@ export default {
       if (res.code !== 0) return this.$message.error("获取失败");
 
       let rdata = res.data;
-      that.isDraw = rdata.isDraw > 0 ? false : true;
+      that.drawNum = 0;
       that.end(1);
       that.reward.g = Math.floor(
         (rdata.reward - Math.floor(rdata.reward / 10) * 10) / 1
@@ -434,14 +433,9 @@ export default {
     },
     allowDraw: function () {
       this.loginState();
-      const drawNum = this.userInfo.drawNum || "";
+      this.drawNum = this.userInfo.drawNum || 0;
       this.queryInfo.userId = this.userInfo.userId || "";
       this.queryInfo.userName = this.userInfo.userName || "";
-      if(drawNum > 0) {
-        this.isDraw = false;
-      } else {
-        this.isDraw = true;
-      }
     },
     async getQueryList() {
       this.dialogTableVisible = true;
@@ -469,7 +463,7 @@ export default {
       if (!sessionStorage.getItem("user")) {
         return this.$message.error('登录后才有抽奖资格');
       }
-      if (this.isDraw) {
+      if (this.drawNum > 0) {
         this.start();
       } else {
         this.$message.warning('您还没有抽奖机会！');

@@ -244,7 +244,6 @@ export default {
       },
       listData: [],
       //进入页面后会有一个用户的数据，根据用户数据判断是否可以抽奖
-      isDraw: false,
       userInfo: {},
       interval: null,
       intervalS: null,
@@ -288,6 +287,7 @@ export default {
       },
       logining: false,
       toPathName: "",
+      drawNum: 0
     };
   },
   created() {
@@ -398,7 +398,7 @@ export default {
       if (res.code !== 0) return this.$message.error("获取失败");
 
       let rdata = res.data;
-      that.isDraw = rdata.isDraw > 0 ? false : true;
+      that.drawNum = 0;
       that.end(1);
       that.reward.g = Math.floor(
         (rdata.reward - Math.floor(rdata.reward / 10) * 10) / 1
@@ -443,16 +443,9 @@ export default {
     },
     allowDraw: function () {
       this.loginState();
-
-      const drawNum = this.userInfo.drawNum || "";
+      this.drawNum = this.userInfo.drawNum || 0;
       this.queryInfo.userId = this.userInfo.userId || "";
       this.queryInfo.userName = this.userInfo.userName || "";
-
-      if (drawNum > 0) {
-        this.isDraw = false;
-      } else {
-        this.isDraw = true;
-      }
     },
     async getQueryList() {
       this.dialogTableVisible = true;
@@ -479,18 +472,19 @@ export default {
       if (!sessionStorage.getItem("user")) {
         return this.$message.error('登录后才有抽奖资格！');
       }
-      if (this.isDraw) {
+      if (this.drawNum > 0) {
         this.start();
       } else {
-        return this.$message.warning('您还没有抽奖机会！');
+        return this.$message.warning('您还没有抽奖次数！');
       }
     },
     loginState() {
       let vip = false;
       if (sessionStorage.getItem("user")) {
         this.userInfo = JSON.parse(sessionStorage.getItem("user"));
-        vip = this.userInfo.isVip === 1 ? 'vip ' : '';
-        this.currentState = `${vip}${this.userInfo.userName},退出`;
+        // debugger;
+        // vip = this.userInfo.isVip === 1 ? 'vip ' : '';
+        this.currentState = `${this.userInfo.userName},退出`;
       } else {
         this.currentState = "请登录";
       }
@@ -523,12 +517,15 @@ export default {
         // console.log(this.userInfo);
         this.$message.success("登录成功");
         this.loginState();
+        this.ruleForm2 = {};
         this.logining = false;
         this.loginDialogVisible = false;
+
       });
     },
     closeLoginDialog() {
       this.loginDialogVisible = false;
+      this.ruleForm2 = {}
     }
   },
 };

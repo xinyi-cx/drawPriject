@@ -9,10 +9,10 @@
       <!-- 搜索区域 -->
       <el-row :gutter="20">
         <el-col :span="4">
-          <el-input placeholder="请输入用户ID"></el-input>
+          <el-input placeholder="请输入用户ID" v-model="queryInfo.userId"></el-input>
         </el-col>
         <el-col :span="4">
-          <el-select v-model="value" placeholder="是否是vip用户">
+          <el-select v-model="queryInfo.isVip" placeholder="是否是vip用户">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -38,7 +38,7 @@
         <el-table-column label="用户名" prop="userName"></el-table-column>
         <el-table-column label="奖励" prop="reward"></el-table-column>
         <el-table-column label="打码量" prop="code"></el-table-column>
-        <el-table-column label="是否Vip" prop="isVip"></el-table-column>
+        <el-table-column label="是否Vip" prop="isVip" :formatter="vipFormat"></el-table-column>
         <el-table-column label="上传时间" width="180" prop="updateTime" :formatter="dateFormat"></el-table-column>
         <el-table-column label="操作" width="200">
           <template slot-scope="scope">
@@ -70,7 +70,7 @@
     </el-card>
 
     <!-- 上传弹框 -->
-    <el-dialog title="数据导入" :visible.sync="uploadDialogVisiable" width="400px">
+    <el-dialog title="数据导入" :visible.sync="uploadDialogVisiable" width="400px" @close="addDialogClosed">
       <!-- 上传文件选择区域 -->
       <el-upload
         ref="upload"
@@ -114,6 +114,9 @@
         <el-form-item label="用户Id" prop="userId">
           <el-input v-model="addForm.userId"></el-input>
         </el-form-item>
+        <el-form-item label="打码量" prop="code">
+          <el-input v-model="addForm.code"></el-input>
+        </el-form-item>
         <el-form-item label="奖励" prop="reward">
           <el-input v-model="addForm.reward"></el-input>
         </el-form-item>
@@ -137,6 +140,7 @@ export default {
         userId: "",
         pageNum: 1,
         pageSize: 5,
+        isVip: ''
       },
       queryList: [],
       total: 0,
@@ -177,8 +181,12 @@ export default {
           value: "0",
           label: "否",
         },
+        {
+          value: '',
+          label: ''
+        }
       ],
-      value: "",
+      value: "是否是vip用户",
     };
   },
   created() {
@@ -193,7 +201,14 @@ export default {
       }
       return moment(date).format("YYYY-MM-DD  HH:mm:ss");
     },
+    vipFormat(row, column) {
+      const isVip = row[column.property];
+      let isVipUser = isVip ? '是' : '否';
+      return isVipUser;
+    },
     async getQueryList() {
+      console.log(this.queryInfo);
+      
       const { data: res } = await this.$http.get("userCodeRef/list", {
         params: this.queryInfo,
       });
@@ -270,6 +285,7 @@ export default {
       });
     },
     addDialogClosed() {
+      console.log('qingkong');
       this.$refs.addFormRef.resetFields();
     },
     //展示编辑用户的对话框

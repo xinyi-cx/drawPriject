@@ -6,89 +6,12 @@
       <el-breadcrumb-item>活动是否开启</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
-      <!-- 搜索区域 -->
-      <el-row :gutter="50">
-        <el-col :span="6">
-          <el-select v-model="value" placeholder="请选择活动是否开启">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </el-col>
-        <el-col :span="6">
-          <el-input
-            placeholder="请输入用户名"
-            v-model="queryInfo.userName"
-            clearable
-            @clear="getQueryList"
-          ></el-input>
-        </el-col>
-        <el-col :span="2">
-          <el-button type="primary" @click="getQueryList">搜索</el-button>
-        </el-col>
-        <el-col :span="4">
-          <el-button type="primary" @click="addDialogVisible = true">添加用户</el-button>
-        </el-col>
-      </el-row>
-      <!-- 查询列表区 -->
-      <el-table border stripe :data="queryList">
-        <el-table-column label="序号" type="index" width="55"></el-table-column>
-        <el-table-column label="用户Id" prop="userId"></el-table-column>
-        <el-table-column label="用户名" prop="userName"></el-table-column>
-        <el-table-column label="创建时间" prop="createTime" :formatter="dateFormat"></el-table-column>
-        <el-table-column label="操作">
-          <template slot-scope="scope">
-            <el-button
-              type="primary"
-              size="mini"
-              icon="el-icon-edit-outline"
-              @click="editUserDialog(scope.row)"
-            >修改</el-button>
-            <el-button
-              type="warning"
-              size="mini"
-              icon="el-icon-edit-outline"
-              @click="removeUser(scope.row.userId)"
-            >删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <!-- 分页 -->
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="queryInfo.pageNum"
-        :page-sizes="[5, 10, 15, 20]"
-        :page-size="queryInfo.pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="total"
-      ></el-pagination>
+      活动是否开启：
+      <el-switch
+              v-model="configValue"
+              @change="statusChanged(configValue)">
+            </el-switch>
     </el-card>
-    <!-- 添加用户 -->
-    <el-dialog
-      :title="dialogTitle"
-      :visible.sync="addDialogVisible"
-      width="30%"
-      @close="addDialogClosed"
-    >
-      <!-- 主体区 -->
-      <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="100px">
-        <el-form-item label="用户名">
-          <el-input v-model="addForm.userName" prop="userName"></el-input>
-        </el-form-item>
-        <el-form-item label="用户密码" prop="password">
-          <el-input v-model="addForm.password"></el-input>
-        </el-form-item>
-      </el-form>
-      <!-- 底部区域 -->
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="addDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addFormSubmit">确 定</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 
@@ -98,138 +21,30 @@ import moment from "moment";
 export default {
   data() {
     return {
-      // 问题： 还应该有个日期？
-
-      queryInfo: {
-        userId: "",
-        userName: "",
-        // 当前页码
-        pageNum: 1,
-        // 当前每页显示数据
-        pageSize: 5,
-      },
-      queryList: [],
-      total: 0,
-      // 添加用户
-      addDialogVisible: false,
-      addForm: {},
-      addFormRules: {
-        userName: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
-        ],
-        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
-      },
-      dialogTitle: "",
-      isAdd: false,
-      userId: "",
-      // 活动是否开启
-      options: [
-        {
-          value: "1",
-          label: "是",
-        },
-        {
-          value: "0",
-          label: "否",
-        }
-      ],
-      value: "",
+      configValue: true,
+      activityInfo: {}
     };
   },
   created() {
-    this.getQueryList();
+    this.getActivityStatus();
   },
   methods: {
-    // 格式化日期
-    dateFormat(row, column) {
-      const date = row[column.property];
-      if (date == undefined) {
-        return "";
-      }
-      return moment(date).format("YYYY-MM-DD  HH:mm:ss");
+    async getActivityStatus() {
+      const {data: res} = await this.$http.post('systemConfig/selectByPrimaryKey');
+      if(res.code !== 0) { return this.$message.error('获取活动状态失败！') };
+      this.configValue = (res.data.configValue === '1');
+      this.activityInfo = res.data;
     },
-    async getQueryList() {
-      const { data: res } = await this.$http.get("systemUser/list", {
-        params: this.queryInfo,
-      });
-      if (res.code !== 0) return this.$message.error("获取查询列表失败");
+    // 活动开启状态切换函数
+    async statusChanged(value) {
+      console.log(value);
+      this.activityInfo.configValue = value ? '1' : '0';
+      const {data: res} = await this.$http.post('systemConfig/update', this.activityInfo);
+      if(res.code !== 0) return this.$message.error('活动状态更改失败！');
 
-      this.queryList = res.data;
-      this.total = res.total;
-    },
-    // 监听PageSize改变的函数
-    handleSizeChange(newPageSize) {
-      this.queryInfo.pageSize = newPageSize;
-      this.getQueryList();
-    },
-    // 监听页码值改变的函数
-    handleCurrentChange(newPage) {
-      this.queryInfo.pageNum = newPage;
-      this.getQueryList();
-    },
-    addFormSubmit() {
-      debugger;
-      this.$refs.addFormRef.validate(async (valid) => {
-        if (!valid) return this.$message.warning("请添加正确的用户名密码");
-
-        // 有值 更新
-        if (this.userId !== "") {
-          const { data: res } = await this.$http.post(
-            "systemUser/update",
-            this.addForm
-          );
-          if (res.code !== 0)
-            return this.$message.error("更新用户失败，请联系管理员");
-          this.$message.success("修改用户成功");
-
-          this.getQueryList();
-        } else {
-          const { data: res } = await this.$http.post(
-            "systemUser/insert",
-            this.addForm
-          );
-          if (res.code !== 0)
-            return this.$message.error("添加用户失败，请联系管理员");
-          this.$message.success("添加用户成功");
-
-          this.getQueryList();
-        }
-        this.addDialogVisible = false;
-      });
-    },
-    addDialogClosed() {
-      this.$refs.addFormRef.resetFields();
-    },
-    async removeUser(id) {
-      debugger;
-      const confirmResult = await this.$confirm(
-        "此操作将永久删除该用户, 是否继续?",
-        "提示",
-        {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
-        }
-      ).catch((err) => err);
-      if (confirmResult !== "confirm") {
-        return this.$message.info("已取消删除");
-      }
-      const { data: res } = await this.$http.post(
-        "systemUser/deleteByPrimaryKey/" + id
-      );
-      if (res.code !== 0) {
-        return this.$message.error("删除用户失败！");
-      }
-
-      this.$message.success("删除用户成功！");
-      this.getQueryList();
-    },
-    //展示编辑用户的对话框
-    editUserDialog(row) {
-      this.addDialogVisible = true;
-      this.userId = row.userId;
-      this.addForm = row;
-    },
+      this.$message.success('活动开启状态已更新！');
+      this.getActivityStatus();
+    }
   },
 };
 </script>

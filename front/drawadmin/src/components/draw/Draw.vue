@@ -85,9 +85,16 @@ export default {
       if (res.code !== 0) return this.$message.error("获取打码量列表失败");
       this.drawList = res.data;
     },
-    editDrawDialog(row) {
+    async editDrawDialog(row) {
       this.drawDialogVisible = true;
       this.drawForm = row;
+      // 修改信息需要用到查询接口
+      // const {data: res} = await this.$http.get('');
+      // if(res.code !== 0) {
+      //   return this.$message.error('查询抽奖设置信息失败!');
+      // }
+      // this.drawForm = res.data;
+
     },
     drawDialogClosed() {
       this.$refs.drawFormRef.resetFields();
