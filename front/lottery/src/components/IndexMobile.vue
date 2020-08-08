@@ -225,8 +225,14 @@ export default {
       listData: [],
       //进入页面后会有一个用户的数据，根据用户数据判断是否可以抽奖
       isDraw: true,
-      userId: "",
+      userInfo: {},
       interval: null,
+      intervalS: null,
+      intervalB: null,
+      intervalQ: null,
+      intervalW: null,
+      intervalSw: null,
+      intervalBw: null,
       dialogTableVisible: false,
       queryList: [],
       queryInfo: {
@@ -291,7 +297,6 @@ export default {
     },
     switchNavbar: function (e) {
       this.currentNav = e.target.text;
-      console.log(this.currentNav);
       this.isShow = false;
     },
     start: function () {
@@ -429,10 +434,10 @@ export default {
     },
     allowDraw: function () {
       this.loginState();
-      const drawNum = this.userInfo ? this.userInfo.drawNum : '';
-      this.queryInfo.userId = this.userInfo ? this.userInfo.userId : '';
-      this.queryInfo.userName = this.userInfo ? this.userInfo.userName : '';
-      if (drawNum > 0) {
+      const drawNum = this.userInfo.drawNum || "";
+      this.queryInfo.userId = this.userInfo.userId || "";
+      this.queryInfo.userName = this.userInfo.userName || "";
+      if(drawNum > 0) {
         this.isDraw = false;
       } else {
         this.isDraw = true;
@@ -461,26 +466,18 @@ export default {
       this.getQueryList();
     },
     drawClick() {
-      if (!this.userId) {
-        return this.$message({
-          showClose: true,
-          message: "请登录",
-          type: "error",
-        });
+      if (!sessionStorage.getItem("user")) {
+        return this.$message.error('登录后才有抽奖资格');
       }
       if (this.isDraw) {
         this.start();
       } else {
-        this.$message({
-          showClose: true,
-          message: "您还没有抽奖机会！",
-          type: "wraning",
-        });
+        this.$message.warning('您还没有抽奖机会！');
       }
     },
     loginState() {
       if (sessionStorage.getItem("user")) {
-        this.user = sessionStorage.getItem("user");
+        this.userInfo = JSON.parse(sessionStorage.getItem("user"));
         this.currentState = `${this.user},退出`;
       } else {
         this.currentState = `请登录`;
@@ -490,6 +487,7 @@ export default {
       this.isShow = false;
       if (sessionStorage.getItem("user")) {
         window.sessionStorage.clear();
+        this.userInfo = {};
         this.loginState();
         this.$message.success('退出成功');
       } else {
@@ -509,7 +507,7 @@ export default {
           this.logining = false;
           return this.$message.error("用户Id或用户名错误！");
         }
-        sessionStorage.setItem("user", this.ruleForm2.userName);
+        sessionStorage.setItem("user", JSON.stringify(res.data));
         this.userInfo = res.data;
         this.$message.success("登录成功");
         this.loginState();
@@ -539,8 +537,6 @@ export default {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: url(../assets/imgs/login-bg.png) center no-repeat;
-  background-size: cover;
 }
 /* .login_dialog >>> .el-dialog__header,
 .login_dialog >>> .el-dialog__body {

@@ -476,30 +476,19 @@ export default {
       this.getQueryList();
     },
     drawClick() {
-      if (!this.userInfo.userId) {
-        return this.$message({
-          showClose: true,
-          message: "登录后才有抽奖资格!",
-          type: "error",
-          offset: "100",
-        });
+      if (!sessionStorage.getItem("user")) {
+        return this.$message.error('登录后才有抽奖资格！');
       }
       if (this.isDraw) {
         this.start();
       } else {
-        this.$message({
-          showClose: true,
-          message: "您还没有抽奖机会！",
-          type: "warning",
-          offset: "100",
-        });
+        return this.$message.warning('您还没有抽奖机会！');
       }
     },
     loginState() {
       let vip = false;
       if (sessionStorage.getItem("user")) {
         this.userInfo = JSON.parse(sessionStorage.getItem("user"));
-        console.log(this.userInfo);
         vip = this.userInfo.isVip === 1 ? 'vip ' : '';
         this.currentState = `${vip}${this.userInfo.userName},退出`;
       } else {
