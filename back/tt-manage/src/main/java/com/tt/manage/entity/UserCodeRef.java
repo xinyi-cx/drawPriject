@@ -11,6 +11,11 @@ public class UserCodeRef extends BaseEntity {
     private Long code;
 
     /**
+     * 是否是vip 1是0否
+     */
+    private Integer isVip;
+
+    /**
      * 上传时间 用于读取excel上面的内容
      */
     private String uploadTime;
@@ -20,11 +25,6 @@ public class UserCodeRef extends BaseEntity {
     private Date updateTime;
 
     private Integer drawNum;
-
-    /**
-     * 是否是vip 1是0否
-     */
-    private Integer isVip;
 
     private Long reward;
 

@@ -94,8 +94,7 @@ public class UserCodeRefController extends BaseController {
      */
     @ResponseBody
     @ApiOperation(value = "查询一个", httpMethod = "POST")
-    @RequestMapping(value = "/selectByPrimaryKey", method = RequestMethod.POST)
-    @PostMapping("/selectByPrimaryKey/{userId}")
+    @RequestMapping(value = "/selectByPrimaryKey/{userId}", method = RequestMethod.POST)
     public ResponseBean selectByPrimaryKey(@PathVariable("userId") String userId) {
         try {
             UserCodeRef ref = userCodeRefService.selectByPrimaryKey(userId);

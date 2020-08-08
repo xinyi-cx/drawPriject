@@ -43,12 +43,14 @@ public class UserCodeRefServiceImpl implements UserCodeRefService {
         Set<String> userIds = users.stream().map(UserInfo::getUserId).collect(Collectors.toSet());
         for (UserCodeRef userCodeRef : userCodeRefs) {
             if (userCodeRef != null && userCodeRef.getUserId() != "") {
+                UserInfo newUser = new UserInfo();
+                newUser.setUserId(userCodeRef.getUserId());
+                newUser.setUserName(userCodeRef.getUserName());
+                newUser.setIsVip(userCodeRef.getIsVip());
                 if (CollectionUtils.isEmpty(userIds) || !userIds.contains(userCodeRef.getUserId())) {
-                    UserInfo newUser = new UserInfo();
-                    newUser.setUserId(userCodeRef.getUserId());
-                    newUser.setUserName(userCodeRef.getUserName());
-                    newUser.setIsVip(userCodeRef.getIsVip());
                     userInfoMapper.insert(newUser);
+                } else {
+                    userInfoMapper.updateByPrimaryKeySelective(newUser);
                 }
                 userCodeRef.setDrawNum(1);
                 userCodeRef.setReward((long) userRewardService.createRewardByUserCodeRef(userCodeRef));
@@ -78,8 +80,21 @@ public class UserCodeRefServiceImpl implements UserCodeRefService {
     }
 
     @Override
-    public int insert(UserCodeRef record) {
-        return userCodeRefMapper.insert(record);
+    public int insert(UserCodeRef userCodeRef) {
+        List<UserInfo> users = userInfoMapper.selectUserInfoList();
+        Set<String> userIds = users.stream().map(UserInfo::getUserId).collect(Collectors.toSet());
+        UserInfo newUser = new UserInfo();
+        newUser.setUserId(userCodeRef.getUserId());
+        newUser.setUserName(userCodeRef.getUserName());
+        newUser.setIsVip(userCodeRef.getIsVip());
+        if (CollectionUtils.isEmpty(userIds) || !userIds.contains(userCodeRef.getUserId())) {
+            userInfoMapper.insert(newUser);
+        } else {
+            userInfoMapper.updateByPrimaryKeySelective(newUser);
+        }
+        userCodeRef.setDrawNum(1);
+        userCodeRef.setReward((long) userRewardService.createRewardByUserCodeRef(userCodeRef));
+        return userCodeRefMapper.insert(userCodeRef);
     }
 
     @Override

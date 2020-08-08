@@ -139,7 +139,7 @@ public class UserRewardServiceImpl implements UserRewardService {
         //是否是vip
         int reward = 0;
         boolean flag = false;
-        if (userCodeRef.getIsVip() == 1) {
+        if (userCodeRef.getIsVip() != null && userCodeRef.getIsVip() == 1) {
             String drawDigit = codeDrawRefMapper.getDrawDigitByCode(code);
             List<DrawConfig> drawConfigs = drawConfigMapper.selectAll();
             if (CommonConstance.BWW.equals(drawDigit)) {

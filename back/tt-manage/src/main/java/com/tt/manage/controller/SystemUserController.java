@@ -89,8 +89,7 @@ public class SystemUserController extends BaseController {
      */
     @ResponseBody
     @ApiOperation(value = "查询一个", httpMethod = "POST")
-    @RequestMapping(value = "/selectByPrimaryKey", method = RequestMethod.POST)
-    @PostMapping("/selectByPrimaryKey/{userId}")
+    @RequestMapping(value = "/selectByPrimaryKey/{userId}", method = RequestMethod.POST)
     public ResponseBean selectByPrimaryKey(@PathVariable("userId") Integer userId, ModelMap map) {
         try {
             SystemUser param = new SystemUser();

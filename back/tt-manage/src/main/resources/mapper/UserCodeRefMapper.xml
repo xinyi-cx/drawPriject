@@ -9,15 +9,18 @@
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
         <result column="draw_num" property="drawNum" jdbcType="INTEGER"/>
         <result column="reward" property="reward" jdbcType="BIGINT"/>
+        <result column="is_vip" property="isVip" jdbcType="BIGINT"/>
     </resultMap>
     <sql id="Base_Column_List">
     user_id, code, create_time, update_time, draw_num, reward
   </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
-        <include refid="Base_Column_List"/>
-        from user_code_ref
-        where user_id = #{userId,jdbcType=VARCHAR}
+        ref.user_id, ref.code, ref.create_time, ref.update_time, ref.draw_num,
+        info.user_name, ref.reward,info.is_vip
+        from user_code_ref ref left join user_info info
+        on ref.user_id = info.user_id
+        where info.user_id = #{userId,jdbcType=VARCHAR}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from user_code_ref
@@ -120,15 +123,18 @@
 
         select
         ref.user_id, ref.code, ref.create_time, ref.update_time, ref.draw_num,
-        info.user_name, ref.reward
+        info.user_name, ref.reward,info.is_vip
         from user_code_ref ref left join user_info info
         on ref.user_id = info.user_id
         <where>
             <if test="isVip != null and isVip==0 ">
-                info.is_vip is null or info.is_vip != 1
+                and info.is_vip is null or info.is_vip != 1
             </if>
             <if test="isVip != null and isVip==1 ">
-                info.is_vip =1
+                and info.is_vip =1
+            </if>
+            <if test="userId != null and userId !='' ">
+                and ref.user_id = #{userId,jdbcType=VARCHAR}
             </if>
         </where>
         order by update_time desc

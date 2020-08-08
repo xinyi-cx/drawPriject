@@ -14,6 +14,15 @@ public class UserInfo {
     private Integer drawNum;
 
     private Integer isVip;
+    private String configValue;
+
+    public String getConfigValue() {
+        return configValue;
+    }
+
+    public void setConfigValue(String configValue) {
+        this.configValue = configValue;
+    }
 
     public Integer getIsVip() {
         return isVip;
