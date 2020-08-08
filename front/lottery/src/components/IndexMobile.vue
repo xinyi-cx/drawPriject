@@ -478,7 +478,7 @@ export default {
     loginState() {
       if (sessionStorage.getItem("user")) {
         this.userInfo = JSON.parse(sessionStorage.getItem("user"));
-        this.currentState = `${this.user},退出`;
+        this.currentState = `${this.userInfo.userName},退出`;
       } else {
         this.currentState = `请登录`;
       }
