@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     async getMoneyList() {
-      const { data: res } = await this.$http.post("drawConfig/list");
+      const { data: res } = await this.$http.post("drawConfigVip/list");
       if (res.code !== 0) return this.$message.error("获取金额设置失败");
       this.moneyList = res.data;
     },
@@ -109,10 +109,10 @@ export default {
           valid = false;
           this.$message.error('最小值不能大于最大值');
         }
-        
+
         if (!valid) return;
         // 可以发起保存请求
-        const {data: res} = await this.$http.post("drawConfig/updateOne", this.editForm);
+        const {data: res} = await this.$http.post("drawConfigVip/updateOne", this.editForm);
         if(res.code !== 0) return this.$message.error('更新失败，请联系管理员');
         this.$message.success('更新成功');
         this.editDialogVisible = false;

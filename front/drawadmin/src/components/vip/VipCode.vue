@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     async getDrawList() {
-      const { data: res } = await this.$http.post("codeDrawRef/list");
+      const { data: res } = await this.$http.post("codeDrawRefVip/list");
       if (res.code !== 0) return this.$message.error("获取打码量列表失败");
       this.drawList = res.data;
     },
@@ -98,7 +98,7 @@ export default {
         if (!valid) return;
         // 可以发起保存请求
         const { data: res } = await this.$http.post(
-          "codeDrawRef/update",
+          "codeDrawRefVip/update",
           this.drawForm
         );
         if (res.code !== 0)

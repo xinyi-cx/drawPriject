@@ -12,7 +12,7 @@
           <el-input placeholder="请输入用户ID"></el-input>
         </el-col>
         <el-col :span="4">
-          <el-select v-model="value" placeholder="请选择活动是否开启">
+          <el-select v-model="value" placeholder="是否是vip用户">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -38,7 +38,7 @@
         <el-table-column label="用户名" prop="userName"></el-table-column>
         <el-table-column label="奖励" prop="reward"></el-table-column>
         <el-table-column label="打码量" prop="code"></el-table-column>
-        <el-table-column label="是否Vip" prop="ifVip"></el-table-column>
+        <el-table-column label="是否Vip" prop="isVip"></el-table-column>
         <el-table-column label="上传时间" width="180" prop="updateTime" :formatter="dateFormat"></el-table-column>
         <el-table-column label="操作" width="200">
           <template slot-scope="scope">
@@ -247,22 +247,22 @@ export default {
         // 有值 更新
         if (this.userId !== "") {
           const { data: res } = await this.$http.post(
-            "systemUser/update",
+            "userCodeRef/update",
             this.addForm
           );
           if (res.code !== 0)
-            return this.$message.error("更新用户失败，请联系管理员");
-          this.$message.success("修改用户成功");
+            return this.$message.error("更新信息失败，请联系管理员");
+          this.$message.success("修改信息成功");
 
           this.getQueryList();
         } else {
           const { data: res } = await this.$http.post(
-            "systemUser/insert",
+            "userCodeRef/insert",
             this.addForm
           );
           if (res.code !== 0)
-            return this.$message.error("添加用户失败，请联系管理员");
-          this.$message.success("添加用户成功");
+            return this.$message.error("添加信息失败，请联系管理员");
+          this.$message.success("添加信息成功");
 
           this.getQueryList();
         }
@@ -281,7 +281,7 @@ export default {
     // 删除用户
     async removeUser(id) {
       const confirmResult = await this.$confirm(
-        "此操作将永久删除该用户, 是否继续?",
+        "此操作将永久删除该信息, 是否继续?",
         "提示",
         {
           confirmButtonText: "确定",
@@ -293,13 +293,13 @@ export default {
         return this.$message.info("已取消删除");
       }
       const { data: res } = await this.$http.post(
-        "systemUser/deleteByPrimaryKey/" + id
+        "userCodeRef/deleteByPrimaryKey/" + id
       );
       if (res.code !== 0) {
-        return this.$message.error("删除用户失败！");
+        return this.$message.error("删除信息失败！");
       }
 
-      this.$message.success("删除用户成功！");
+      this.$message.success("删除信息成功！");
       this.getQueryList();
     },
   },
