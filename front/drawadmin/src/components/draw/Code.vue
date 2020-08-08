@@ -116,7 +116,6 @@ export default {
         if(res.code !== 0) return this.$message.error('更新失败，请联系管理员');
         this.$message.success('更新成功');
         this.editDialogVisible = false;
-        debugger;
         this.moneyList = res.data;
       });
     },

@@ -43,7 +43,7 @@
               type="primary"
               size="mini"
               icon="el-icon-edit-outline"
-              @click="editUserDialog(scope.row)"
+              @click="editUserDialog(scope.row.userId)"
             >修改</el-button>
             <el-button
               type="warning"
@@ -83,7 +83,7 @@
       </el-form>
       <!-- 底部区域 -->
       <span slot="footer" class="dialog-footer">
-        <el-button @click="addDialogVisible = false">取 消</el-button>
+        <el-button @click="cancelAddDialog">取 消</el-button>
         <el-button type="primary" @click="addFormSubmit">确 定</el-button>
       </span>
     </el-dialog>
@@ -154,10 +154,8 @@ export default {
       this.getQueryList();
     },
     addFormSubmit() {
-      debugger;
       this.$refs.addFormRef.validate(async (valid) => {
         if (!valid) return this.$message.warning("请添加正确的用户名密码");
-
         // 有值 更新
         if (this.userId !== "") {
           const { data: res } = await this.$http.post(
@@ -183,13 +181,13 @@ export default {
 
         }
         this.addDialogVisible = false;
+        this.addForm = {};
       });
     },
     addDialogClosed() {
       this.$refs.addFormRef.resetFields();
     },
     async removeUser(id) {
-      debugger;
       const confirmResult = await this.$confirm(
         "此操作将永久删除该用户, 是否继续?",
         "提示",
@@ -213,11 +211,18 @@ export default {
       this.getQueryList();
     },
     //展示编辑用户的对话框
-    editUserDialog(row) {
+    async editUserDialog(userId) {
       this.addDialogVisible = true;
-      this.userId = row.userId;
-      this.addForm = row;
+      this.userId = userId;
+      const {data: res} = await this.$http.post('systemUser/selectByPrimaryKey/' + userId);
+      if(res.code !== 0) return this.$message.error('获取用户信息失败！');
+
+      this.addForm = res.data;
     },
+    cancelAddDialog() {
+      this.addDialogVisible = false;
+      this.addForm = {};
+    }
   },
 };
 </script>

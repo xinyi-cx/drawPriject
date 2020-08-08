@@ -46,7 +46,7 @@
               type="primary"
               size="mini"
               icon="el-icon-edit-outline"
-              @click="editUserDialog(scope.row)"
+              @click="editUserDialog(scope.row.userId)"
             >修改</el-button>
             <el-button
               type="warning"
@@ -108,22 +108,22 @@
     >
       <!-- 主体区 -->
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="100px">
-        <el-form-item label="用户名">
-          <el-input v-model="addForm.userName" prop="userName"></el-input>
+        <el-form-item label="用户名" prop="userName">
+          <el-input v-model="addForm.userName" :disabled="isDisabeld"></el-input>
         </el-form-item>
-        <el-form-item label="用户Id" prop="userId">
-          <el-input v-model="addForm.userId"></el-input>
+        <el-form-item label="用户Id" prop="userId" >
+          <el-input v-model="addForm.userId" :disabled="isDisabeld"></el-input>
         </el-form-item>
         <el-form-item label="打码量" prop="code">
           <el-input v-model="addForm.code"></el-input>
         </el-form-item>
-        <el-form-item label="奖励" prop="reward">
+        <el-form-item label="奖励" prop="reward" v-show="isDisabeld">
           <el-input v-model="addForm.reward"></el-input>
         </el-form-item>
       </el-form>
       <!-- 底部区域 -->
       <span slot="footer" class="dialog-footer">
-        <el-button @click="addDialogVisible = false">取 消</el-button>
+        <el-button @click="cancelAddDialog">取 消</el-button>
         <el-button type="primary" @click="addFormSubmit">确 定</el-button>
       </span>
     </el-dialog>
@@ -187,6 +187,7 @@ export default {
         }
       ],
       value: "是否是vip用户",
+      isDisabeld: false
     };
   },
   created() {
@@ -207,14 +208,14 @@ export default {
       return isVipUser;
     },
     async getQueryList() {
-      console.log(this.queryInfo);
-      
       const { data: res } = await this.$http.get("userCodeRef/list", {
         params: this.queryInfo,
       });
       if (res.code !== 0) return this.$message.error("获取查询列表失败");
       this.queryList = res.data;
       this.total = res.total;
+      this.queryInfo.userId = '';
+      this.queryInfo.isVip = '';
     },
     // 文件上传中处理
     handleFileUploadProgress(event, file, fileList) {
@@ -255,7 +256,6 @@ export default {
     },
     // 添加用户
     addFormSubmit() {
-      debugger;
       this.$refs.addFormRef.validate(async (valid) => {
         if (!valid) return this.$message.warning("请添加正确的用户名密码");
 
@@ -282,17 +282,21 @@ export default {
           this.getQueryList();
         }
         this.addDialogVisible = false;
+        this.addForm = {};
+        this.isDisabeld = false;
       });
     },
     addDialogClosed() {
-      console.log('qingkong');
       this.$refs.addFormRef.resetFields();
     },
     //展示编辑用户的对话框
-    editUserDialog(row) {
+    async editUserDialog(userId) {
+      this.isDisabeld = true;
       this.addDialogVisible = true;
-      this.userId = row.userId;
-      this.addForm = row;
+      this.userId = userId;
+      const {data: res} = await this.$http.post('userCodeRef/selectByPrimaryKey/' + userId);
+      if(res.code !== 0) return this.$message.error('查询用户失败');
+      this.addForm = res.data;
     },
     // 删除用户
     async removeUser(id) {
@@ -318,6 +322,11 @@ export default {
       this.$message.success("删除信息成功！");
       this.getQueryList();
     },
+    cancelAddDialog() {
+      this.addDialogVisible = false;
+      this.addForm = {};
+      this.isDisabeld = false;
+    }
   },
 };
 </script>
