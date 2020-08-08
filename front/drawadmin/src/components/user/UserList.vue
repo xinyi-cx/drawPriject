@@ -185,6 +185,8 @@ export default {
       });
     },
     addDialogClosed() {
+      this.addDialogVisible = false;
+      this.addForm = {};
       this.$refs.addFormRef.resetFields();
     },
     async removeUser(id) {

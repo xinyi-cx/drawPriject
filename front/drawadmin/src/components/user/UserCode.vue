@@ -287,6 +287,8 @@ export default {
       });
     },
     addDialogClosed() {
+      this.addForm = {};
+      this.isDisabeld = false;
       this.$refs.addFormRef.resetFields();
     },
     //展示编辑用户的对话框

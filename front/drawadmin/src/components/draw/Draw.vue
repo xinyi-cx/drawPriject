@@ -3,13 +3,14 @@
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>抽奖管理</el-breadcrumb-item>
-      <el-breadcrumb-item>打码量设置</el-breadcrumb-item>
+      <el-breadcrumb-item>抽奖设置</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
       <!-- 查询列表区 -->
-      <el-table border stripe :data="drawList">
-        <el-table-column label="打码数量" prop="code"></el-table-column>
-        <el-table-column label="奖金位数" prop="drawDigit"></el-table-column>
+      <el-table border stripe :data="moneyList">
+        <el-table-column label="单位" prop="digit"></el-table-column>
+        <el-table-column label="最小值" prop="digitStart"></el-table-column>
+        <el-table-column label="最大值" prop="digitEnd"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-tooltip class="item" effect="dark" content="修改" :enterable="false" placement="top">
@@ -18,7 +19,7 @@
                 size="mini"
                 icon="el-icon-edit-outline"
                 circle
-                @click="editDrawDialog(scope.row)"
+                @click="showEditDialog(scope.row)"
               ></el-button>
             </el-tooltip>
           </template>
@@ -26,25 +27,28 @@
       </el-table>
     </el-card>
 
-    <!-- 编辑打码量 -->
+    <!-- 编辑金额弹窗 -->
     <el-dialog
-      title="修改打码量"
-      :visible.sync="drawDialogVisible"
+      title="修改金额范围"
+      :visible.sync="editDialogVisible"
       width="30%"
-      @close="drawDialogClosed"
+      @close="editDialogClosed"
     >
       <!-- 主体区 -->
-      <el-form :model="drawForm" :rules="editDrawFormRules" ref="drawFormRef" label-width="70px">
-        <el-form-item label="奖金位数">
-          <el-input v-model="drawForm.drawDigit" disabled></el-input>
+      <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="70px">
+        <el-form-item label="单位">
+          <el-input v-model="editForm.digit" disabled></el-input>
         </el-form-item>
-        <el-form-item label="打码量" prop="code">
-          <el-input v-model="drawForm.code"></el-input>
+        <el-form-item label="最小值" prop="digitStart">
+          <el-input maxlength="1" v-model="editForm.digitStart"></el-input>
+        </el-form-item>
+        <el-form-item label="最大值" prop="digitEnd">
+          <el-input maxlength="1" v-model="editForm.digitEnd"></el-input>
         </el-form-item>
       </el-form>
       <!-- 底部区域 -->
       <span slot="footer" class="dialog-footer">
-        <el-button @click="drawDialogVisible = false">取 消</el-button>
+        <el-button @click="editDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="editDialogSubmit">确 定</el-button>
       </span>
     </el-dialog>
@@ -54,65 +58,65 @@
 <script>
 export default {
   data() {
-    // 自定义校验规则 数字校验有问题；
+    //自定义校验规则 数字校验有问题；* + ?(0,1) {1s}
     var checkNumber = (rule, value, cb) => {
-      const regNumber = /^\d{1,}$/;
+      const regNumber = /\d{1}/;
       if (regNumber.test(value)) {
         return cb();
       }
 
-      cb(new Error("只能输入数值"));
+      cb(new Error("请输入合法的数值"));
     };
+
     return {
-      drawList: [],
-      drawForm: {},
-      drawDialogVisible: false,
-      editDrawFormRules: {
-        code: [
-          { required: true, message: "请输入打码量", trigger: "blur" },
-          { min: 1, message: "请输入数值", trigger: "blur"},
+      moneyList: [],
+      editDialogVisible: false,
+      editForm: {},
+      editFormRules: {
+        digitStart: [
+          { required: true, message: "请输入最小值", trigger: "blur" },
+          { validator: checkNumber, trigger: "blur" }
+        ],
+        digitEnd: [
+          { required: true, message: "请输入最大值", trigger: "blur" },
           { validator: checkNumber, trigger: "blur" }
         ]
       },
     };
   },
   created() {
-    this.getDrawList();
+    this.getMoneyList();
   },
   methods: {
-    async getDrawList() {
-      const { data: res } = await this.$http.post("codeDrawRef/list");
-      if (res.code !== 0) return this.$message.error("获取打码量列表失败");
-      this.drawList = res.data;
+    async getMoneyList() {
+      const { data: res } = await this.$http.post("drawConfig/list");
+      if (res.code !== 0) return this.$message.error("获取金额设置失败");
+      this.moneyList = res.data;
     },
-    async editDrawDialog(row) {
-      this.drawDialogVisible = true;
-      this.drawForm = row;
-      // 修改信息需要用到查询接口
-      // const {data: res} = await this.$http.get('');
-      // if(res.code !== 0) {
-      //   return this.$message.error('查询抽奖设置信息失败!');
-      // }
-      // this.drawForm = res.data;
-
+    // 展示编辑对话框
+    showEditDialog(row) {
+      this.editDialogVisible = true;
+      this.editForm = row;
     },
-    drawDialogClosed() {
-      this.$refs.drawFormRef.resetFields();
+    // 监听对话框关闭事件
+    editDialogClosed() {
+      this.$refs.editFormRef.resetFields();
     },
+    // 表单提交预校验
     editDialogSubmit() {
-
-      this.$refs.drawFormRef.validate(async (valid) => {
+      this.$refs.editFormRef.validate(async valid => {
+        if(this.editForm.digitStart > this.editForm.digitEnd) {
+          valid = false;
+          this.$message.error('最小值不能大于最大值');
+        }
+        
         if (!valid) return;
         // 可以发起保存请求
-        const { data: res } = await this.$http.post(
-          "codeDrawRef/update",
-          this.drawForm
-        );
-        if (res.code !== 0)
-          return this.$message.error("更新失败，请联系管理员");
-        this.$message.success("更新成功");
-        this.drawDialogVisible = false;
-        this.drawList = res.data;
+        const {data: res} = await this.$http.post("drawConfig/updateOne", this.editForm);
+        if(res.code !== 0) return this.$message.error('更新失败，请联系管理员');
+        this.$message.success('更新成功');
+        this.editDialogVisible = false;
+        this.moneyList = res.data;
       });
     },
   },
