@@ -2,7 +2,7 @@
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>抽奖管理</el-breadcrumb-item>
+      <el-breadcrumb-item>用户管理</el-breadcrumb-item>
       <el-breadcrumb-item>中奖列表</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
@@ -31,10 +31,13 @@
         <el-col :span="2">
           <el-button type="primary" @click="excelOut">导出</el-button>
         </el-col>
+        <el-col :span="2">
+          <el-button type="primary" @click="distribute">派发</el-button>
+        </el-col>
       </el-row>
       <!-- 查询列表区 -->
-      <el-table border stripe :data="queryList">
-        <el-table-column type="index" width="55"></el-table-column>
+      <el-table border stripe :data="queryList" ref="tabelRef" @selection-change="handleSelectionChange">
+        <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column label="用户Id" prop="userId"></el-table-column>
         <el-table-column label="用户名" prop="userName"></el-table-column>
         <el-table-column label="中奖金额" prop="reward"></el-table-column>
@@ -76,7 +79,8 @@ export default {
       total: 0,
       exportInfo: {},
       exportList: [],
-      columns: [{title: '用户ID', key: 'userId'}, {title: '用户姓名', key: 'userName'}, {title: '中奖金额', key: 'reward'}, {title: '中奖时间', key: 'creatTimeStr'}]
+      columns: [{title: '用户ID', key: 'userId'}, {title: '用户姓名', key: 'userName'}, {title: '中奖金额', key: 'reward'}, {title: '中奖时间', key: 'creatTimeStr'}],
+      multipleSelection: []
     };
   },
   created() {
@@ -124,6 +128,19 @@ export default {
       if (res.code !== 0) return this.$message.error("获取查询列表失败");
       this.exportList = res.data;
       export2Excel(this.columns, this.exportList);
+    },
+    handleSelectionChange(rows) {
+      this.multipleSelection = [];
+      rows.forEach(row => {
+        this.multipleSelection.push(row.userId);
+      });
+    },
+    async distribute() {
+      console.log(this.multipleSelection);
+      // const {data: res} = await this.$$http.post('', this.multipleSelection);
+      // if(res.code !== 0) return this.$message.error('派发失败，请联系管理员');
+      // this.$message.success('派发成功！');
+      // this.getQueryList();
     }
   }
 };
