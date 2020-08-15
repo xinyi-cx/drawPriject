@@ -100,10 +100,10 @@
     <insert id="updateStatus" parameterType="java.util.ArrayList">
 
         update user_reward
-        set reward_status = "已派发",
+        set reward_status = '已派发'
         where user_reward_id in
-        <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
-            #{item,jdbcType=BIGINT}
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            #{item}
         </foreach>
 
     </insert>

@@ -79,9 +79,17 @@ export default {
       },
       queryList: [],
       total: 0,
-      exportInfo: {},
+      exportInfo: {
+        userId: "",
+        beginTime:'',
+        endTime:''
+      },
       exportList: [],
-      columns: [{title: '用户ID', key: 'userId'}, {title: '用户姓名', key: 'userName'}, {title: '中奖金额', key: 'reward'}, {title: '中奖时间', key: 'creatTimeStr'}],
+      columns: [{title: '用户ID', key: 'userId'},
+        {title: '用户姓名', key: 'userName'},
+        {title: '中奖金额', key: 'reward'},
+        {title: '中奖时间', key: 'creatTimeStr'},
+        {title: '状态', key: 'rewardStatus'} ],
       multipleSelection: []
     };
   },
@@ -124,6 +132,9 @@ export default {
       this.getQueryList();
     },
     async excelOut () {
+      this.exportInfo.userId = this.queryInfo.userId;
+      this.exportInfo.beginTime = this.queryInfo.beginTime;
+      this.exportInfo.endTime = this.queryInfo.endTime;
       const { data: res } = await this.$http.get("userReward/list", {
         params: this.exportInfo,
       });
