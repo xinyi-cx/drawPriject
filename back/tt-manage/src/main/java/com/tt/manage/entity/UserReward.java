@@ -3,6 +3,9 @@ package com.tt.manage.entity;
 import java.util.Date;
 
 public class UserReward extends BaseEntity {
+
+    private Integer userRewardId;
+
     private String userId;
 
     private String userName;
@@ -14,6 +17,14 @@ public class UserReward extends BaseEntity {
     private Date starttTime;
 
     private Date enddTime;
+
+    public Integer getUserRewardId() {
+        return userRewardId;
+    }
+
+    public void setUserRewardId(Integer userRewardId) {
+        this.userRewardId = userRewardId;
+    }
 
     public Date getStarttTime() {
         return starttTime;

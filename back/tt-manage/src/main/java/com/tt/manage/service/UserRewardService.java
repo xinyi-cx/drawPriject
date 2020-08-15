@@ -33,4 +33,6 @@ public interface UserRewardService {
      */
     int createRewardByUserCodeRef(UserCodeRef userCodeRef);
 
+    int updateStatus(List<Integer> userRewardIds);
+
 }

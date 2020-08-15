@@ -1,7 +1,5 @@
 package com.tt.manage.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,13 +15,11 @@ public class BaseEntity implements Serializable {
     /**
      * 开始时间
      */
-    @JsonIgnore
     private String beginTime;
 
     /**
      * 结束时间
      */
-    @JsonIgnore
     private String endTime;
 
     public String getBeginTime() {

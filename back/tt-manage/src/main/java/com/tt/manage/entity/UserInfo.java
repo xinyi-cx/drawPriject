@@ -1,6 +1,7 @@
 package com.tt.manage.entity;
 
 import java.util.Date;
+import java.util.Map;
 
 public class UserInfo {
     private String userId;
@@ -14,7 +15,18 @@ public class UserInfo {
     private Integer drawNum;
 
     private Integer isVip;
+
     private String configValue;
+
+    private Map<String, String> urls;
+
+    public Map<String, String> getUrls() {
+        return urls;
+    }
+
+    public void setUrls(Map<String, String> urls) {
+        this.urls = urls;
+    }
 
     public String getConfigValue() {
         return configValue;

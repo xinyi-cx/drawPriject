@@ -163,12 +163,14 @@ public class UserRewardController extends BaseController {
         }
     }
 
-//    public static void main(String[] args) throws Exception {
-//        List<UserCodeRef> userCodeRefs = ExcelUtils.parseFromExcel("D:\\test.xlsx", 1,
-//                UserCodeRef.class);
-//        for (int i = 0; i < userCodeRefs.size(); i++) {
-//            System.err.println(userCodeRefs.get(i).toString());
-//        }
-//    }
+    /**
+     * 更新
+     */
+    @ApiOperation(value = "更新状态", httpMethod = "POST")
+    @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
+    public ResponseBean updateStatus(List<Integer> ids) {
+        userRewardService.updateStatus(ids);
+        return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, "");
+    }
 
 }

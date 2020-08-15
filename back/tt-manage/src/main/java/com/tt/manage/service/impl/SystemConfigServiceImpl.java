@@ -6,6 +6,8 @@ import com.tt.manage.service.SystemConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 /**
  * - 服务层实现
@@ -52,6 +54,11 @@ public class SystemConfigServiceImpl implements SystemConfigService {
     @Override
     public int updateByPrimaryKey(SystemConfig record) {
         return systemConfigMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public List<SystemConfig> selectUrlList() {
+        return systemConfigMapper.selectUrlList();
     }
 
 }

@@ -11,6 +11,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author mohanwen
  * @className UserManageController
@@ -39,6 +42,15 @@ public class UserInfoController {
             //抽奖次数何时返回
             if (loginUser != null) {
                 SystemConfig systemConfig = systemConfigService.selectByKey("if_active");
+                //url
+                SystemConfig onlineService = systemConfigService.selectByKey("onlineService");
+                SystemConfig indexUrl = systemConfigService.selectByKey("indexUrl");
+                SystemConfig register = systemConfigService.selectByKey("register");
+                Map<String, String> configs = new HashMap<>();
+                configs.put("onlineService", onlineService != null ? onlineService.getConfigValue() : "");
+                configs.put("indexUrl", indexUrl != null ? indexUrl.getConfigValue() : "");
+                configs.put("register", register != null ? register.getConfigValue() : "");
+                loginUser.setUrls(configs);
                 loginUser.setConfigValue(systemConfig.getConfigValue());
                 return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, loginUser);
             } else {

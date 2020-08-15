@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tt.manage.mapper.UserRewardMapper">
     <resultMap id="BaseResultMap" type="com.tt.manage.entity.UserReward">
-        <id column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <id column="user_reward_id" property="userRewardId" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
         <result column="reward" property="reward" jdbcType="BIGINT"/>
         <result column="creat_time" property="creatTime" jdbcType="TIMESTAMP"/>
         <result column="reward_status" property="rewardStatus" jdbcType="VARCHAR"/>
@@ -10,7 +11,7 @@
         <result column="creat_time_str" property="creatTimeStr" jdbcType="VARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-    user_id, reward, creat_time, reward_status
+    user_reward_id, user_id, reward, creat_time, reward_status
   </sql>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from user_reward
@@ -94,5 +95,16 @@
         order by creat_time desc
 
     </select>
+
+    <insert id="updateStatus" parameterType="java.util.ArrayList">
+
+        update user_reward
+        set reward_status = "已派发",
+        where user_reward_id in
+        <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+            #{item,jdbcType=BIGINT}
+        </foreach>
+
+    </insert>
 
 </mapper>
