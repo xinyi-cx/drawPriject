@@ -5,10 +5,10 @@
       <a href="###" class="logo"></a>
       <ul>
         <li>
-          <a href="javascript: void(0);" class="is-active">网站首页</a>
+          <a :href="indexUrl">网站首页</a>
         </li>
         <li>
-          <a href="#">客服</a>
+          <a :href="onlineServiceUrl">客服</a>
         </li>
         <li>
           <a href="javascript: void(0);" @click="getQueryList">中奖查询</a>
@@ -287,10 +287,14 @@ export default {
       },
       logining: false,
       toPathName: "",
-      drawNum: 0
+      drawNum: 0,
+      indexUrl:"",
+      onlineServiceUrl:"",
+      registerUrl:"",
     };
   },
   created() {
+    this.getUrls();
     this.allowDraw();
     this.getDate();
     if (this._isMobile()) {
@@ -302,6 +306,23 @@ export default {
     }
   },
   methods: {
+    async getUrls(){
+      var that = this;
+      const { data: res } = await this.$http.get("systemConfig/list");
+      if (res.code !== 0) return this.$message.error("获取链接失败");
+      var urls = res.data;
+      urls.forEach(function(item, index) {
+        if(item.configKey == "indexUrl"){
+          that.indexUrl = item.configValue;
+        }
+        if(item.configKey == "onlineServiceUrl"){
+          that.onlineServiceUrl = item.configValue;
+        }
+        if(item.configKey == "registerUrl"){
+          that.registerUrl = item.configValue;
+        }
+      })
+    },
     _isMobile() {
       let flag = navigator.userAgent.match(
         /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i

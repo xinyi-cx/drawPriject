@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -167,9 +168,10 @@ public class UserRewardController extends BaseController {
      * 更新
      */
     @ApiOperation(value = "更新状态", httpMethod = "POST")
-    @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
-    public ResponseBean updateStatus(List<Integer> ids) {
-        userRewardService.updateStatus(ids);
+    @RequestMapping(value = "/updateStatus/{ids}", method = RequestMethod.POST)
+    public ResponseBean updateStatus(@PathVariable Integer[] ids) {
+        List<Integer> idlist = Arrays.asList(ids);
+        userRewardService.updateStatus(idlist);
         return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, "");
     }
 

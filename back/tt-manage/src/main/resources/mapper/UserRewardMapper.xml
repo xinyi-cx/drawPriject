@@ -74,6 +74,7 @@
     <select id="selectUserRewardList" parameterType="com.tt.manage.entity.UserReward" resultMap="BaseResultMap">
 
         select
+        reward.user_reward_id,
         reward.user_id, reward, creat_time, reward_status,user_name,
         DATE_FORMAT(creat_time,'%Y-%m-%d %H:%i') as creat_time_str
         from user_reward reward left join user_info info
