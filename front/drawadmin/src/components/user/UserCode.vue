@@ -117,6 +117,10 @@
         <el-form-item label="打码量" prop="code">
           <el-input v-model="addForm.code"></el-input>
         </el-form-item>
+        <el-form-item label="是否是Vip">
+           <el-radio v-model="addForm.isVip" :label=1>是</el-radio>
+           <el-radio v-model="addForm.isVip" :label=0>否</el-radio>
+        </el-form-item>
         <el-form-item label="奖励" prop="reward" v-show="isDisabeld">
           <el-input v-model="addForm.reward"></el-input>
         </el-form-item>

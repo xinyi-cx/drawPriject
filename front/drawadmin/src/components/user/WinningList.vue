@@ -43,6 +43,7 @@
         <el-table-column label="用户名" prop="userName"></el-table-column>
         <el-table-column label="中奖金额" prop="reward"></el-table-column>
         <el-table-column label="中奖时间" prop="creatTimeStr"></el-table-column>
+        <el-table-column label="状态" prop="rewardStatus"></el-table-column>
       </el-table>
       <!-- 分页 -->
       <el-pagination
@@ -133,15 +134,16 @@ export default {
     handleSelectionChange(rows) {
       this.multipleSelection = [];
       rows.forEach(row => {
-        this.multipleSelection.push(row.userId);
+        this.multipleSelection.push(row.userRewardId);
       });
     },
     async distribute() {
       console.log(this.multipleSelection);
-      // const {data: res} = await this.$$http.post('', this.multipleSelection);
-      // if(res.code !== 0) return this.$message.error('派发失败，请联系管理员');
-      // this.$message.success('派发成功！');
-      // this.getQueryList();
+      debugger;
+      const {data: res} = await this.$http.post(`userReward/updateStatus/${this.multipleSelection}`);
+      if(res.code !== 0) return this.$message.error('派发失败，请联系管理员');
+      this.$message.success('派发成功！');
+      this.getQueryList();
     }
   }
 };

@@ -122,6 +122,11 @@ export default {
               authName: "活动是否开启",
               path: "/activityOn",
             },
+            {
+              id: 32,
+              authName: "链接管理",
+              path: "/links",
+            }
           ],
         },
         {
@@ -141,7 +146,7 @@ export default {
               path: "/VipCode",
             },
           ],
-        },
+        }
       ];
     },
     toggleCollapse: function () {

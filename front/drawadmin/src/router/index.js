@@ -11,6 +11,7 @@ import UserList from '@/components/user/UserList'
 import VipCode from '@/components/vip/VipCode'
 import VipDraw from '@/components/vip/VipDraw'
 import ActivityOn from '@/components/activity/ActivityOn'
+import Links from '@/components/activity/Links'
 
 Vue.use(Router)
 
@@ -31,7 +32,8 @@ const router = new Router({
         { path: '/userList', component: UserList }, 
         { path: '/vipCode', component: VipCode },
         { path: '/vipDraw', component: VipDraw },
-        { path: '/activityOn', component: ActivityOn }
+        { path: '/activityOn', component: ActivityOn },
+        { path: '/links', component: Links }
       ]
     }
   ]
