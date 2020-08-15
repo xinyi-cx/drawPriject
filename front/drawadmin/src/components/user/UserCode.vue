@@ -280,7 +280,7 @@ export default {
             this.addForm
           );
           if (res.code !== 0)
-            return this.$message.error("添加信息失败，请联系管理员");
+            return this.$message.error("此用户已存在！");
           this.$message.success("添加信息成功");
 
           this.getQueryList();
