@@ -9,6 +9,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author mohanwen
  * @className UserManageController
@@ -55,5 +57,19 @@ public class SystemConfigController extends BaseController {
         }
     }
 
+    /**
+     * 查询列表
+     */
+    @ApiOperation(value = "查询列表", httpMethod = "GET")
+    @GetMapping("/list")
+    public ResponseBean selectSystemUserList() {
+        try {
+            List<SystemConfig> systemConfigs = systemConfigService.selectUrlList();
+            return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, systemConfigs);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseBean(RestApi.Msg.FAIL, RestApi.Code.FAIL, "");
+        }
+    }
 
 }

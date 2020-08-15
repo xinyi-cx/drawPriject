@@ -87,4 +87,12 @@
       config_name = #{configName,jdbcType=VARCHAR}
     where config_id = #{configId,jdbcType=BIGINT}
   </update>
+
+    <select id="selectUrlList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from system_config
+        where config_key like "%Url"
+    </select>
+
 </mapper>

@@ -3,6 +3,8 @@ package com.tt.manage.service;
 
 import com.tt.manage.entity.SystemConfig;
 
+import java.util.List;
+
 /**
  * - 服务层
  *
@@ -24,4 +26,6 @@ public interface SystemConfigService {
     int updateByPrimaryKeySelective(SystemConfig record);
 
     int updateByPrimaryKey(SystemConfig record);
+
+    List<SystemConfig> selectUrlList();
 }

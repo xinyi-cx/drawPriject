@@ -104,6 +104,11 @@ public class UserCodeRefServiceImpl implements UserCodeRefService {
 
     @Override
     public int updateByPrimaryKey(UserCodeRef record) {
+        UserInfo newUser = new UserInfo();
+        newUser.setUserId(record.getUserId());
+        newUser.setUserName(record.getUserName());
+        newUser.setIsVip(record.getIsVip());
+        userInfoMapper.updateByPrimaryKeySelective(newUser);
         return userCodeRefMapper.updateByPrimaryKey(record);
     }
 

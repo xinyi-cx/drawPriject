@@ -27,4 +27,6 @@ public interface UserRewardMapper {
      */
     List<UserReward> selectUserRewardList(UserReward record);
 
+    int updateStatus(List<Integer> userRewardIds);
+
 }

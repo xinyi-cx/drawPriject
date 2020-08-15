@@ -237,6 +237,11 @@ public class UserRewardServiceImpl implements UserRewardService {
     }
 
 
+    @Override
+    public int updateStatus(List<Integer> userRewardIds) {
+        return userRewardMapper.updateStatus(userRewardIds);
+    }
+
     /**
      * 生成两个数字之间的一个随机数
      *
