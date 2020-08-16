@@ -108,11 +108,11 @@
     >
       <!-- 主体区 -->
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="100px">
-        <el-form-item label="用户名" prop="userName">
-          <el-input v-model="addForm.userName" :disabled="isDisabeld"></el-input>
-        </el-form-item>
         <el-form-item label="用户Id" prop="userId" >
           <el-input v-model="addForm.userId" :disabled="isDisabeld"></el-input>
+        </el-form-item>
+        <el-form-item label="用户名" prop="userName">
+          <el-input v-model="addForm.userName" :disabled="isDisabeld"></el-input>
         </el-form-item>
         <el-form-item label="打码量" prop="code">
           <el-input v-model="addForm.code"></el-input>
