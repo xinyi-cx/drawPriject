@@ -198,6 +198,8 @@
         </div>
       </div>
     </el-dialog>
+
+    <div class="backToTop" v-show="btnFlag" @click="backTop">返回顶部</div>
   </div>
 </template>
 
@@ -267,6 +269,7 @@ export default {
       indexUrl: "",
       onlineServiceUrl: "",
       registerUrl: "",
+      btnFlag: false
     };
   },
   created() {
@@ -281,7 +284,40 @@ export default {
       this.$router.replace("/index");
     }
   },
+  mounted() {
+    window.addEventListener("scroll", this.scrollToTop);
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.scrollToTop);
+  },
   methods: {
+    // 点击图片回到顶部方法，加计时器是为了过渡顺滑
+    backTop() {
+      const that = this;
+      let timer = setInterval(() => {
+        let ispeed = Math.floor(-that.scrollTop / 5);
+        document.documentElement.scrollTop = document.body.scrollTop =
+          that.scrollTop + ispeed;
+        if (that.scrollTop === 0) {
+          clearInterval(timer);
+        }
+      }, 16);
+    },
+
+    // 为了计算距离顶部的高度，当高度大于60显示回顶部图标，小于60则隐藏
+    scrollToTop() {
+      const that = this;
+      let scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop;
+      that.scrollTop = scrollTop;
+      if (that.scrollTop > 60) {
+        that.btnFlag = true;
+      } else {
+        that.btnFlag = false;
+      }
+    },
     async getUrls() {
       var that = this;
       const { data: res } = await this.$http.get("systemConfig/list");
@@ -611,5 +647,18 @@ label.el-checkbox.rememberme {
   .login_dialog >>> .el-dialog {
     width: 90%;
   }
+}
+.backToTop {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 66px;
+  height: 46px;
+  background-color: white;
+  border: solid 1px #e4e4e4;
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 46px;
+  cursor: pointer;
 }
 </style>
