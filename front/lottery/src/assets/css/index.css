@@ -27,7 +27,7 @@
 }
 
 .content {
-    width: 1200px;
+    width: 1230px;
     height: 98px;
     margin: 0 auto;
 }
@@ -61,6 +61,8 @@ li a {
     color: #fff;
     line-height: 46px;
     border-radius: 23px;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 li a:hover,
@@ -70,7 +72,7 @@ li a.is-active {
 }
 
 .banner {
-    width: 1000px;
+    width: 1170px;
     height: 448px;
     background: url(../imgs/banner.png) center no-repeat;
     background-size: cover;

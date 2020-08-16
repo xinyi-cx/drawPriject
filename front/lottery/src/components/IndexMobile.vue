@@ -7,19 +7,19 @@
       <a href="javascript: void(0);" class="navBar" @click="loginClick">{{currentState}}</a>
       <ul v-show="isShow">
         <li>
-          <a href="#">网站首页</a>
+          <a :href="indexUrl" target="_blank" @click="showNavbar">网站首页</a>
         </li>
         <li>
-          <a href="#">客服</a>
+          <a :href="registerUrl" target="_blank" @click="showNavbar">注册账号</a>
+        </li>
+        <li>
+          <a :href="onlineServiceUrl" target="_blank" @click="showNavbar">客服</a>
         </li>
         <li>
           <a href="javascript: void(0)" @click="getQueryList">中奖查询</a>
         </li>
         <li>
-          <a href="#">活动规则</a>
-        </li>
-        <li>
-          <a href="#">关于我们</a>
+          <a href="#activeRule" @click="showNavbar">活动规则</a>
         </li>
       </ul>
     </header>
@@ -98,10 +98,7 @@
           </div>
         </div>
         <div class="btn-wrap">
-          <button
-            class="btn btn-share"
-            @click="drawClick"
-          >立即抽奖</button>
+          <button class="btn btn-share" @click="drawClick">立即抽奖</button>
         </div>
       </div>
       <div class="query-area content">
@@ -117,12 +114,12 @@
         <div class="res-list">
           <div class="item" v-for="item in listData" :key="item.id">
             <span class="point"></span>
-            <span class="nickname">{{item.userName}}</span>
+            <span class="nickname">{{item.userId}}</span>
             <span class="result">抽中{{item.reward}}元</span>
           </div>
         </div>
       </div>
-      <div class="rule-area content">
+      <div class="rule-area content" id="activeRule">
         <div class="lg-title">
           抽奖规则
           <div class="rule-decor left">
@@ -265,22 +262,43 @@ export default {
         ],
       },
       logining: false,
-      toPathName: '',
-      drawNum: 0
+      toPathName: "",
+      drawNum: 0,
+      indexUrl: "",
+      onlineServiceUrl: "",
+      registerUrl: "",
     };
   },
   created() {
+    this.getUrls();
     this.allowDraw();
     this.getDate();
     if (this._isMobile()) {
-      this.toPathName = 'IndexMobild';
+      this.toPathName = "IndexMobild";
       this.$router.replace("/mobile");
     } else {
-      this.toPathName = 'Index';
+      this.toPathName = "Index";
       this.$router.replace("/index");
     }
   },
   methods: {
+    async getUrls() {
+      var that = this;
+      const { data: res } = await this.$http.get("systemConfig/list");
+      if (res.code !== 0) return this.$message.error("获取链接失败");
+      var urls = res.data;
+      urls.forEach(function (item, index) {
+        if (item.configKey == "indexUrl") {
+          that.indexUrl = item.configValue;
+        }
+        if (item.configKey == "onlineServiceUrl") {
+          that.onlineServiceUrl = item.configValue;
+        }
+        if (item.configKey == "registerUrl") {
+          that.registerUrl = item.configValue;
+        }
+      });
+    },
     _isMobile() {
       let flag = navigator.userAgent.match(
         /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
@@ -438,6 +456,11 @@ export default {
       this.queryInfo.userName = this.userInfo.userName || "";
     },
     async getQueryList() {
+      this.showNavbar();
+      if (!sessionStorage.getItem("user")) {
+        return this.$message.error("您还没有登录，请登录后查看;");
+      }
+
       this.dialogTableVisible = true;
       this.isShow = false;
       let id = this.userId;
@@ -461,12 +484,12 @@ export default {
     },
     drawClick() {
       if (!sessionStorage.getItem("user")) {
-        return this.$message.error('登录后才有抽奖资格');
+        return this.$message.error("登录后才有抽奖资格");
       }
       if (this.drawNum > 0) {
         this.start();
       } else {
-        this.$message.warning('您还没有抽奖机会！');
+        this.$message.warning("您还没有抽奖机会！");
       }
     },
     loginState() {
@@ -483,7 +506,7 @@ export default {
         window.sessionStorage.clear();
         this.userInfo = {};
         this.loginState();
-        this.$message.success('退出成功');
+        this.$message.success("退出成功");
       } else {
         this.loginDialogVisible = true;
       }

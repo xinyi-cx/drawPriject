@@ -54,6 +54,7 @@ header.content {
   color: #fff;
   line-height: 46px;
   position: relative;
+  font-size: 16px;
 }
 
 ul {
@@ -80,6 +81,7 @@ li a {
   line-height: 46px;
   box-sizing: border-box;
   display: inline-block;
+  font-size: 16px;
 }
 
 li a:hover,

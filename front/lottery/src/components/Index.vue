@@ -5,20 +5,21 @@
       <a href="###" class="logo"></a>
       <ul>
         <li>
-          <a :href="indexUrl">网站首页</a>
+          <a :href="indexUrl" target="_blank">网站首页</a>
         </li>
         <li>
-          <a :href="onlineServiceUrl">客服</a>
+          <a :href="registerUrl" target="_blank">注册账号</a>
+        </li>
+        <li>
+          <a :href="onlineServiceUrl" target="_blank">客服</a>
         </li>
         <li>
           <a href="javascript: void(0);" @click="getQueryList">中奖查询</a>
         </li>
         <li>
-          <a href="#">活动规则</a>
+          <a href="#activeRule">活动规则</a>
         </li>
-        <li>
-          <a href="#">关于我们</a>
-        </li>
+
         <li>
           <a href="javascript: void(0);" @click="loginClick">{{currentState}}</a>
         </li>
@@ -118,14 +119,14 @@
         <div class="res-list">
           <div class="item" v-for="item in listData" v-bind:key="item.id">
             <span class="point"></span>
-            <span class="nickname">{{item.userName}}</span>
+            <span class="nickname">{{item.userId}}</span>
             <span class="result">抽中{{item.reward}}元</span>
             <span class="date">{{item.creatTimeStr}}</span>
           </div>
         </div>
       </div>
       <!-- 抽奖规则 -->
-      <div class="rule-area">
+      <div class="rule-area" id="activeRule">
         <div class="lg-title">
           抽奖规则
           <div class="rule-decor left">
@@ -288,9 +289,9 @@ export default {
       logining: false,
       toPathName: "",
       drawNum: 0,
-      indexUrl:"",
-      onlineServiceUrl:"",
-      registerUrl:"",
+      indexUrl: "",
+      onlineServiceUrl: "",
+      registerUrl: "",
     };
   },
   created() {
@@ -306,22 +307,22 @@ export default {
     }
   },
   methods: {
-    async getUrls(){
+    async getUrls() {
       var that = this;
       const { data: res } = await this.$http.get("systemConfig/list");
       if (res.code !== 0) return this.$message.error("获取链接失败");
       var urls = res.data;
-      urls.forEach(function(item, index) {
-        if(item.configKey == "indexUrl"){
+      urls.forEach(function (item, index) {
+        if (item.configKey == "indexUrl") {
           that.indexUrl = item.configValue;
         }
-        if(item.configKey == "onlineServiceUrl"){
+        if (item.configKey == "onlineServiceUrl") {
           that.onlineServiceUrl = item.configValue;
         }
-        if(item.configKey == "registerUrl"){
+        if (item.configKey == "registerUrl") {
           that.registerUrl = item.configValue;
         }
-      })
+      });
     },
     _isMobile() {
       let flag = navigator.userAgent.match(
@@ -411,7 +412,7 @@ export default {
       }, 60000);
     },
     async createReward() {
-      const userId = this.userInfo.userId || '';
+      const userId = this.userInfo.userId || "";
       const that = this;
       const { data: res } = await this.$http.post(
         `userReward/createReward/${userId}`
@@ -469,6 +470,9 @@ export default {
       this.queryInfo.userName = this.userInfo.userName || "";
     },
     async getQueryList() {
+      if(!sessionStorage.getItem("user")) {
+        return this.$message.warning('您还没有登录，请登录后查看;');
+      }
       this.dialogTableVisible = true;
       let id = this.userId;
 
@@ -491,12 +495,12 @@ export default {
     },
     drawClick() {
       if (!sessionStorage.getItem("user")) {
-        return this.$message.error('登录后才有抽奖资格！');
+        return this.$message.error("登录后才有抽奖资格！");
       }
       if (this.drawNum > 0) {
         this.start();
       } else {
-        return this.$message.warning('您还没有抽奖次数！');
+        return this.$message.warning("您还没有抽奖次数！");
       }
     },
     loginState() {
@@ -541,13 +545,12 @@ export default {
         this.ruleForm2 = {};
         this.logining = false;
         this.loginDialogVisible = false;
-
       });
     },
     closeLoginDialog() {
       this.loginDialogVisible = false;
-      this.ruleForm2 = {}
-    }
+      this.ruleForm2 = {};
+    },
   },
 };
 </script>
@@ -628,7 +631,7 @@ label.el-checkbox.rememberme {
   padding-top: 20px;
   font-size: 20px;
   font-weight: bold;
-  color: #409EFF;
+  color: #409eff;
 }
 .login-page .icon-close {
   position: absolute;
