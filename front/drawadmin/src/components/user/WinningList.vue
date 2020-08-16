@@ -35,15 +35,31 @@
         <el-col :span="2">
           <el-button type="primary" @click="distribute">派发</el-button>
         </el-col>
+        <el-col :span="2">
+          <el-button type="primary" @click="deleteAll">一键清除</el-button>
+        </el-col>
       </el-row>
       <!-- 查询列表区 -->
-      <el-table border stripe :data="queryList" ref="tabelRef" @selection-change="handleSelectionChange">
+      <el-table
+        border
+        stripe
+        :data="queryList"
+        ref="tabelRef"
+        @selection-change="handleSelectionChange"
+      >
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column label="用户Id" prop="userId"></el-table-column>
         <el-table-column label="用户名" prop="userName"></el-table-column>
         <el-table-column label="中奖金额" prop="reward"></el-table-column>
         <el-table-column label="中奖时间" prop="creatTimeStr"></el-table-column>
-        <el-table-column label="状态" prop="rewardStatus"></el-table-column>
+        <el-table-column label="状态" prop="rewardStatus" :type="success">
+          <template slot-scope="scope">
+            <el-tag
+              :type="scope.row.rewardStatus === '已抽奖' ? '' : 'danger'"
+              disable-transitions
+            >{{scope.row.rewardStatus}}</el-tag>
+          </template>
+        </el-table-column>
       </el-table>
       <!-- 分页 -->
       <el-pagination
@@ -60,8 +76,8 @@
 </template>
 
 <script>
-import { export2Excel } from '@/common/js/utils'
-import moment from 'moment'
+import { export2Excel } from "@/common/js/utils";
+import moment from "moment";
 
 export default {
   data() {
@@ -74,8 +90,8 @@ export default {
         // 当前每页显示数据
         pageSize: 5,
         dateRange: [],
-        beginTime:'',
-        endTime:''
+        beginTime: "",
+        endTime: "",
       },
       queryList: [],
       total: 0,
@@ -106,13 +122,13 @@ export default {
       return moment(date).format("YYYY-MM-DD  HH:mm:ss");
     },
     async getQueryList() {
-      if (null != this.queryInfo.dateRange && '' != this.queryInfo.dateRange) {
+      if (null != this.queryInfo.dateRange && "" != this.queryInfo.dateRange) {
         this.queryInfo.beginTime = this.queryInfo.dateRange[0];
         this.queryInfo.endTime = this.queryInfo.dateRange[1];
       }
-      if (null == this.queryInfo.dateRange || '' == this.queryInfo.dateRange) {
-        this.queryInfo.beginTime = '';
-        this.queryInfo.endTime = '';
+      if (null == this.queryInfo.dateRange || "" == this.queryInfo.dateRange) {
+        this.queryInfo.beginTime = "";
+        this.queryInfo.endTime = "";
       }
       const { data: res } = await this.$http.get("userReward/list", {
         params: this.queryInfo,
@@ -144,19 +160,42 @@ export default {
     },
     handleSelectionChange(rows) {
       this.multipleSelection = [];
-      rows.forEach(row => {
+      rows.forEach((row) => {
         this.multipleSelection.push(row.userRewardId);
       });
     },
     async distribute() {
-      console.log(this.multipleSelection);
-      debugger;
-      const {data: res} = await this.$http.post(`userReward/updateStatus/${this.multipleSelection}`);
-      if(res.code !== 0) return this.$message.error('派发失败，请联系管理员');
-      this.$message.success('派发成功！');
+      const { data: res } = await this.$http.post(
+        `userReward/updateStatus/${this.multipleSelection}`
+      );
+      if (res.code !== 0) return this.$message.error("派发失败，请联系管理员");
+      this.$message.success("派发成功！");
       this.getQueryList();
-    }
-  }
+    },
+    async deleteAll() {
+      const confirmResult = await this.$confirm(
+        "此操作将一键清除所有数据, 请确认是否继续?",
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      ).catch((err) => err);
+      if (confirmResult !== "confirm") {
+        return this.$message.info("已取消清除数据");
+      }
+      const { data: res } = await this.$http.post(
+        "systemConfig/deleteAll"
+      );
+      if (res.code !== 0) {
+        return this.$message.error("一键清除所有数据操作失败！");
+      }
+
+      this.$message.success("成功一键清除所有数据！");
+      this.getQueryList();
+    },
+  },
 };
 </script>
 
