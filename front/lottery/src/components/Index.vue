@@ -512,7 +512,7 @@ export default {
       }
       this.dialogTableVisible = true;
       let id = this.userId;
-
+      this.queryInfo.userId = this.userInfo.userId;
       const { data: res } = await this.$http.get("userReward/list", {
         params: this.queryInfo,
       });

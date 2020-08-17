@@ -500,7 +500,7 @@ export default {
       this.dialogTableVisible = true;
       this.isShow = false;
       let id = this.userId;
-
+      this.queryInfo.userId = this.userId;
       const { data: res } = await this.$http.get("userReward/list", {
         params: this.queryInfo,
       });
@@ -566,6 +566,7 @@ export default {
         this.loginState();
         this.loginDialogVisible = false;
         this.logining = false;
+        this.drawNum = res.data.drawNum;
       });
     },
   },
