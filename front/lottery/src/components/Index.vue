@@ -500,8 +500,8 @@ export default {
         }, 1000);
       }, 1000);
     },
-    allowDraw: function () {
-      this.loginState();
+    async allowDraw(){
+      await this.loginState();
       this.drawNum = this.userInfo.drawNum || 0;
       this.queryInfo.userId = this.userInfo.userId || "";
       this.queryInfo.userName = this.userInfo.userName || "";
@@ -582,6 +582,7 @@ export default {
         this.ruleForm2 = {};
         this.logining = false;
         this.loginDialogVisible = false;
+        this.drawNum = res.data.drawNum;
       });
     },
     closeLoginDialog() {

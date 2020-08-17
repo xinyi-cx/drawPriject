@@ -140,52 +140,6 @@ public class UserRewardServiceImpl implements UserRewardService {
         int reward = 0;
         boolean flag = false;
         if (userCodeRef.getIsVip() != null && userCodeRef.getIsVip() == 1) {
-            String drawDigit = codeDrawRefMapper.getDrawDigitByCode(code);
-            if (drawDigit == null || "".equals(drawDigit)) {
-                drawDigit = CommonConstance.GW;
-            }
-            List<DrawConfig> drawConfigs = drawConfigMapper.selectAll();
-            if (CommonConstance.BWW.equals(drawDigit)) {
-                DrawConfig drawConfig = getDrawConfigByDigit(drawConfigs, CommonConstance.BWW);
-                reward += getNum(drawConfig.getDigitStart().intValue(), drawConfig.getDigitEnd().intValue()) * 1000000;
-                flag = true;
-            }
-
-            if (flag || CommonConstance.SWW.equals(drawDigit)) {
-                DrawConfig drawConfig = getDrawConfigByDigit(drawConfigs, CommonConstance.SWW);
-                reward += getNum(drawConfig.getDigitStart().intValue(), drawConfig.getDigitEnd().intValue()) * 100000;
-                flag = true;
-            }
-
-            if (flag || CommonConstance.WW.equals(drawDigit)) {
-                DrawConfig drawConfig = getDrawConfigByDigit(drawConfigs, CommonConstance.WW);
-                reward += getNum(drawConfig.getDigitStart().intValue(), drawConfig.getDigitEnd().intValue()) * 10000;
-                flag = true;
-            }
-
-            if (flag || CommonConstance.QW.equals(drawDigit)) {
-                DrawConfig drawConfig = getDrawConfigByDigit(drawConfigs, CommonConstance.QW);
-                reward += getNum(drawConfig.getDigitStart().intValue(), drawConfig.getDigitEnd().intValue()) * 1000;
-                flag = true;
-            }
-
-            if (flag || CommonConstance.BW.equals(drawDigit)) {
-                DrawConfig drawConfig = getDrawConfigByDigit(drawConfigs, CommonConstance.BW);
-                reward += getNum(drawConfig.getDigitStart().intValue(), drawConfig.getDigitEnd().intValue()) * 100;
-                flag = true;
-            }
-
-            if (flag || CommonConstance.SW.equals(drawDigit)) {
-                DrawConfig drawConfig = getDrawConfigByDigit(drawConfigs, CommonConstance.SW);
-                reward += getNum(drawConfig.getDigitStart().intValue(), drawConfig.getDigitEnd().intValue()) * 10;
-                flag = true;
-            }
-
-            if (flag || CommonConstance.GW.equals(drawDigit)) {
-                DrawConfig drawConfig = getDrawConfigByDigit(drawConfigs, CommonConstance.GW);
-                reward += getNum(drawConfig.getDigitStart().intValue(), drawConfig.getDigitEnd().intValue()) * 1;
-            }
-        } else {
             String drawDigit = codeDrawRefVipMapper.getDrawDigitByCode(code);
             if (drawDigit == null || "".equals(drawDigit)) {
                 drawDigit = CommonConstance.GW;
@@ -229,6 +183,52 @@ public class UserRewardServiceImpl implements UserRewardService {
 
             if (flag || CommonConstance.GW.equals(drawDigit)) {
                 DrawConfigVip drawConfig = getDrawConfigVipByDigit(drawConfigs, CommonConstance.GW);
+                reward += getNum(drawConfig.getDigitStart().intValue(), drawConfig.getDigitEnd().intValue()) * 1;
+            }
+        } else {
+            String drawDigit = codeDrawRefMapper.getDrawDigitByCode(code);
+            if (drawDigit == null || "".equals(drawDigit)) {
+                drawDigit = CommonConstance.GW;
+            }
+            List<DrawConfig> drawConfigs = drawConfigMapper.selectAll();
+            if (CommonConstance.BWW.equals(drawDigit)) {
+                DrawConfig drawConfig = getDrawConfigByDigit(drawConfigs, CommonConstance.BWW);
+                reward += getNum(drawConfig.getDigitStart().intValue(), drawConfig.getDigitEnd().intValue()) * 1000000;
+                flag = true;
+            }
+
+            if (flag || CommonConstance.SWW.equals(drawDigit)) {
+                DrawConfig drawConfig = getDrawConfigByDigit(drawConfigs, CommonConstance.SWW);
+                reward += getNum(drawConfig.getDigitStart().intValue(), drawConfig.getDigitEnd().intValue()) * 100000;
+                flag = true;
+            }
+
+            if (flag || CommonConstance.WW.equals(drawDigit)) {
+                DrawConfig drawConfig = getDrawConfigByDigit(drawConfigs, CommonConstance.WW);
+                reward += getNum(drawConfig.getDigitStart().intValue(), drawConfig.getDigitEnd().intValue()) * 10000;
+                flag = true;
+            }
+
+            if (flag || CommonConstance.QW.equals(drawDigit)) {
+                DrawConfig drawConfig = getDrawConfigByDigit(drawConfigs, CommonConstance.QW);
+                reward += getNum(drawConfig.getDigitStart().intValue(), drawConfig.getDigitEnd().intValue()) * 1000;
+                flag = true;
+            }
+
+            if (flag || CommonConstance.BW.equals(drawDigit)) {
+                DrawConfig drawConfig = getDrawConfigByDigit(drawConfigs, CommonConstance.BW);
+                reward += getNum(drawConfig.getDigitStart().intValue(), drawConfig.getDigitEnd().intValue()) * 100;
+                flag = true;
+            }
+
+            if (flag || CommonConstance.SW.equals(drawDigit)) {
+                DrawConfig drawConfig = getDrawConfigByDigit(drawConfigs, CommonConstance.SW);
+                reward += getNum(drawConfig.getDigitStart().intValue(), drawConfig.getDigitEnd().intValue()) * 10;
+                flag = true;
+            }
+
+            if (flag || CommonConstance.GW.equals(drawDigit)) {
+                DrawConfig drawConfig = getDrawConfigByDigit(drawConfigs, CommonConstance.GW);
                 reward += getNum(drawConfig.getDigitStart().intValue(), drawConfig.getDigitEnd().intValue()) * 1;
             }
         }
