@@ -45,5 +45,10 @@ public class UserInfoServiceImpl implements UserInfoService {
         return null;
     }
 
+    @Override
+    public int deleteAll() {
+        return userInfoMapper.deleteAll();
+    }
+
 
 }

@@ -17,6 +17,11 @@
     delete from user_reward
     where user_id = #{userId,jdbcType=VARCHAR}
   </delete>
+
+    <delete id="deleteAll">
+    delete from user_reward
+  </delete>
+
     <insert id="insert" parameterType="com.tt.manage.entity.UserReward">
     insert into user_reward (user_id, reward, creat_time, reward_status
       )
@@ -79,20 +84,19 @@
         DATE_FORMAT(creat_time,'%Y-%m-%d %H:%i') as creat_time_str
         from user_reward reward left join user_info info
         on reward.user_id = info.user_id
-        <where>
-            <if test="userId != null and userId != '' ">and reward.user_id = #{userId,jdbcType=VARCHAR}</if>
-            <if test="reward != null ">and reward = #{reward,jdbcType=BIGINT}</if>
-            <if test="creatTime != null ">and creat_time = #{creatTime,jdbcType=TIMESTAMP}</if>
-            <if test="rewardStatus != null  and rewardStatus != '' ">and reward_status =
-                #{rewardStatus,jdbcType=VARCHAR}
-            </if>
-            <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
-                and date_format(creat_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
-            </if>
-            <if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
-                and date_format(creat_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
-            </if>
-        </where>
+        where reward != 0
+        <if test="userId != null and userId != '' ">and reward.user_id = #{userId,jdbcType=VARCHAR}</if>
+        <if test="reward != null ">and reward = #{reward,jdbcType=BIGINT}</if>
+        <if test="creatTime != null ">and creat_time = #{creatTime,jdbcType=TIMESTAMP}</if>
+        <if test="rewardStatus != null  and rewardStatus != '' ">and reward_status =
+            #{rewardStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="beginTime != null and beginTime != ''"><!-- 开始时间检索 -->
+            and date_format(creat_time,'%y%m%d') &gt;= date_format(#{beginTime},'%y%m%d')
+        </if>
+        <if test="endTime != null and endTime != ''"><!-- 结束时间检索 -->
+            and date_format(creat_time,'%y%m%d') &lt;= date_format(#{endTime},'%y%m%d')
+        </if>
         order by creat_time desc
 
     </select>

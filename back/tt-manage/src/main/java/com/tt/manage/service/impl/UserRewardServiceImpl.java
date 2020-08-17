@@ -56,7 +56,7 @@ public class UserRewardServiceImpl implements UserRewardService {
         if (flag) {
             for (UserReward userReward1 : userRewards) {
                 String uId = userReward1.getUserId();
-                userReward1.setUserId(StringUtils.overlay(uId, "*", CommonConstance.TM_STAR, CommonConstance.TM_END));
+                userReward1.setUserId(StringUtils.overlay(uId, "*", CommonConstance.TM_STAR, uId.length()));
             }
         }
 
@@ -141,6 +141,9 @@ public class UserRewardServiceImpl implements UserRewardService {
         boolean flag = false;
         if (userCodeRef.getIsVip() != null && userCodeRef.getIsVip() == 1) {
             String drawDigit = codeDrawRefMapper.getDrawDigitByCode(code);
+            if (drawDigit == null || "".equals(drawDigit)) {
+                drawDigit = CommonConstance.GW;
+            }
             List<DrawConfig> drawConfigs = drawConfigMapper.selectAll();
             if (CommonConstance.BWW.equals(drawDigit)) {
                 DrawConfig drawConfig = getDrawConfigByDigit(drawConfigs, CommonConstance.BWW);
@@ -184,6 +187,9 @@ public class UserRewardServiceImpl implements UserRewardService {
             }
         } else {
             String drawDigit = codeDrawRefVipMapper.getDrawDigitByCode(code);
+            if (drawDigit == null || "".equals(drawDigit)) {
+                drawDigit = CommonConstance.GW;
+            }
             List<DrawConfigVip> drawConfigs = drawConfigVipMapper.selectAll();
             if (CommonConstance.BWW.equals(drawDigit)) {
                 DrawConfigVip drawConfig = getDrawConfigVipByDigit(drawConfigs, CommonConstance.BWW);
@@ -240,6 +246,11 @@ public class UserRewardServiceImpl implements UserRewardService {
     @Override
     public int updateStatus(List<Integer> userRewardIds) {
         return userRewardMapper.updateStatus(userRewardIds);
+    }
+
+    @Override
+    public int deleteAll() {
+        return userRewardMapper.deleteAll();
     }
 
     /**

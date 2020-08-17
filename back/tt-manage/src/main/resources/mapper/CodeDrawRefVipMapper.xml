@@ -96,8 +96,8 @@
     <select id="getDrawDigitByCode" resultType="string" parameterType="long">
     SELECT draw_digit
     FROM code_draw_ref_vip
-    where code >= #{code,jdbcType=BIGINT}
-    ORDER BY  code
+    where code &lt;= #{code,jdbcType=BIGINT}
+    ORDER BY  code desc
     limit 1
   </select>
 

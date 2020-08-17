@@ -33,7 +33,7 @@ public final class CommonConstance {
     /**
      * 脱敏开始位置
      */
-    public static final int TM_STAR = 1;
+    public static final int TM_STAR = 2;
 
     /**
      * 脱敏结束位置

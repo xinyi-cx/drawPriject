@@ -26,6 +26,11 @@
     delete from user_code_ref
     where user_id = #{userId,jdbcType=VARCHAR}
   </delete>
+
+    <delete id="deleteAll">
+    delete from user_code_ref
+  </delete>
+
     <insert id="insert" parameterType="com.tt.manage.entity.UserCodeRef">
     insert into user_code_ref (user_id, code, create_time, 
       update_time, draw_num, reward)

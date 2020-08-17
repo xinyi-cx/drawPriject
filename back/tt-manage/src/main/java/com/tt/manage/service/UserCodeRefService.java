@@ -26,4 +26,6 @@ public interface UserCodeRefService {
 
     int updateByPrimaryKey(UserCodeRef record);
 
+    int deleteAll();
+
 }

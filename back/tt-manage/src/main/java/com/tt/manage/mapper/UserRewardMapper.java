@@ -11,6 +11,8 @@ import java.util.List;
 public interface UserRewardMapper {
     int deleteByPrimaryKey(String userId);
 
+    int deleteAll();
+
     int insert(UserReward record);
 
     int insertSelective(UserReward record);

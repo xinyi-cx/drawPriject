@@ -12,4 +12,6 @@ import com.tt.manage.entity.UserInfo;
 public interface UserInfoService {
 
     UserInfo judgeUser(UserInfo userInfo);
+
+    int deleteAll();
 }

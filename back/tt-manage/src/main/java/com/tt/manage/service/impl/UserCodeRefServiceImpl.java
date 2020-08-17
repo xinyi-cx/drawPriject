@@ -2,6 +2,7 @@ package com.tt.manage.service.impl;
 
 import com.tt.base.Util.ExcelUtils;
 import com.tt.manage.entity.UserCodeRef;
+import com.tt.manage.entity.UserCodeRefForExcel;
 import com.tt.manage.entity.UserInfo;
 import com.tt.manage.mapper.UserCodeRefMapper;
 import com.tt.manage.mapper.UserInfoMapper;
@@ -36,12 +37,17 @@ public class UserCodeRefServiceImpl implements UserCodeRefService {
 
     @Override
     public List<UserCodeRef> addUserCodeRefsByPath(InputStream is) {
-        List<UserCodeRef> userCodeRefs = ExcelUtils.parseFromExcel(is, 1,
-                UserCodeRef.class);
+        List<UserCodeRefForExcel> userCodeRefs = ExcelUtils.parseFromExcel(is, 1,
+                UserCodeRefForExcel.class);
         List<UserCodeRef> userCodeRefInsert = new ArrayList<>();
         List<UserInfo> users = userInfoMapper.selectUserInfoList();
         Set<String> userIds = users.stream().map(UserInfo::getUserId).collect(Collectors.toSet());
-        for (UserCodeRef userCodeRef : userCodeRefs) {
+        for (UserCodeRefForExcel userCodeRefForExcel : userCodeRefs) {
+            UserCodeRef userCodeRef = new UserCodeRef();
+            userCodeRef.setUserId(userCodeRefForExcel.getUserId());
+            userCodeRef.setUserName(userCodeRefForExcel.getUserName());
+            userCodeRef.setCode(new Double(userCodeRefForExcel.getCode()).longValue());
+            userCodeRef.setIsVip(userCodeRefForExcel.getIsVip());
             if (userCodeRef != null && userCodeRef.getUserId() != "") {
                 UserInfo newUser = new UserInfo();
                 newUser.setUserId(userCodeRef.getUserId());
@@ -110,6 +116,11 @@ public class UserCodeRefServiceImpl implements UserCodeRefService {
         newUser.setIsVip(record.getIsVip());
         userInfoMapper.updateByPrimaryKeySelective(newUser);
         return userCodeRefMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public int deleteAll() {
+        return userCodeRefMapper.deleteAll();
     }
 
 }

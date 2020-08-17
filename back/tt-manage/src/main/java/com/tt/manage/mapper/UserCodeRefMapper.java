@@ -11,6 +11,8 @@ import java.util.List;
 public interface UserCodeRefMapper {
     int deleteByPrimaryKey(String userId);
 
+    int deleteAll();
+
     int insert(UserCodeRef record);
 
     int insertSelective(UserCodeRef record);

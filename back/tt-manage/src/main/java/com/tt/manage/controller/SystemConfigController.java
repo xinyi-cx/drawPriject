@@ -5,6 +5,9 @@ import com.tt.base.cotent.RestApi;
 import com.tt.base.pojo.ResponseBean;
 import com.tt.manage.entity.SystemConfig;
 import com.tt.manage.service.SystemConfigService;
+import com.tt.manage.service.UserCodeRefService;
+import com.tt.manage.service.UserInfoService;
+import com.tt.manage.service.UserRewardService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +26,15 @@ public class SystemConfigController extends BaseController {
 
     @Autowired
     private SystemConfigService systemConfigService;
+
+    @Autowired
+    private UserCodeRefService userCodeRefService;
+
+    @Autowired
+    private UserInfoService userInfoService;
+
+    @Autowired
+    private UserRewardService userRewardService;
 
     /**
      * 查询一个
@@ -71,5 +83,15 @@ public class SystemConfigController extends BaseController {
             return new ResponseBean(RestApi.Msg.FAIL, RestApi.Code.FAIL, "");
         }
     }
+
+    @ApiOperation(value = "删除所有数据", httpMethod = "GET")
+    @GetMapping("/deleteAll")
+    public ResponseBean deleteAll() {
+        userCodeRefService.deleteAll();
+        userInfoService.deleteAll();
+        userRewardService.deleteAll();
+        return new ResponseBean(RestApi.Msg.SUCCESS, RestApi.Code.SUCCESS, "");
+    }
+
 
 }

@@ -35,4 +35,6 @@ public interface UserRewardService {
 
     int updateStatus(List<Integer> userRewardIds);
 
+    int deleteAll();
+
 }
