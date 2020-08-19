@@ -502,7 +502,6 @@ export default {
     },
     async allowDraw(){
       await this.loginState();
-      this.drawNum = this.userInfo.drawNum || 0;
       this.queryInfo.userId = this.userInfo.userId || "";
       this.queryInfo.userName = this.userInfo.userName || "";
     },
@@ -511,7 +510,6 @@ export default {
         return this.$message.warning("您还没有登录，请登录后查看;");
       }
       this.dialogTableVisible = true;
-      let id = this.userId;
       this.queryInfo.userId = this.userInfo.userId;
       const { data: res } = await this.$http.get("userReward/list", {
         params: this.queryInfo,
@@ -544,8 +542,6 @@ export default {
       let vip = false;
       if (sessionStorage.getItem("user")) {
         this.userInfo = JSON.parse(sessionStorage.getItem("user"));
-        // debugger;
-        // vip = this.userInfo.isVip === 1 ? 'vip ' : '';
         this.currentState = `${this.userInfo.userName},退出`;
       } else {
         this.currentState = "请登录";
@@ -575,8 +571,7 @@ export default {
           return this.$message.error("用户Id或用户名错误！");
         }
         sessionStorage.setItem("user", JSON.stringify(res.data));
-        // this.userInfo = res.data;
-        // console.log(this.userInfo);
+        this.userInfo = res.data;
         this.$message.success("登录成功");
         this.loginState();
         this.ruleForm2 = {};

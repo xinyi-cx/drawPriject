@@ -487,7 +487,6 @@ export default {
     },
     allowDraw: function () {
       this.loginState();
-      this.drawNum = this.userInfo.drawNum || 0;
       this.queryInfo.userId = this.userInfo.userId || "";
       this.queryInfo.userName = this.userInfo.userName || "";
     },
@@ -499,8 +498,8 @@ export default {
 
       this.dialogTableVisible = true;
       this.isShow = false;
-      let id = this.userId;
-      this.queryInfo.userId = this.userId;
+      // let id = this.userId;
+      this.queryInfo.userId = this.userInfo.userId;
       const { data: res } = await this.$http.get("userReward/list", {
         params: this.queryInfo,
       });
