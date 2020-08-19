@@ -185,7 +185,7 @@ export default {
       if (confirmResult !== "confirm") {
         return this.$message.info("已取消清除数据");
       }
-      const { data: res } = await this.$http.post(
+      const { data: res } = await this.$http.get(
         "systemConfig/deleteAll"
       );
       if (res.code !== 0) {
