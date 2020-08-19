@@ -8,8 +8,8 @@
     background-position: center 0;
     background-size: contain;
 }
-.bg {
 
+.bg {
     width: 100%;
     height: auto;
     background: url(../imgs/fireflower.png) top center repeat-y;
@@ -27,9 +27,10 @@
 }
 
 .content {
-    width: 1230px;
+    width: 1160px;
     height: 98px;
     margin: 0 auto;
+    position: relative;
 }
 
 .logo {
@@ -40,7 +41,7 @@
     background-size: cover;
     vertical-align: middle;
     position: absolute;
-    left: 172px;
+    left: 0;
 }
 
 ul {
@@ -53,6 +54,10 @@ li {
     list-style: none;
     display: inline-block;
     vertical-align: middle;
+}
+
+li:last-child a {
+    margin-right: 0;
 }
 
 li a {
@@ -72,11 +77,11 @@ li a.is-active {
 }
 
 .banner {
-    width: 1170px;
+    width: 100%;
     height: 448px;
     background: url(../imgs/banner.png) center no-repeat;
     background-size: cover;
-    margin: 0 auto 20px;
+    margin: 0 auto 30px;
 }
 
 .bd-content {
@@ -417,17 +422,19 @@ li a.is-active {
     background: center no-repeat;
     position: absolute;
 }
+
 .rule-decor .fireOne {
     width: 74px;
     height: 63px;
     position: absolute;
 }
+
 .rule-decor .fireTwo {
     width: 111px;
     height: 86px;
-    
     position: absolute;
 }
+
 .cracker-l .fireOne {
     right: -7px;
     bottom: 0;
@@ -436,6 +443,7 @@ li a.is-active {
     background-size: contain;
     position: absolute;
 }
+
 .cracker-l .fireTwo {
     left: -43px;
     bottom: -7px;
@@ -443,18 +451,19 @@ li a.is-active {
     background: url(../imgs/fire2-l.png) center no-repeat;
     background-size: contain;
 }
+
 .cracker-r .fireOne {
     left: -4px;
     bottom: 10px;
     background: url(../imgs/fire1.png) center no-repeat;
-    background-size: contain;    
+    background-size: contain;
 }
+
 .cracker-r .fireTwo {
     right: -33px;
     bottom: -11px;
     background: url(../imgs/fire2.png) center no-repeat;
     background-size: contain;
-    
 }
 
 .cracker-l .lo-f {
@@ -464,16 +473,19 @@ li a.is-active {
     animation: bang1 1s infinite;
     animation-delay: 6s;
 }
+
 .cracker-l .lo-s {
     opacity: 0;
     bottom: 60px;
     animation: bang1 .8s infinite;
     animation-delay: 4s;
 }
+
 .cracker-l .lo-t {
     animation: bang1 .4s infinite;
     animation-delay: 2s;
 }
+
 .cracker-l .lt-f {
     opacity: 0;
     bottom: 138px;
@@ -481,6 +493,7 @@ li a.is-active {
     animation: bang2 .6s infinite;
     animation-delay: 8s;
 }
+
 .cracker-l .lt-s {
     opacity: 0;
     left: -40px;
@@ -488,10 +501,12 @@ li a.is-active {
     animation: bang2 .5s infinite;
     animation-delay: 6s;
 }
+
 .cracker-l .lt-t {
     animation: bang2 .4s infinite;
     animation-delay: 4s;
 }
+
 .cracker-r .ro-f {
     opacity: 0;
     bottom: 138px;
@@ -499,16 +514,19 @@ li a.is-active {
     animation: bang1 .8s infinite;
     animation-delay: 4s;
 }
+
 .cracker-r .ro-s {
     opacity: 0;
     bottom: 60px;
     animation: bang1 .6s infinite;
     animation-delay: 2s;
 }
+
 .cracker-r .ro-t {
     animation: bang1 .3s infinite;
     animation-delay: 1s;
 }
+
 .cracker-r .rt-f {
     opacity: 0;
     bottom: 138px;
@@ -516,6 +534,7 @@ li a.is-active {
     animation: bang2 .8s infinite;
     animation-delay: 6s;
 }
+
 .cracker-r .rt-s {
     opacity: 0;
     right: -44px;
@@ -523,10 +542,12 @@ li a.is-active {
     animation: bang2 .6s infinite;
     animation-delay: 4s;
 }
+
 .cracker-r .rt-t {
     animation: bang2 .4s infinite;
     animation-delay: 2s;
 }
+
 @keyframes bang1 {
     0% {
         transform: scale(0);
@@ -541,6 +562,7 @@ li a.is-active {
         opacity: 0;
     }
 }
+
 @keyframes bang2 {
     0% {
         transform: scale(0);
@@ -555,6 +577,7 @@ li a.is-active {
         opacity: 0;
     }
 }
+
 .cracker-l {
     background-image: url(../imgs/pao.png);
     top: 71px;
@@ -598,4 +621,59 @@ li a.is-active {
 
 .notAllowed {
     cursor: not-allowed !important;
+}
+
+@media only screen and (min-width: 1200px) {
+    .content {
+        width: 1200px;
+        margin: 0 auto;
+        position: relative;
+    }
+    .logo {
+        display: inline-block;
+        width: 200px;
+        height: 98px;
+        background: url(../imgs/logo.png) center no-repeat;
+        background-size: cover;
+        vertical-align: middle;
+        position: absolute;
+        left: 0;
+    }
+    ul {
+        float: right;
+        margin-top: 28px;
+    }
+    ul,
+    li {
+        list-style: none;
+        display: inline-block;
+        vertical-align: middle;
+    }
+    li:last-child a {
+        margin-right: 0;
+    }
+    li a {
+        padding: 13px 34px;
+        margin-right: 32px;
+        color: #fff;
+        line-height: 46px;
+        border-radius: 23px;
+        font-size: 16px;
+        font-weight: bold;
+    }
+    li a:hover,
+    li a.is-active {
+        background: #7b000f;
+        border-radius: 23px;
+    }
+    .banner {
+        width: 100%;
+        height: 680px;
+        background: url(../imgs/banner.png) center no-repeat;
+        background-size: cover;
+        margin: 0 auto 50px;
+    }
+    .bd-content {
+        width: 910px;
+    }
 }
