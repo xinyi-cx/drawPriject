@@ -294,10 +294,12 @@ export default {
       onlineServiceUrl: "",
       registerUrl: "",
       btnFlag: false,
+      activeValue: false
     };
   },
   created() {
     this.getUrls();
+    this.getActive();
     this.allowDraw();
     this.getDate();
     if (this._isMobile()) {
@@ -360,6 +362,11 @@ export default {
           that.registerUrl = item.configValue;
         }
       });
+    },
+    async getActive(){
+      const {data: res} = await this.$http.post('systemConfig/selectByPrimaryKey');
+      if(res.code !== 0) { return this.$message.error('获取活动状态失败！') };
+      this.activeValue = (res.data.configValue === '1');
     },
     _isMobile() {
       let flag = navigator.userAgent.match(
@@ -529,6 +536,9 @@ export default {
       this.getQueryList();
     },
     drawClick() {
+      if (!this.activeValue){
+        return this.$message.error("活动暂未开启，请咨询在线客服");
+      }
       if (!sessionStorage.getItem("user")) {
         return this.$message.error("登录后才有抽奖资格！");
       }

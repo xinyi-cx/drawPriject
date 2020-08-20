@@ -65,6 +65,7 @@ public class UserCodeRefServiceImpl implements UserCodeRefService {
                     userCodeRefInsert.add(userCodeRef);
                 } else {
                     userCodeRef.setCode(userCodeRefOld.getCode() + userCodeRef.getCode());
+                    userCodeRef.setReward((long) userRewardService.createRewardByUserCodeRef(userCodeRef));
                     userCodeRefMapper.updateByPrimaryKey(userCodeRef);
                 }
             }
@@ -100,7 +101,15 @@ public class UserCodeRefServiceImpl implements UserCodeRefService {
         }
         userCodeRef.setDrawNum(1);
         userCodeRef.setReward((long) userRewardService.createRewardByUserCodeRef(userCodeRef));
-        return userCodeRefMapper.insert(userCodeRef);
+        UserCodeRef userCodeRefOld = userCodeRefMapper.selectByPrimaryKey(userCodeRef.getUserId());
+        if (userCodeRefOld == null) {
+            return userCodeRefMapper.insert(userCodeRef);
+        } else {
+            userCodeRef.setCode(userCodeRefOld.getCode() + userCodeRef.getCode());
+            userCodeRef.setReward((long) userRewardService.createRewardByUserCodeRef(userCodeRef));
+            return userCodeRefMapper.updateByPrimaryKey(userCodeRef);
+        }
+
     }
 
     @Override
