@@ -58,14 +58,17 @@ public class UserCodeRefServiceImpl implements UserCodeRefService {
                 } else {
                     userInfoMapper.updateByPrimaryKeySelective(newUser);
                 }
-                userCodeRef.setDrawNum(1);
-                userCodeRef.setReward((long) userRewardService.createRewardByUserCodeRef(userCodeRef));
+                long reward = (long) userRewardService.createRewardByUserCodeRef(userCodeRef);
+                userCodeRef.setReward(reward);
+                userCodeRef.setDrawNum(reward == 0 ? 0 : 1);
                 UserCodeRef userCodeRefOld = userCodeRefMapper.selectByPrimaryKey(userCodeRef.getUserId());
                 if (userCodeRefOld == null) {
                     userCodeRefInsert.add(userCodeRef);
                 } else {
                     userCodeRef.setCode(userCodeRefOld.getCode() + userCodeRef.getCode());
-                    userCodeRef.setReward((long) userRewardService.createRewardByUserCodeRef(userCodeRef));
+                    reward = (long) userRewardService.createRewardByUserCodeRef(userCodeRef);
+                    userCodeRef.setReward(reward);
+                    userCodeRef.setDrawNum(reward == 0 ? 0 : 1);
                     userCodeRefMapper.updateByPrimaryKey(userCodeRef);
                 }
             }
@@ -99,17 +102,19 @@ public class UserCodeRefServiceImpl implements UserCodeRefService {
         } else {
             userInfoMapper.updateByPrimaryKeySelective(newUser);
         }
-        userCodeRef.setDrawNum(1);
-        userCodeRef.setReward((long) userRewardService.createRewardByUserCodeRef(userCodeRef));
+        long reward = (long) userRewardService.createRewardByUserCodeRef(userCodeRef);
+        userCodeRef.setReward(reward);
+        userCodeRef.setDrawNum(reward == 0 ? 0 : 1);
         UserCodeRef userCodeRefOld = userCodeRefMapper.selectByPrimaryKey(userCodeRef.getUserId());
         if (userCodeRefOld == null) {
             return userCodeRefMapper.insert(userCodeRef);
         } else {
             userCodeRef.setCode(userCodeRefOld.getCode() + userCodeRef.getCode());
-            userCodeRef.setReward((long) userRewardService.createRewardByUserCodeRef(userCodeRef));
+            reward = (long) userRewardService.createRewardByUserCodeRef(userCodeRef);
+            userCodeRef.setReward(reward);
+            userCodeRef.setDrawNum(reward == 0 ? 0 : 1);
             return userCodeRefMapper.updateByPrimaryKey(userCodeRef);
         }
-
     }
 
     @Override

@@ -7,7 +7,6 @@ import com.tt.manage.entity.UserCodeRef;
 import com.tt.manage.entity.UserReward;
 import com.tt.manage.mapper.*;
 import com.tt.manage.service.UserRewardService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,7 +55,13 @@ public class UserRewardServiceImpl implements UserRewardService {
         if (flag) {
             for (UserReward userReward1 : userRewards) {
                 String uId = userReward1.getUserId();
-                userReward1.setUserId(StringUtils.overlay(uId, "*", CommonConstance.TM_STAR, uId.length()));
+                int len = uId.length();
+                if (len >= 2) {
+                    userReward1.setUserId(uId.substring(0, 2) + "*****");
+                } else {
+                    userReward1.setUserId(uId.substring(0, len) + "*****");
+                }
+
             }
         }
 
@@ -142,7 +147,7 @@ public class UserRewardServiceImpl implements UserRewardService {
         if (userCodeRef.getIsVip() != null && userCodeRef.getIsVip() == 1) {
             String drawDigit = codeDrawRefVipMapper.getDrawDigitByCode(code);
             if (drawDigit == null || "".equals(drawDigit)) {
-                drawDigit = CommonConstance.GW;
+                return 0;
             }
             List<DrawConfigVip> drawConfigs = drawConfigVipMapper.selectAll();
             if (CommonConstance.BWW.equals(drawDigit)) {
@@ -188,7 +193,7 @@ public class UserRewardServiceImpl implements UserRewardService {
         } else {
             String drawDigit = codeDrawRefMapper.getDrawDigitByCode(code);
             if (drawDigit == null || "".equals(drawDigit)) {
-                drawDigit = CommonConstance.GW;
+                return 0;
             }
             List<DrawConfig> drawConfigs = drawConfigMapper.selectAll();
             if (CommonConstance.BWW.equals(drawDigit)) {

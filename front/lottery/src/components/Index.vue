@@ -5,13 +5,13 @@
       <a href="###" class="logo"></a>
       <ul>
         <li>
-          <a :href="indexUrl" target="_blank">网站首页</a>
+          <a :href="indexUrl" target="_blank">首页</a>
         </li>
         <li>
-          <a :href="registerUrl" target="_blank">注册账号</a>
+          <a :href="registerUrl" target="_blank">立即注册</a>
         </li>
         <li>
-          <a :href="onlineServiceUrl" target="_blank">客服</a>
+          <a :href="onlineServiceUrl" target="_blank">在线客服</a>
         </li>
         <li>
           <a href="javascript: void(0);" @click="getQueryList">中奖查询</a>
@@ -465,6 +465,9 @@ export default {
 
       let rdata = res.data;
       that.drawNum = 0;
+      that.userInfo.drawNum= 0;
+      sessionStorage.setItem("user", JSON.stringify(that.userInfo));
+
       that.end(1);
       that.reward.g = Math.floor(
         (rdata.reward - Math.floor(rdata.reward / 10) * 10) / 1
@@ -553,6 +556,7 @@ export default {
       if (sessionStorage.getItem("user")) {
         this.userInfo = JSON.parse(sessionStorage.getItem("user"));
         this.currentState = `${this.userInfo.userName},退出`;
+        this.drawNum = this.userInfo.drawNum;
       } else {
         this.currentState = "请登录";
       }
