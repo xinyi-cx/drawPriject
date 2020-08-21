@@ -545,7 +545,6 @@ export default {
         this.userInfo = JSON.parse(sessionStorage.getItem("user"));
         this.currentState = `${this.userInfo.userName},退出`;
         this.drawNum = this.userInfo.drawNum;
-        this.getActive();
       } else {
         this.currentState = `请登录`;
       }
