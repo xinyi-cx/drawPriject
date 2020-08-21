@@ -275,7 +275,6 @@ export default {
   },
   created() {
     this.getUrls();
-    this.getActive();
     this.allowDraw();
     this.getDate();
     if (this._isMobile()) {
@@ -341,6 +340,7 @@ export default {
       const {data: res} = await this.$http.post('systemConfig/selectByPrimaryKey');
       if(res.code !== 0) { return this.$message.error('获取活动状态失败！') };
       this.activeValue = (res.data.configValue === '1');
+      debugger;
     },
     _isMobile() {
       let flag = navigator.userAgent.match(
@@ -528,11 +528,11 @@ export default {
       this.getQueryList();
     },
     drawClick() {
-      if (!this.activeValue){
-        return this.$message.error("活动暂未开启，请咨询在线客服");
-      }
       if (!sessionStorage.getItem("user")) {
         return this.$message.error("登录后才有抽奖资格");
+      }
+      if (!this.activeValue){
+        return this.$message.error("活动暂未开启，请咨询在线客服");
       }
       if (this.drawNum > 0) {
         this.start();
@@ -545,6 +545,7 @@ export default {
         this.userInfo = JSON.parse(sessionStorage.getItem("user"));
         this.currentState = `${this.userInfo.userName},退出`;
         this.drawNum = this.userInfo.drawNum;
+        this.getActive();
       } else {
         this.currentState = `请登录`;
       }
@@ -580,6 +581,7 @@ export default {
         this.loginDialogVisible = false;
         this.logining = false;
         this.drawNum = res.data.drawNum;
+        this.getActive();
       });
     },
   },
