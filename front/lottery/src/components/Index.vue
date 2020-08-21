@@ -537,8 +537,8 @@ export default {
       this.queryInfo.pageNum = newPage;
       this.getQueryList();
     },
-    drawClick() {
-      
+    async drawClick() {
+      await this.getActive();
       if (!sessionStorage.getItem("user")) {
         return this.$message.error("登录后才有抽奖资格！");
       }
@@ -592,7 +592,6 @@ export default {
         this.logining = false;
         this.loginDialogVisible = false;
         this.drawNum = res.data.drawNum;
-        this.getActive();
       });
     },
     closeLoginDialog() {

@@ -340,7 +340,6 @@ export default {
       const {data: res} = await this.$http.post('systemConfig/selectByPrimaryKey');
       if(res.code !== 0) { return this.$message.error('获取活动状态失败！') };
       this.activeValue = (res.data.configValue === '1');
-      debugger;
     },
     _isMobile() {
       let flag = navigator.userAgent.match(
@@ -527,7 +526,8 @@ export default {
       this.queryInfo.pageNum = newPage;
       this.getQueryList();
     },
-    drawClick() {
+    async drawClick() {
+      await this.getActive();
       if (!sessionStorage.getItem("user")) {
         return this.$message.error("登录后才有抽奖资格");
       }
@@ -580,7 +580,6 @@ export default {
         this.loginDialogVisible = false;
         this.logining = false;
         this.drawNum = res.data.drawNum;
-        this.getActive();
       });
     },
   },
